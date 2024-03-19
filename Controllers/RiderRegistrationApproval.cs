@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -28,7 +29,7 @@ namespace pagyeonjaAPI.Controllers
             {
                 return NotFound();
             }
-            return await _context.Riders.OrderByDescending(a => a.Id).ToListAsync();
+            return await _context.Riders.OrderByDescending(a => a.RiderId).ToListAsync();
         }
 
         // GET: api/Rider/5
@@ -52,9 +53,9 @@ namespace pagyeonjaAPI.Controllers
         // PUT: api/Rider/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("UpdateRider")]
-        public async Task<IActionResult> PutRider(int id, Rider Rider)
+        public async Task<IActionResult> PutRider(Guid id, Rider Rider)
         {
-            if (id != Rider.Id)
+            if (id != Rider.RiderId)
             {
                 return BadRequest();
             }
@@ -85,17 +86,23 @@ namespace pagyeonjaAPI.Controllers
         [HttpPost("RegisterRider")]
         public async Task<ActionResult<Rider>> PostRider(Rider Rider)
         {
-            Console.WriteLine(Rider);
-            if (_context.Riders == null)
+            try
             {
-                return Problem("Entity set 'GradTrackerContext.Riders'  is null.");
+                Rider.RiderId = Guid.NewGuid();
+                while (await _context.Riders.AnyAsync(r => r.RiderId == Rider.RiderId))
+                {
+                    Rider.RiderId = Guid.NewGuid();
+                }
+
+                _context.Riders.Add(Rider);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetRider", new { id = Rider.RiderId }, Rider);
+
             }
-
-
-            _context.Riders.Add(Rider);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetRider", new { id = Rider.Id }, Rider);
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult("Unhandled Error occured: " + ex);
+            }
         }
 
         //   // [HttpPost]
@@ -132,9 +139,9 @@ namespace pagyeonjaAPI.Controllers
             return NoContent();
         }
 
-        private bool RiderExists(int id)
+        private bool RiderExists(Guid id)
         {
-            return (_context.Riders?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Riders?.Any(e => e.RiderId == id)).GetValueOrDefault();
         }
     }
 }

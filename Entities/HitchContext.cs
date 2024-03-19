@@ -15,6 +15,10 @@ public partial class HitchContext : DbContext
     {
     }
 
+    public virtual DbSet<Approval> Approvals { get; set; }
+
+    public virtual DbSet<Document> Documents { get; set; }
+
     public virtual DbSet<Rider> Riders { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -23,16 +27,67 @@ public partial class HitchContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Approval>(entity =>
+        {
+            entity.ToTable("Approval");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.ApprovalDate)
+                .HasColumnType("date")
+                .HasColumnName("approval_date");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserType)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("user_type");
+        });
+
+        modelBuilder.Entity<Document>(entity =>
+        {
+            entity.ToTable("Document");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.DocumentName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("document_name");
+            entity.Property(e => e.DocumentPath)
+                .HasMaxLength(250)
+                .IsUnicode(false)
+                .HasColumnName("document_path");
+            entity.Property(e => e.DocumentView)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("document_view");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.UserType)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("user_type");
+        });
+
         modelBuilder.Entity<Rider>(entity =>
         {
             entity.ToTable("Rider");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.RiderId)
+                .ValueGeneratedNever()
+                .HasColumnName("rider_id");
             entity.Property(e => e.Address)
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
@@ -40,9 +95,9 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("contact_number");
-            entity.Property(e => e.DateRegistered)
+            entity.Property(e => e.DateApplied)
                 .HasColumnType("date")
-                .HasColumnName("date_registered");
+                .HasColumnName("date_applied");
             entity.Property(e => e.EmailAddress)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -63,11 +118,13 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("occupation");
-            entity.Property(e => e.RiderId).HasColumnName("rider_id");
             entity.Property(e => e.Sex)
                 .HasMaxLength(10)
                 .IsUnicode(false)
                 .HasColumnName("sex");
+            entity.Property(e => e.SuspensionStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("suspension_status");
             entity.Property(e => e.VehicleNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false)
