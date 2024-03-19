@@ -5,9 +5,7 @@ namespace pagyeonjaAPI.Entities;
 
 public partial class Rider
 {
-    public int Id { get; set; }
-
-    public Guid? RiderId { get; set; }
+    public Guid RiderId { get; set; }
 
     public string? FirstName { get; set; }
 
@@ -29,7 +27,11 @@ public partial class Rider
 
     public string? Sex { get; set; }
 
-    public DateTime? DateRegistered { get; set; }
+    public DateTime? DateApplied { get; set; }
 
     public string? Address { get; set; }
+
+    public bool? ApprovalStatus { get; set; }
+
+    public bool? SuspensionStatus { get; set; }
 }
