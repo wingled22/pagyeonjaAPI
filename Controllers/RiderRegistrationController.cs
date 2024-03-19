@@ -12,11 +12,11 @@ namespace pagyeonjaAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PagyeonjaAPI : ControllerBase
+    public class RiderRegistrationController : ControllerBase
     {
         private readonly HitchContext _context;
 
-        public PagyeonjaAPI(HitchContext context)
+        public RiderRegistrationController(HitchContext context)
         {
             _context = context;
         }
@@ -96,7 +96,7 @@ namespace pagyeonjaAPI.Controllers
 
                 _context.Riders.Add(Rider);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction("GetRider", new { id = Rider.RiderId }, Rider);
+                return CreatedAtAction("PostRider", new { id = Rider.RiderId }, Rider);
 
             }
             catch (Exception ex)
@@ -104,20 +104,6 @@ namespace pagyeonjaAPI.Controllers
                 return new BadRequestObjectResult("Unhandled Error occured: " + ex);
             }
         }
-
-        //   // [HttpPost]
-        // public IActionResult PostEmploymentHistory(EmploymentHistory employmentHistory)
-        // {
-        // if (!RiderExists(employmentHistory.RidersId))
-        // {
-        //     return NotFound("Rider with the provided RidersId does not exist.");
-        // }
-
-        // _context.EmploymentHistories.Add(employmentHistory);
-        // _context.SaveChanges();
-
-        // return CreatedAtAction("GetEmploymentHistory", new { id = employmentHistory.Id }, employmentHistory);
-        // }
 
         // DELETE: api/Rider/5
         [HttpDelete("DeleteRider")]
