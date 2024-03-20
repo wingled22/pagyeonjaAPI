@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace pagyeonjaAPI.Entities;
 
 public partial class Rider
 {
+    [BindNever]
     public Guid RiderId { get; set; }
 
     public string? FirstName { get; set; }
@@ -34,4 +36,8 @@ public partial class Rider
     public bool? ApprovalStatus { get; set; }
 
     public bool? SuspensionStatus { get; set; }
+
+    public string? CivilStatus { get; set; }
+
+    public string? ProfilePath { get; set; }
 }
