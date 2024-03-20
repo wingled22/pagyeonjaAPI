@@ -39,13 +39,19 @@ namespace pagyeonjaAPI.Controllers
         }
 
         [HttpGet("GetApprovals")]
-        public async Task<ActionResult<IEnumerable<Approval>>> GetAprovals()
+        public async Task<IActionResult> GetAprovals()
         {
-            if (_context.Approvals == null)
+            var approvals = await (
+                from a in _context.Approvals
+                join r in _context.Riders on a.UserId equals r.RiderId
+                where a.UserType == "Rider"
+                orderby a.Id descending
+                select new { r.FirstName, r.MiddleName, r.LastName, a.ApprovalStatus }).ToListAsync();
+            if (approvals == null)
             {
                 return NotFound();
             }
-            return await _context.Approvals.OrderByDescending(a => a.Id).ToListAsync();
+            return new JsonResult(approvals);
         }
 
         [HttpGet("GetApproval")]
