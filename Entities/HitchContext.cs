@@ -17,6 +17,8 @@ public partial class HitchContext : DbContext
 
     public virtual DbSet<Approval> Approvals { get; set; }
 
+    public virtual DbSet<Commuter> Commuters { get; set; }
+
     public virtual DbSet<Document> Documents { get; set; }
 
     public virtual DbSet<Rider> Riders { get; set; }
@@ -45,6 +47,59 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("user_type");
+        });
+
+        modelBuilder.Entity<Commuter>(entity =>
+        {
+            entity.ToTable("Commuter");
+
+            entity.Property(e => e.CommuterId)
+                .ValueGeneratedNever()
+                .HasColumnName("commuter_id");
+            entity.Property(e => e.Address)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("address");
+            entity.Property(e => e.Age).HasColumnName("age");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
+            entity.Property(e => e.Birthdate)
+                .HasColumnType("date")
+                .HasColumnName("birthdate");
+            entity.Property(e => e.ContactNumber)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("contact_number");
+            entity.Property(e => e.DateApplied)
+                .HasColumnType("date")
+                .HasColumnName("date_applied");
+            entity.Property(e => e.EmailAddress)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("email_address");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("first_name");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("last_name");
+            entity.Property(e => e.MiddleName)
+                .HasMaxLength(50)
+                .HasColumnName("middle_name");
+            entity.Property(e => e.Occupation)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("occupation");
+            entity.Property(e => e.Sex)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("sex");
+            entity.Property(e => e.SuspensionStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("suspension_status");
         });
 
         modelBuilder.Entity<Document>(entity =>
