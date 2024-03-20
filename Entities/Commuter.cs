@@ -13,6 +13,8 @@ public partial class Commuter
 
     public string? LastName { get; set; }
 
+    public string? CivilStatus { get; set; }
+
     public string? Occupation { get; set; }
 
     public int? Age { get; set; }
