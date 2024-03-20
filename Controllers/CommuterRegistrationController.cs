@@ -29,6 +29,17 @@ namespace pagyeonjaAPI.Controllers
             return await _context.Commuters.OrderByDescending(a => a.CommuterId).ToListAsync();
         }
 
+        [HttpGet("GetCommutersApproved")]
+        public async Task<ActionResult<IEnumerable<Commuter>>> GetCommutersApproved()
+        {
+            if (_context.Commuters == null)
+            {
+                return NotFound();
+            }
+
+            return await _context.Commuters.Where(a => a.ApprovalStatus == true).OrderByDescending(a => a.CommuterId).ToListAsync();
+        }
+
         // GET: api/Commuter/5
         [HttpGet("GetCommuter")]
         public async Task<ActionResult<Commuter>> GetCommuter(Guid id)
