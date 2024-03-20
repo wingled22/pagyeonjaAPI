@@ -39,12 +39,12 @@ namespace pagyeonjaAPI.Controllers
         }
 
         [HttpGet("GetApprovals")]
-        public async Task<IActionResult> GetAprovals()
+        public async Task<IActionResult> GetAprovals(string usertype)
         {
             var approvals = await (
                 from a in _context.Approvals
                 join r in _context.Riders on a.UserId equals r.RiderId
-                where a.UserType == "Rider"
+                where a.UserType == usertype
                 orderby a.Id descending
                 select new { r.FirstName, r.MiddleName, r.LastName, a.ApprovalStatus }).ToListAsync();
             if (approvals == null)
