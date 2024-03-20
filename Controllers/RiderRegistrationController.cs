@@ -29,7 +29,7 @@ namespace pagyeonjaAPI.Controllers
             {
                 return NotFound();
             }
-            return await _context.Riders.OrderByDescending(a => a.RiderId).ToListAsync();
+            return await _context.Riders.OrderByDescending(a => a.DateApplied).ToListAsync();
         }
 
         // GET: api/Rider/5
