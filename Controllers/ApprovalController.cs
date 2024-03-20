@@ -46,7 +46,7 @@ namespace pagyeonjaAPI.Controllers
                 join r in _context.Riders on a.UserId equals r.RiderId
                 where a.UserType == usertype
                 orderby a.Id descending
-                select new { r.FirstName, r.MiddleName, r.LastName, a.ApprovalStatus }).ToListAsync();
+                select new { a.Id, r.FirstName, r.MiddleName, r.LastName, a.ApprovalStatus }).ToListAsync();
             if (approvals == null)
             {
                 return NotFound();
