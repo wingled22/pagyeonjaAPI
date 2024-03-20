@@ -67,6 +67,10 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
+            entity.Property(e => e.CivilStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("civil_status");
             entity.Property(e => e.ContactNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false)
