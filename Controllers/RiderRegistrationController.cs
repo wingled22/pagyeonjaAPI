@@ -84,26 +84,61 @@ namespace pagyeonjaAPI.Controllers
         // POST: api/Rider
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("RegisterRider")]
-        public async Task<ActionResult<Rider>> PostRider(Rider Rider)
+        public async Task<ActionResult<Rider>> PostRider([FromForm] Rider rider, [FromForm] List<IFormFile> images)
         {
             try
             {
-                Rider.RiderId = Guid.NewGuid();
-                while (await _context.Riders.AnyAsync(r => r.RiderId == Rider.RiderId))
+                var fileNames = await SaveImages(images);
+                rider.ProfilePath = string.Join(";", fileNames);
+
+                // generate riderid
+                var riderId = Guid.NewGuid();
+                do
                 {
-                    Rider.RiderId = Guid.NewGuid();
+                    rider.RiderId = riderId;
+                } while (await _context.Riders.AnyAsync(r => r.RiderId == riderId));
+
+
+                await _context.Riders.AddAsync(rider);
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception)
+                {
+                    // Log the exception here
+                    return StatusCode(500, "An error occurred while saving to the database.");
                 }
 
-                _context.Riders.Add(Rider);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction("PostRider", new { id = Rider.RiderId }, Rider);
-
+                return CreatedAtAction("PostRider", new { id = rider.RiderId }, rider);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return new BadRequestObjectResult("Unhandled Error occured: " + ex);
+                // Log the exception here
+                return StatusCode(500, "An error occurred while processing your request.");
             }
         }
+
+        private static async Task<List<string>> SaveImages(List<IFormFile> images)
+        {
+            var filePaths = new List<string>();
+            foreach (var image in images)
+            {
+                // Generate a unique filename
+                var extension = Path.GetExtension(image.FileName);
+                var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+
+                // Save the image to the Images folder
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "img", "rider_profile", uniqueFileName);
+                using var stream = new FileStream(path, FileMode.Create);
+                await image.CopyToAsync(stream);
+                filePaths.Add(path);
+            }
+            return filePaths;
+        }
+
+
+
 
         // DELETE: api/Rider/5
         [HttpDelete("DeleteRider")]

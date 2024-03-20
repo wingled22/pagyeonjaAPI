@@ -39,9 +39,7 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.ApprovalDate)
                 .HasColumnType("date")
                 .HasColumnName("approval_date");
-            entity.Property(e => e.ApprovalStatus)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.UserType)
                 .HasMaxLength(50)
@@ -67,6 +65,10 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
+            entity.Property(e => e.CivilStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("civil_status");
             entity.Property(e => e.ContactNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -140,12 +142,14 @@ public partial class HitchContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.ApprovalStatus)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
+            entity.Property(e => e.CivilStatus)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("civil_status");
             entity.Property(e => e.ContactNumber)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -173,6 +177,10 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("occupation");
+            entity.Property(e => e.ProfilePath)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("profile_path");
             entity.Property(e => e.Sex)
                 .HasMaxLength(10)
                 .IsUnicode(false)
