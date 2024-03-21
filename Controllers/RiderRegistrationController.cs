@@ -129,10 +129,10 @@ namespace pagyeonjaAPI.Controllers
                 var uniqueFileName = $"{Guid.NewGuid()}{extension}";
 
                 // Save the image to the Images folder
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "img", "rider_profile", uniqueFileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", "rider_profile", uniqueFileName);
                 using var stream = new FileStream(path, FileMode.Create);
                 await image.CopyToAsync(stream);
-                filePaths.Add(path);
+                filePaths.Add(uniqueFileName);
             }
             return filePaths;
         }
