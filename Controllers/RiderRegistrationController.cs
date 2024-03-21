@@ -29,8 +29,20 @@ namespace pagyeonjaAPI.Controllers
             {
                 return NotFound();
             }
-            return await _context.Riders.OrderByDescending(a => a.RiderId).ToListAsync();
+            return await _context.Riders.OrderByDescending(a => a.DateApplied).ToListAsync();
         }
+
+         [HttpGet("GetRidersApproved")]
+        public async Task<ActionResult<IEnumerable<Rider>>> GetRidersApproved()
+        {
+            if (_context.Riders == null)
+            {
+                return NotFound();
+            }
+
+            return await _context.Riders.Where(a => a.ApprovalStatus == true).OrderByDescending(a => a.DateApplied).ToListAsync();
+        }
+
 
         // GET: api/Rider/5
         [HttpGet("GetRider")]
