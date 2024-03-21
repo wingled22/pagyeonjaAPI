@@ -32,7 +32,7 @@ namespace pagyeonjaAPI.Controllers
             return await _context.Riders.OrderByDescending(a => a.DateApplied).ToListAsync();
         }
 
-         [HttpGet("GetRidersApproved")]
+        [HttpGet("GetRidersApproved")]
         public async Task<ActionResult<IEnumerable<Rider>>> GetRidersApproved()
         {
             if (_context.Riders == null)
@@ -103,15 +103,30 @@ namespace pagyeonjaAPI.Controllers
                 var fileNames = await SaveImages(images);
                 rider.ProfilePath = string.Join(";", fileNames);
 
-                // generate riderid
+                // generate riderid for rider
                 var riderId = Guid.NewGuid();
                 do
                 {
                     rider.RiderId = riderId;
                 } while (await _context.Riders.AnyAsync(r => r.RiderId == riderId));
+                rider.DateApplied = new DateTime();
 
+                // Create rider approval
+                var approval = new Approval()
+                {
+                    UserId = rider.RiderId,
+                    UserType = "Rider",
+                    ApprovalDate = null,
+                };
+                // generate riderid for rider
+                var approvalId = Guid.NewGuid();
+                do
+                {
+                    approval.Id = approvalId;
+                } while (await _context.Approvals.AnyAsync(a => a.Id == approvalId));
 
                 await _context.Riders.AddAsync(rider);
+                await _context.Approvals.AddAsync(approval);
                 try
                 {
                     await _context.SaveChangesAsync();
