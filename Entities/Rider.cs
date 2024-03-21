@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace pagyeonjaAPI.Entities;
 
 public partial class Rider
 {
-    [BindNever]
     public Guid RiderId { get; set; }
 
     public string? FirstName { get; set; }
