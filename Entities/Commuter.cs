@@ -34,4 +34,6 @@ public partial class Commuter
     public bool? ApprovalStatus { get; set; }
 
     public bool? SuspensionStatus { get; set; }
+
+    public string? ProfilePath { get; set; }
 }

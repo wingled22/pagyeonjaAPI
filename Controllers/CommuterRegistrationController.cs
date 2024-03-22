@@ -92,10 +92,14 @@ namespace pagyeonjaAPI.Controllers
         // POST: api/Commuter
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("RegisterCommuter")]
-        public async Task<ActionResult<Commuter>> PostCommuter(Commuter Commuter)
+        public async Task<ActionResult<Commuter>> PostCommuter([FromForm] Commuter Commuter, [FromForm] List<IFormFile> images)
         {
             try
             {
+
+                var fileNames = await SaveImages(images);
+                Commuter.ProfilePath = string.Join(";", fileNames);
+
                 Commuter.CommuterId = Guid.NewGuid();
                 while (await _context.Commuters.AnyAsync(r => r.CommuterId == Commuter.CommuterId))
                 {
@@ -111,6 +115,24 @@ namespace pagyeonjaAPI.Controllers
             {
                 return new BadRequestObjectResult("Unhandled Error occured: " + ex);
             }
+        }
+
+          private static async Task<List<string>> SaveImages(List<IFormFile> images)
+        {
+            var filePaths = new List<string>();
+            foreach (var image in images)
+            {
+                // Generate a unique filename
+                var extension = Path.GetExtension(image.FileName);
+                var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+
+                // Save the image to the Images folder
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\img", "commuter_profile", uniqueFileName);
+                using var stream = new FileStream(path, FileMode.Create);
+                await image.CopyToAsync(stream);
+                filePaths.Add(uniqueFileName);
+            }
+            return filePaths;
         }
 
         // DELETE: api/Commuter/5
