@@ -100,8 +100,11 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var fileNames = await SaveImages(images);
-                rider.ProfilePath = string.Join(";", fileNames);
+                if (images != null)
+                {
+                    var fileNames = await SaveImages(images);
+                    rider.ProfilePath = string.Join(";", fileNames);
+                }
 
                 // generate riderid for rider
                 var riderId = Guid.NewGuid();
