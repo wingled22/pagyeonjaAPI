@@ -99,6 +99,10 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("occupation");
+            entity.Property(e => e.ProfilePath)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("profile_path");
             entity.Property(e => e.Sex)
                 .HasMaxLength(10)
                 .IsUnicode(false)
