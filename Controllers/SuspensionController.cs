@@ -32,13 +32,16 @@ namespace pagyeonjaAPI.Controllers
 
         // GET: api/Suspension/5
         [HttpGet("GetSuspension")]
-        public async Task<ActionResult<Suspension>> GetSuspension(Guid id)
+        public async Task<ActionResult<Suspension>> GetSuspension(Guid userid, string usertype)
         {
             if (_context.Suspensions == null)
             {
                 return NotFound();
             }
-            var Suspension = await _context.Suspensions.FindAsync(id);
+
+            var Suspension = await _context.Suspensions
+                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now)
+                .FirstOrDefaultAsync();
 
             if (Suspension == null)
             {
@@ -47,6 +50,7 @@ namespace pagyeonjaAPI.Controllers
 
             return Suspension;
         }
+
 
         // PUT: api/Suspension/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
