@@ -17,28 +17,51 @@ namespace pagyeonjaAPI.Controllers
             _context = context;
         }
 
-        [HttpGet("GetDocuments")]
-        public async Task<IActionResult> GetDocuments(string usertype)
-        {
-            return new JsonResult(await _context.Documents.Where(d => d.UserType == usertype).ToListAsync());
-        }
+        // [HttpGet("GetDocuments")]
+        // public async Task<IActionResult> GetDocuments(string usertype)
+        // {
+        //     return new JsonResult(await _context.Documents.Where(d => d.UserType == usertype).ToListAsync());
+        // }
 
-        [HttpGet("GetDocument")]
-        public async Task<ActionResult<Document>> GetDocument(Guid id)
+        [HttpGet("GetDocuments")]
+        public async Task<IActionResult> GetDocuments(Guid id, string usertype)
         {
             if (_context.Documents == null)
             {
                 return NotFound();
             }
-            var Document = await _context.Documents.FindAsync(id);
 
-            if (Document == null)
+            var joinedDocs = usertype == "Rider" ? await (
+                from r in _context.Riders
+                where r.RiderId == id
+                select new
+                {
+                    r.FirstName,
+                    r.MiddleName,
+                    r.LastName,
+                    r.ProfilePath,
+                    Documents = _context.Documents.Where(d => d.UserId == id && d.UserType == usertype).ToList()
+                }).ToListAsync() :
+                await (
+                from c in _context.Commuters
+                where c.CommuterId == id
+                select new
+                {
+                    c.FirstName,
+                    c.MiddleName,
+                    c.LastName,
+                    c.ProfilePath,
+                    Documents = _context.Documents.Where(d => d.UserId == id && d.UserType == usertype).ToList()
+                }).ToListAsync();
+
+            if (joinedDocs == null || !joinedDocs.Any())
             {
                 return NotFound();
             }
 
-            return Document;
+            return new JsonResult(joinedDocs);
         }
+
 
         [HttpPost("AddDocument")]
         public async Task<ActionResult<Document>> PostDocument([FromForm] Document Document, [FromForm] List<IFormFile> image)
