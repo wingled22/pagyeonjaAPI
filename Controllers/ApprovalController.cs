@@ -79,6 +79,26 @@ namespace pagyeonjaAPI.Controllers
                 return BadRequest();
             }
 
+            // update also the commuter/rider
+            if (Approval.UserType == "Rider")
+            {
+                var user = await _context.Riders.FirstOrDefaultAsync(u => u.RiderId == Approval.UserId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                user.ApprovalStatus = Approval.ApprovalStatus;
+            }
+            else
+            {
+                var user = await _context.Commuters.FirstOrDefaultAsync(u => u.CommuterId == Approval.UserId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                user.ApprovalStatus = Approval.ApprovalStatus;
+            }
+
             _context.Entry(Approval).State = EntityState.Modified;
 
             try
@@ -96,9 +116,15 @@ namespace pagyeonjaAPI.Controllers
                     throw;
                 }
             }
+            catch (Exception ex)
+            {
+                // Log the exception and return a server error
+                return StatusCode(500, "An error occurred while updating the database.");
+            }
 
             return NoContent();
         }
+
 
         [HttpDelete("DeleteApproval")]
         public async Task<IActionResult> DeleteApproval(Guid id)
