@@ -97,7 +97,21 @@ namespace pagyeonjaAPI.Controllers
                 }
 
                 _context.Suspensions.Add(Suspension);
+
+                //Update the user based on the usertype and userid and set the suspension status to true
+                if(Suspension.UserType == "Commuter")
+                {
+                    var User = _context.Commuters.Where(c => c.CommuterId == Suspension.UserId).FirstOrDefault();
+                    User.SuspensionStatus = true;
+                }
+                else if(Suspension.UserType == "Rider")
+                {
+                    var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
+                    User.SuspensionStatus = true;
+                }
+
                 await _context.SaveChangesAsync();
+
                 return CreatedAtAction("PostSuspension", new { id = Suspension.SuspensionId }, Suspension);
 
             }
