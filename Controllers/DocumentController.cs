@@ -17,12 +17,6 @@ namespace pagyeonjaAPI.Controllers
             _context = context;
         }
 
-        // [HttpGet("GetDocuments")]
-        // public async Task<IActionResult> GetDocuments(string usertype)
-        // {
-        //     return new JsonResult(await _context.Documents.Where(d => d.UserType == usertype).ToListAsync());
-        // }
-
         [HttpGet("GetDocuments")]
         public async Task<IActionResult> GetDocuments(Guid id, string usertype)
         {
@@ -41,7 +35,7 @@ namespace pagyeonjaAPI.Controllers
                     r.LastName,
                     r.ProfilePath,
                     Documents = _context.Documents.Where(d => d.UserId == id && d.UserType == usertype).ToList()
-                }).ToListAsync() :
+                }).FirstAsync() :
                 await (
                 from c in _context.Commuters
                 where c.CommuterId == id
@@ -52,9 +46,10 @@ namespace pagyeonjaAPI.Controllers
                     c.LastName,
                     c.ProfilePath,
                     Documents = _context.Documents.Where(d => d.UserId == id && d.UserType == usertype).ToList()
-                }).ToListAsync();
+                }).FirstAsync();
 
-            if (joinedDocs == null || !joinedDocs.Any())
+
+            if (joinedDocs == null)
             {
                 return NotFound();
             }
