@@ -132,6 +132,9 @@ namespace pagyeonjaAPI.Controllers
                     Suspension.SuspensionId = Guid.NewGuid();
                 }
 
+                //add when did the suspension invoked
+                Suspension.InvokedSuspensionDate = DateTime.Now;
+
                 _context.Suspensions.Add(Suspension);
 
                 //Update the user based on the usertype and userid and set the suspension status to true
