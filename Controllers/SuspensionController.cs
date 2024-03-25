@@ -41,6 +41,7 @@ namespace pagyeonjaAPI.Controllers
 
             var Suspension = await _context.Suspensions
                 .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now)
+                .OrderBy(s => s.InvokedSuspensionDate)
                 .FirstOrDefaultAsync();
 
             if (Suspension == null)
