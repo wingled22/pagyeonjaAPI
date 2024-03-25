@@ -41,6 +41,7 @@ namespace pagyeonjaAPI.Controllers
 
             var Suspension = await _context.Suspensions
                 .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now)
+                .OrderBy(s => s.InvokedSuspensionDate)
                 .FirstOrDefaultAsync();
 
             if (Suspension == null)
@@ -131,6 +132,9 @@ namespace pagyeonjaAPI.Controllers
                 {
                     Suspension.SuspensionId = Guid.NewGuid();
                 }
+
+                //add when did the suspension invoked
+                Suspension.InvokedSuspensionDate = DateTime.Now;
 
                 _context.Suspensions.Add(Suspension);
 
