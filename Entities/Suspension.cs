@@ -14,4 +14,6 @@ public partial class Suspension
     public string? Reason { get; set; }
 
     public DateTime? SuspensionDate { get; set; }
+
+    public DateTime? InvokedSuspensionDate { get; set; }
 }

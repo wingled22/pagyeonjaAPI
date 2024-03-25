@@ -41,7 +41,9 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.ApprovalDate)
                 .HasColumnType("date")
                 .HasColumnName("approval_date");
-            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.UserType)
                 .HasMaxLength(50)
@@ -61,7 +63,9 @@ public partial class HitchContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
@@ -205,6 +209,9 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.SuspensionId)
                 .ValueGeneratedNever()
                 .HasColumnName("suspension_id");
+            entity.Property(e => e.InvokedSuspensionDate)
+                .HasColumnType("date")
+                .HasColumnName("invoked_suspension_date");
             entity.Property(e => e.Reason)
                 .HasMaxLength(150)
                 .IsUnicode(false)
