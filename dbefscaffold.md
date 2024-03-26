@@ -39,3 +39,4 @@ save the file then run this command to terminal dotnet ef
     options.UseMySql("server=localhost;database=sampleapp;user=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.4.28-mariadb")));
 
 dotnet ef dbcontext scaffold "server=localhost;database=olapp;user=root;pwd=" "Pomelo.EntityFrameworkCore.MySql" -o Entities -f
+

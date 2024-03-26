@@ -205,10 +205,16 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.SuspensionId)
                 .ValueGeneratedNever()
                 .HasColumnName("suspension_id");
+            entity.Property(e => e.InvokedSuspensionDate)
+                .HasColumnType("date")
+                .HasColumnName("invoked_suspension_date");
             entity.Property(e => e.Reason)
                 .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("reason");
+            entity.Property(e => e.Status)
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("status");
             entity.Property(e => e.SuspensionDate)
                 .HasColumnType("date")
                 .HasColumnName("suspension_date");

@@ -40,13 +40,9 @@ namespace pagyeonjaAPI.Controllers
             }
 
             var Suspension = await _context.Suspensions
-                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now)
+                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now && s.Status == true)
+                .OrderBy(s => s.InvokedSuspensionDate)
                 .FirstOrDefaultAsync();
-
-            if (Suspension == null)
-            {
-                return NotFound();
-            }
 
             return Suspension;
         }
@@ -83,6 +79,45 @@ namespace pagyeonjaAPI.Controllers
             return NoContent();
         }
 
+        [HttpPut("RevokeSuspension")]
+        public async Task<IActionResult> PutSuspension(Suspension Suspension)
+        {
+            try
+            {
+                if(Suspension.UserType == "Commuter")
+                {
+                    var User = _context.Commuters.Where(c => c.CommuterId == Suspension.UserId).FirstOrDefault();
+                    if(User == null)
+                    {
+                        return BadRequest();
+                    }
+
+                    User.SuspensionStatus = false;
+                }
+                else if(Suspension.UserType == "Rider")
+                {
+                    var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
+                    if(User == null)
+                    {
+                        return BadRequest();
+                    }
+
+                    User.SuspensionStatus = false;
+                }
+
+                var suspensionData = _context.Suspensions.Where(s => s.SuspensionId == Suspension.SuspensionId).FirstOrDefault();
+                suspensionData.Status = false;
+
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                return new BadRequestObjectResult("Unhandled Error occured: " + ex);
+            }
+
+            return NoContent();
+        }
+
         // POST: api/Suspension
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("RegisterSuspension")]
@@ -95,6 +130,10 @@ namespace pagyeonjaAPI.Controllers
                 {
                     Suspension.SuspensionId = Guid.NewGuid();
                 }
+
+                //add when did the suspension invoked
+                Suspension.InvokedSuspensionDate = DateTime.Now;
+                Suspension.Status = true;
 
                 _context.Suspensions.Add(Suspension);
 
