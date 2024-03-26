@@ -190,9 +190,35 @@ namespace pagyeonjaAPI.Controllers
             return NoContent();
         }
 
+        // Business logic controllers
+        [HttpPut("RiderApprovalResponse")]
+        public async Task<IActionResult> RiderApprovalResponse(Guid riderId, bool response)
+        {
+            try
+            {
+                var rider = await _context.Riders.FirstOrDefaultAsync(r => r.RiderId == riderId);
+                var approval = await _context.Approvals.FirstOrDefaultAsync(a => a.UserId == riderId);
+                if (approval != null && rider != null)
+                {
+                    rider.ApprovalStatus = response;
+                    approval.ApprovalStatus = response;
+                    approval.ApprovalDate = new DateTime();
+                    await _context.SaveChangesAsync();
+                    return new JsonResult("Rider approved");
+                }
+                return new BadRequestObjectResult("Rider not found!");
+            }
+            catch (Exception ex)
+            {
+                return NotFound(ex);
+            }
+        }
+
         private bool RiderExists(Guid id)
         {
             return (_context.Riders?.Any(e => e.RiderId == id)).GetValueOrDefault();
         }
+
+
     }
 }
