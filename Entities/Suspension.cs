@@ -16,4 +16,6 @@ public partial class Suspension
     public DateTime? SuspensionDate { get; set; }
 
     public DateTime? InvokedSuspensionDate { get; set; }
+
+    public bool? Status { get; set; }
 }

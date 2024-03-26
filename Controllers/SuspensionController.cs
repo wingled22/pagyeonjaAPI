@@ -40,7 +40,7 @@ namespace pagyeonjaAPI.Controllers
             }
 
             var Suspension = await _context.Suspensions
-                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now)
+                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now && s.Status == true)
                 .OrderBy(s => s.InvokedSuspensionDate)
                 .FirstOrDefaultAsync();
 
@@ -105,6 +105,9 @@ namespace pagyeonjaAPI.Controllers
                     User.SuspensionStatus = false;
                 }
 
+                var suspensionData = _context.Suspensions.Where(s => s.SuspensionId == Suspension.SuspensionId).FirstOrDefault();
+                suspensionData.Status = false;
+
                 await _context.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -130,6 +133,7 @@ namespace pagyeonjaAPI.Controllers
 
                 //add when did the suspension invoked
                 Suspension.InvokedSuspensionDate = DateTime.Now;
+                Suspension.Status = true;
 
                 _context.Suspensions.Add(Suspension);
 
