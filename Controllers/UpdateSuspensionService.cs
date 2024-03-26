@@ -52,7 +52,7 @@ public class UpdateSuspensionService : BackgroundService
     {
         try
         {
-            var suspendedData = context.Suspensions.Where(s => s.SuspensionDate < DateTime.Now).ToList();
+            var suspendedData = context.Suspensions.Where(s => s.SuspensionDate < DateTime.Now && s.Status == true).ToList();
             foreach (var sd in suspendedData)
             {
                 if (sd.UserType == "Commuter")
@@ -73,8 +73,12 @@ public class UpdateSuspensionService : BackgroundService
                         filteredRider.SuspensionStatus = false;
                     }
                 }
+
+                var suspension = context.Suspensions.Where(s => s.SuspensionId == sd.SuspensionId).FirstOrDefault();
+                suspension.Status = false;
+
+                context.SaveChanges();
             }
-            context.SaveChanges();
         }
         catch (Exception ex)
         {
