@@ -44,11 +44,6 @@ namespace pagyeonjaAPI.Controllers
                 .OrderBy(s => s.InvokedSuspensionDate)
                 .FirstOrDefaultAsync();
 
-            if (Suspension == null)
-            {
-                return NotFound();
-            }
-
             return Suspension;
         }
 

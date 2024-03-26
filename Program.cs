@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 using pagyeonjaAPI.Entities;
+using pagyeonjaAPI.Controllers;
 using Microsoft.Extensions.FileProviders;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ builder.Services.AddControllers().AddJsonOptions(
 
 // Add static files service
 builder.Services.AddDirectoryBrowser();
+
+builder.Services.AddHostedService<UpdateSuspensionService>();
 
 var app = builder.Build();
 
