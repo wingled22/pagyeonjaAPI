@@ -46,7 +46,7 @@ namespace pagyeonjaAPI.Controllers
 
         // GET: api/Rider/5
         [HttpGet("GetRider")]
-        public async Task<ActionResult<Rider>> GetRider(int id)
+        public async Task<ActionResult<Rider>> GetRider(Guid id)
         {
             if (_context.Riders == null)
             {
