@@ -32,7 +32,7 @@ public class UpdateSuspensionService : BackgroundService
                 _logger.LogInformation("UpdateSuspensionService ran at: {time}", DateTimeOffset.Now);
 
                 var now = DateTime.Now;
-                var nextRunTime = now.AddHours(1);
+                var nextRunTime = now.AddDays(1).AddHours(1); //Runtime every day 1 AM
                 var delay = nextRunTime - now;
 
                 if (delay > TimeSpan.Zero)
