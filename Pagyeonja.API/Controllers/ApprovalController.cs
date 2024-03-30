@@ -1,8 +1,8 @@
 using System;
-using pagyeonjaAPI.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Pagyeonja.Entities.Entities;
 
 namespace pagyeonjaAPI.Controllers
 {
