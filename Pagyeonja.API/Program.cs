@@ -3,12 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using pagyeonjaAPI.Controllers;
 using Microsoft.Extensions.FileProviders;
 using Pagyeonja.Entities.Entities;
+using PagyeonjaServices.Services;
+using Pagyeonja.Repositories.Repositories;
+using Pagyeonja.Services.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<HitchContext>();
+builder.Services.AddScoped<ICommuterService, CommuterService>();
+builder.Services.AddScoped<ICommuterRepository, CommuterRepository>();
+builder.Services.AddScoped<ApprovalService>();
+builder.Services.AddScoped<IApprovalService, ApprovalService>();
+builder.Services.AddScoped<IApprovalRepository, ApprovalRepository>();
+
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
