@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pagyeonjaAPI", "pagyeonjaAPI.csproj", "{7F188BDF-030A-4433-BE67-7FF7A9E9EE0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pagyeonjaAPI", "Pagyeonja.API\pagyeonjaAPI.csproj", "{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pagyeonja.Entities", "Pagyeonja.Entities\Pagyeonja.Entities.csproj", "{C143C28C-55A5-4278-B780-60FB305189B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +13,19 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7F188BDF-030A-4433-BE67-7FF7A9E9EE0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7F188BDF-030A-4433-BE67-7FF7A9E9EE0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7F188BDF-030A-4433-BE67-7FF7A9E9EE0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7F188BDF-030A-4433-BE67-7FF7A9E9EE0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C143C28C-55A5-4278-B780-60FB305189B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C143C28C-55A5-4278-B780-60FB305189B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C143C28C-55A5-4278-B780-60FB305189B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C143C28C-55A5-4278-B780-60FB305189B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {65B9FDC7-AA30-44E4-BB2B-E1B3DDBB00AF}
+		SolutionGuid = {4B00918D-860F-46FC-93E0-A35EA4843042}
 	EndGlobalSection
 EndGlobal
