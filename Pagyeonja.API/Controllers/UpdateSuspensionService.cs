@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using pagyeonjaAPI.Entities;
+using Pagyeonja.Entities.Entities;
 
 public class UpdateSuspensionService : BackgroundService
 {

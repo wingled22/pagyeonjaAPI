@@ -1,11 +1,9 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using pagyeonjaAPI.Entities;
 using pagyeonjaAPI.Controllers;
 using Microsoft.Extensions.FileProviders;
+using Pagyeonja.Entities.Entities;
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -18,6 +16,8 @@ builder.Services.AddCors(options =>
         builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
     });
 });
+
+
 builder.Services.AddControllers().AddJsonOptions(
     options =>
     {
