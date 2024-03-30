@@ -3,9 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pagyeonjaAPI", "Pagyeonja.API\pagyeonjaAPI.csproj", "{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}"
-EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pagyeonja.API", "Pagyeonja.API\pagyeonja.API.csproj", "{6C167CFB-A470-4ACE-8B34-55A437C966B6}"
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pagyeonja.Entities", "Pagyeonja.Entities\Pagyeonja.Entities.csproj", "{C143C28C-55A5-4278-B780-60FB305189B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pagyeonja.Repositories", "Pagyeonja.Repositories\Pagyeonja.Repositories.csproj", "{512E5C7F-A241-421A-B2CA-5586512108DA}"
+EndProject
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pagyeonja.Services", "Pagyeonja.Services\Pagyeonja.Services.csproj", "{893320CA-35E6-4745-AC57-D05B10A6D8BF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{30E1ADC3-3AEE-437C-B0AD-EBCBF098D2B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C143C28C-55A5-4278-B780-60FB305189B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C143C28C-55A5-4278-B780-60FB305189B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C143C28C-55A5-4278-B780-60FB305189B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C143C28C-55A5-4278-B780-60FB305189B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{512E5C7F-A241-421A-B2CA-5586512108DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{512E5C7F-A241-421A-B2CA-5586512108DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{512E5C7F-A241-421A-B2CA-5586512108DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{512E5C7F-A241-421A-B2CA-5586512108DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C167CFB-A470-4ACE-8B34-55A437C966B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C167CFB-A470-4ACE-8B34-55A437C966B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C167CFB-A470-4ACE-8B34-55A437C966B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C167CFB-A470-4ACE-8B34-55A437C966B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{893320CA-35E6-4745-AC57-D05B10A6D8BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{893320CA-35E6-4745-AC57-D05B10A6D8BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{893320CA-35E6-4745-AC57-D05B10A6D8BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{893320CA-35E6-4745-AC57-D05B10A6D8BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

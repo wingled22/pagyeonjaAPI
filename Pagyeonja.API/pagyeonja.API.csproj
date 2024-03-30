@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Pagyeonja.Entities\Pagyeonja.Entities.csproj" />
+    <ProjectReference Include="..\Pagyeonja.Repositories\Pagyeonja.Repositories.csproj" />
+    <ProjectReference Include="..\Pagyeonja.Services\Pagyeonja.Services.csproj" />
   </ItemGroup>
 
 </Project>
