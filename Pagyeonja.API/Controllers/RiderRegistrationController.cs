@@ -111,7 +111,9 @@ namespace pagyeonjaAPI.Controllers
                 do
                 {
                     rider.RiderId = riderId;
-                } while (await _context.Riders.AnyAsync(r => r.RiderId == riderId));
+                } 
+                while (await _context.Riders.AnyAsync(r => r.RiderId == riderId));
+                
                 rider.DateApplied = new DateTime();
 
                 // Create rider approval
