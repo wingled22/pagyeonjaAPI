@@ -40,16 +40,18 @@ namespace pagyeonjaAPI.Controllers
 		}
 
 		[HttpGet("GetRidersApproved")]
-		public async Task<ActionResult<IEnumerable<Rider>>> GetRidersApproved()
+		public async Task<IActionResult> GetRidersApproved()
 		{
-			if (_context.Riders == null)
+			try
 			{
-				return NotFound();
+				var approvedRiders = await _riderService.GetRidersApproved();
+				return Ok(approvedRiders);
 			}
-
-			return await _context.Riders.Where(a => a.ApprovalStatus == true).OrderByDescending(a => a.DateApplied).ToListAsync();
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Internal server error: {ex.Message}");
+			}
 		}
-
 
 		// GET: api/Rider/5
 		[HttpGet("GetRider")]
@@ -71,34 +73,32 @@ namespace pagyeonjaAPI.Controllers
 
 		// PUT: api/Rider/5
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+
+
 		[HttpPut("UpdateRider")]
-		public async Task<IActionResult> PutRider(Guid id, Rider Rider)
+		public async Task<IActionResult> PutRider(Rider rider)
 		{
-			if (id != Rider.RiderId)
-			{
-				return BadRequest();
-			}
-
-			_context.Entry(Rider).State = EntityState.Modified;
-
 			try
 			{
-				await _context.SaveChangesAsync();
-			}
-			catch (DbUpdateConcurrencyException)
-			{
-				if (!RiderExists(id))
+				// if (id != rider.RiderId)
+				// {
+				//     return BadRequest("ID mismatch");
+				// }
+
+				var updatedRider = await _riderService.UpdateRider(rider);
+				if (updatedRider == null)
 				{
 					return NotFound();
 				}
-				else
-				{
-					throw;
-				}
-			}
 
-			return NoContent();
+				return Ok(updatedRider);
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Internal server error: {ex.Message}");
+			}
 		}
+
 
 		// POST: api/Rider
 		// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
