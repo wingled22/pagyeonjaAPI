@@ -17,9 +17,11 @@ builder.Services.AddScoped<ICommuterRepository, CommuterRepository>();
 builder.Services.AddScoped<ApprovalService>();
 builder.Services.AddScoped<IApprovalService, ApprovalService>();
 builder.Services.AddScoped<IApprovalRepository, ApprovalRepository>();
-builder.Services.AddScoped<IRiderService, RiderService>();
-builder.Services.AddScoped<RiderService>();
-builder.Services.AddScoped<IRiderRepository, RiderRepository>();
+// builder.Services.AddScoped<IRiderService, RiderService>();
+// builder.Services.AddScoped<RiderService>();
+// builder.Services.AddScoped<IRiderRepository, RiderRepository>();
+builder.Services.AddScoped<ISuspensionService, SuspensionService>();
+builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
 
 builder.Services.AddCors(options =>
 {
