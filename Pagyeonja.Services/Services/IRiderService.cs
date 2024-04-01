@@ -13,7 +13,7 @@ namespace Pagyeonja.Services.Services
         Task<IEnumerable<Rider>> GetRidersApproved();
         Task<Rider> GetRider(Guid id);
         Task<Rider> UpdateRider(Rider rider);
-        Task<Rider> AddRider(Rider rider, List<string> imagePaths);
+        Task<Rider> AddRider(Rider rider);
         Task<bool> DeleteRider(Guid id);
         Task<bool> RiderExists(Guid id);
         Task<bool> ImageExist(Guid id);
