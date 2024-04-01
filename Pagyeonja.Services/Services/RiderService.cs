@@ -40,20 +40,26 @@ namespace Pagyeonja.Services.Services
             return await _riderRepository.UpdateRider(rider);
         }
 
-        public async Task<Rider> RegisterRider(Rider rider, List<string> imagePaths)
+        public async Task<Rider> AddRider(Rider rider)
         {
-            using (var transaction  = await _databaseTransactionRepo.StartTransaction())
+            using (var transaction = await _databaseTransactionRepo.StartTransaction())
             {
                 try
                 {
 
                     await _riderRepository.AddRider(rider);
 
-                    var app = new Approval();
+                    // Create rider approval
+                    var approval = new Approval()
+                    {
+                        UserId = rider.RiderId,
+                        UserType = "Rider",
+                        ApprovalDate = null,
+                    };
 
-                    await _approvalRepository.AddApproval(app);
+                    await _approvalRepository.AddApproval(approval);
 
-                    
+
                     //commit changes if done
                     await _databaseTransactionRepo.SaveTransaction(transaction);
 
@@ -62,7 +68,7 @@ namespace Pagyeonja.Services.Services
                 catch (Exception ex)
                 {
                     await _databaseTransactionRepo.RevertTransaction(transaction);
-                    throw; 
+                    throw;
                 }
             }
             // return await _riderRepository.RegisterRider(rider);
