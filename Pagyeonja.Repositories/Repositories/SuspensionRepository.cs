@@ -28,5 +28,12 @@ namespace Pagyeonja.Repositories.Repositories
                 .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now && s.Status == true)
                 .OrderBy(s => s.InvokedSuspensionDate).FirstOrDefaultAsync();
         }
+
+        public async Task<Suspension> UpdateSuspension(Suspension suspension)
+        {
+            _context.Entry(suspension).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return suspension;
+        }
     }
 }

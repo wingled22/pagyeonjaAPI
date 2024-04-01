@@ -51,36 +51,26 @@ namespace pagyeonjaAPI.Controllers
         }
 
 
-        // // PUT: api/Suspension/5
-        // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPut("UpdateSuspension")]
-        // public async Task<IActionResult> PutSuspension(Guid id, Suspension Suspension)
-        // {
-        //     if (id != Suspension.SuspensionId)
-        //     {
-        //         return BadRequest();
-        //     }
+        // PUT: api/Suspension/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("UpdateSuspension")]
+        public async Task<IActionResult> PutSuspension(Guid id, Suspension suspension)
+        {
+            try
+            {
+                if(id != suspension.SuspensionId)
+                {
+                    return BadRequest("ID mismatch");
+                }
 
-        //     _context.Entry(Suspension).State = EntityState.Modified;
-
-        //     try
-        //     {
-        //         await _context.SaveChangesAsync();
-        //     }
-        //     catch (DbUpdateConcurrencyException)
-        //     {
-        //         if (!SuspensionExists(id))
-        //         {
-        //             return NotFound();
-        //         }
-        //         else
-        //         {
-        //             throw;
-        //         }
-        //     }
-
-        //     return NoContent();
-        // }
+                var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
+                return Ok(updateSuspension);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
 
         // [HttpPut("RevokeSuspension")]
         // public async Task<IActionResult> PutSuspension(Suspension Suspension)

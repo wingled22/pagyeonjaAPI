@@ -25,5 +25,10 @@ namespace Pagyeonja.Services.Services
         {
             return _suspensionRepository.GetSuspension(userid, usertype);
         }
+
+        public Task<Suspension> UpdateSuspension(Suspension suspension)
+        {
+            return _suspensionRepository.UpdateSuspension(suspension);
+        }
     }
 }
