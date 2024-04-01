@@ -35,5 +35,23 @@ namespace Pagyeonja.Repositories.Repositories
             await _context.SaveChangesAsync();
             return suspension;
         }
+
+        public async Task<Suspension> InvokeSuspension(Suspension Suspension)
+        {
+            Suspension.SuspensionId = Guid.NewGuid();
+            while (await _context.Suspensions.AnyAsync(r => r.SuspensionId == Suspension.SuspensionId))
+            {
+                Suspension.SuspensionId = Guid.NewGuid();
+            }
+
+            //add when did the suspension invoked
+            Suspension.InvokedSuspensionDate = DateTime.Now;
+            Suspension.Status = true;
+
+            _context.Suspensions.Add(Suspension);
+
+            await _context.SaveChangesAsync();
+            return Suspension;
+        }
     }
 }

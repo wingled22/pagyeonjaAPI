@@ -58,7 +58,7 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                if(id != suspension.SuspensionId)
+                if (id != suspension.SuspensionId)
                 {
                     return BadRequest("ID mismatch");
                 }
@@ -111,47 +111,21 @@ namespace pagyeonjaAPI.Controllers
         //     return NoContent();
         // }
 
-        // // POST: api/Suspension
-        // // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        // [HttpPost("RegisterSuspension")]
-        // public async Task<ActionResult<Suspension>> PostSuspension(Suspension Suspension)
-        // {
-        //     try
-        //     {
-        //         Suspension.SuspensionId = Guid.NewGuid();
-        //         while (await _context.Suspensions.AnyAsync(r => r.SuspensionId == Suspension.SuspensionId))
-        //         {
-        //             Suspension.SuspensionId = Guid.NewGuid();
-        //         }
-
-        //         //add when did the suspension invoked
-        //         Suspension.InvokedSuspensionDate = DateTime.Now;
-        //         Suspension.Status = true;
-
-        //         _context.Suspensions.Add(Suspension);
-
-        //         //Update the user based on the usertype and userid and set the suspension status to true
-        //         if(Suspension.UserType == "Commuter")
-        //         {
-        //             var User = _context.Commuters.Where(c => c.CommuterId == Suspension.UserId).FirstOrDefault();
-        //             User.SuspensionStatus = true;
-        //         }
-        //         else if(Suspension.UserType == "Rider")
-        //         {
-        //             var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
-        //             User.SuspensionStatus = true;
-        //         }
-
-        //         await _context.SaveChangesAsync();
-
-        //         return CreatedAtAction("PostSuspension", new { id = Suspension.SuspensionId }, Suspension);
-
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         return new BadRequestObjectResult("Unhandled Error occured: " + ex);
-        //     }
-        // }
+        // POST: api/Suspension
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost("RegisterSuspension")]
+        public async Task<ActionResult<Suspension>> PostSuspension(Suspension Suspension)
+        {
+            try
+            {
+                var invokeSuspension = await _suspensionService.InvokeSuspension(Suspension);
+                return CreatedAtAction("PostSuspension", new { id = invokeSuspension.SuspensionId }, invokeSuspension);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
 
         // // DELETE: api/Suspension/5
         // [HttpDelete("DeleteSuspension")]

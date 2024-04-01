@@ -12,11 +12,15 @@ namespace Pagyeonja.Services.Services
     public class SuspensionService : ISuspensionService
     {
         private readonly ISuspensionRepository _suspensionRepository;
-        public SuspensionService(ISuspensionRepository suspensionRepository)
+        private readonly ICommuterRepository _commuterRepository;
+        private readonly IRiderRepository _riderRepository;
+        public SuspensionService(ISuspensionRepository suspensionRepository, ICommuterRepository commuterRepository, IRiderRepository riderRepository)
         {
             _suspensionRepository = suspensionRepository;
+            _commuterRepository = commuterRepository;
+            _riderRepository = riderRepository;
         }
-        
+
         public Task<IEnumerable<Suspension>> GetSuspensions()
         {
             return _suspensionRepository.GetSuspensions();
@@ -29,6 +33,33 @@ namespace Pagyeonja.Services.Services
         public Task<Suspension> UpdateSuspension(Suspension suspension)
         {
             return _suspensionRepository.UpdateSuspension(suspension);
+        }
+
+        public async Task<Suspension> InvokeSuspension(Suspension suspension)
+        {
+            await _suspensionRepository.InvokeSuspension(suspension);
+
+            //Update the user based on the usertype and userid and set the suspension status to true
+            if (suspension.UserType == "Commuter")
+            {
+                var User = await _commuterRepository.GetCommuterById(Guid.Parse(suspension.UserId.ToString()));
+                if (User != null)
+                {
+                    User.SuspensionStatus = true;
+                    await _commuterRepository.UpdateCommuter(User);
+                }
+            }
+            else if (suspension.UserType == "Rider")
+            {
+                var User = await _riderRepository.GetRider(Guid.Parse(suspension.UserId.ToString()));
+                if (User != null)
+                {
+                    User.SuspensionStatus = true;
+                    await _riderRepository.UpdateRider(User);
+                }
+            }
+
+            return suspension;
         }
     }
 }
