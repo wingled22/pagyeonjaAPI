@@ -11,7 +11,7 @@ namespace Pagyeonja.Repositories.Repositories
         Task<IEnumerable<Rider>> GetRiders();
         Task<IEnumerable<Rider>> GetRidersApproved();
         Task<Rider> GetRider(Guid id);
-        Task<bool> UpdateRider(Rider rider);
+        Task<Rider> UpdateRider(Rider rider);
         Task<Rider> AddRider(Rider rider);
         Task<bool> DeleteRider(Guid id);
         Task<bool> RiderExists(Guid id);
