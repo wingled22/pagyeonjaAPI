@@ -32,22 +32,12 @@ namespace Pagyeonja.Repositories.Repositories
             return await _context.Riders.FindAsync(id);
         }
 
-        public async Task<bool> UpdateRider(Rider rider)
+
+         public async Task<Rider> UpdateRider(Rider rider)
         {
             _context.Entry(rider).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                return true;
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await RiderExists(rider.RiderId))
-                    return false;
-                else
-                    throw;
-            }
+            await _context.SaveChangesAsync();
+            return rider;
         }
 
         public async Task<Rider> AddRider(Rider rider)
@@ -86,6 +76,10 @@ namespace Pagyeonja.Repositories.Repositories
             return await _context.Riders.AnyAsync(e => e.RiderId == id);
         }
 
+        Task<bool> IRiderRepository.UpdateRider(Rider rider)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 }
