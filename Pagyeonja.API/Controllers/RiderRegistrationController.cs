@@ -87,7 +87,7 @@ namespace pagyeonjaAPI.Controllers
                     return NotFound();
                 }
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception ex)
             {
