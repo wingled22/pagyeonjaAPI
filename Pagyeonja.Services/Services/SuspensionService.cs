@@ -14,10 +14,11 @@ namespace Pagyeonja.Services.Services
         private readonly ISuspensionRepository _suspensionRepository;
         private readonly ICommuterRepository _commuterRepository;
         private readonly IRiderRepository _riderRepository;
-        public SuspensionService(ISuspensionRepository suspensionRepository, ICommuterRepository commuterRepository)
+        public SuspensionService(ISuspensionRepository suspensionRepository, ICommuterRepository commuterRepository, IRiderRepository riderRepository)
         {
             _suspensionRepository = suspensionRepository;
             _commuterRepository = commuterRepository;
+            _riderRepository = riderRepository;
         }
         
         public Task<IEnumerable<Suspension>> GetSuspensions()
