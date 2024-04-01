@@ -49,10 +49,10 @@ namespace Pagyeonja.Services.Services
             }
             else if (suspension.UserType == "Rider")
             {
-                // var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
-                // User.SuspensionStatus = true;
                 var User = await _riderRepository.GetRider(Guid.Parse(suspension.UserId.ToString()));
                 User.SuspensionStatus = true;
+
+                await _riderRepository.UpdateRider(User);
             }
 
             return suspension;
