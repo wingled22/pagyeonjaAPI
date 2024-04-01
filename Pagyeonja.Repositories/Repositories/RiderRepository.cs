@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
 using Pagyeonja.Entities.Entities;
 
 namespace Pagyeonja.Repositories.Repositories
@@ -87,6 +88,17 @@ namespace Pagyeonja.Repositories.Repositories
       return await _context.Riders.AnyAsync(e => e.RiderId == id);
     }
 
+    public async Task<bool> ImageExist(string filename, string usertype, string doctype)
+    {
+      return
+        usertype.ToLower() == "rider" &&
+        doctype.ToLower() == "profile" ?
+        await _context.Riders.AnyAsync(r => r.ProfilePath == filename) :
+        usertype.ToLower() == "commuter" &&
+        doctype.ToLower() == "profile" ?
+        await _context.Commuters.AnyAsync(c => c.ProfilePath == filename) :
+        await _context.Documents.AnyAsync(d => d.DocumentPath == filename);
+    }
   }
 
 }

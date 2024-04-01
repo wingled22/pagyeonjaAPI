@@ -78,9 +78,9 @@ namespace Pagyeonja.Services.Services
 			return await _riderRepository.DeleteRider(id);
 		}
 
-		public Task<bool> RiderExists(Guid id)
+		public async Task<bool> RiderExists(Guid id)
 		{
-			throw new NotImplementedException();
+			return await _riderRepository.RiderExists(id);
 		}
 
 		public async Task SaveImage(Guid id, List<IFormFile> images, string doctype, string usertype)
@@ -93,6 +93,11 @@ namespace Pagyeonja.Services.Services
 					// Generate a unique filename
 					var extension = Path.GetExtension(image.FileName);
 					var uniqueFileName = $"{Guid.NewGuid()}{extension}";
+
+					while (await _riderRepository.ImageExist(uniqueFileName, usertype, doctype))
+					{
+						uniqueFileName = $"{Guid.NewGuid()}{extension}";
+					}
 
 					// Save the image to the Images folder
 					var path = Path.Combine(
@@ -112,6 +117,11 @@ namespace Pagyeonja.Services.Services
 			{
 				throw new Exception(ex.ToString());
 			}
+		}
+
+		public Task<bool> ImageExist(Guid id)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

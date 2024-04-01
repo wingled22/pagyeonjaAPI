@@ -17,9 +17,9 @@ namespace pagyeonjaAPI.Controllers
 	public class RiderRegistrationController : ControllerBase
 	{
 		private readonly HitchContext _context;
-		private readonly RiderService _riderService;
+		private readonly IRiderService _riderService;
 
-		public RiderRegistrationController(HitchContext context, RiderService riderService)
+		public RiderRegistrationController(HitchContext context, IRiderService riderService)
 		{
 			_context = context;
 			_riderService = riderService;
@@ -107,7 +107,7 @@ namespace pagyeonjaAPI.Controllers
 		{
 			try
 			{
-				await ((IRiderService)_riderService).AddRider(rider);
+				await _riderService.AddRider(rider);
 				return CreatedAtAction("PostRider", new { id = rider.RiderId }, rider);
 			}
 			catch (Exception)
@@ -129,9 +129,6 @@ namespace pagyeonjaAPI.Controllers
 				NotFound(ex);
 			}
 		}
-
-
-
 
 		// DELETE: api/Rider/5
 		[HttpDelete("DeleteRider")]

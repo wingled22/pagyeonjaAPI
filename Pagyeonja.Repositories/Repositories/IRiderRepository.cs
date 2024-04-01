@@ -15,5 +15,6 @@ namespace Pagyeonja.Repositories.Repositories
         Task<Rider> AddRider(Rider rider);
         Task<bool> DeleteRider(Guid id);
         Task<bool> RiderExists(Guid id);
+        Task<bool> ImageExist(string filename, string usertype, string doctype);
     }
 }
