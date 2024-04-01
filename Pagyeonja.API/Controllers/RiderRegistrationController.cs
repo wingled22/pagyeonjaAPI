@@ -72,7 +72,7 @@ namespace pagyeonjaAPI.Controllers
       
 
         [HttpPut("UpdateRider")]
-        public async Task<IActionResult> UpdateRider(Guid id, Rider rider)
+        public async Task<IActionResult> PutRider(Guid id, Rider rider)
         {
             try
             {
@@ -87,13 +87,14 @@ namespace pagyeonjaAPI.Controllers
                     return NotFound();
                 }
 
-                return Ok();
+                return Ok(updatedRider);
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
 
         // POST: api/Rider
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

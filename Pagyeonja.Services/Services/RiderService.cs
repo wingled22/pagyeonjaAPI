@@ -35,7 +35,7 @@ namespace Pagyeonja.Services.Services
             return await _riderRepository.GetRider(id);
         }
 
-        public async Task<bool> UpdateRider(Rider rider)
+        public async Task<Rider> UpdateRider(Rider rider)
         {
             return await _riderRepository.UpdateRider(rider);
         }
@@ -77,5 +77,7 @@ namespace Pagyeonja.Services.Services
         {
             return await _riderRepository.RiderExists(id);
         }
+
+      
     }
 }

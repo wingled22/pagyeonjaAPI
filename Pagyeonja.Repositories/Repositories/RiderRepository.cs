@@ -76,10 +76,7 @@ namespace Pagyeonja.Repositories.Repositories
             return await _context.Riders.AnyAsync(e => e.RiderId == id);
         }
 
-        Task<bool> IRiderRepository.UpdateRider(Rider rider)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 
 }
