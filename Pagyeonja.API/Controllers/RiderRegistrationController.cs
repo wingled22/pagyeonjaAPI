@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Services.Services;
 
 namespace pagyeonjaAPI.Controllers
 {
@@ -15,10 +16,12 @@ namespace pagyeonjaAPI.Controllers
     public class RiderRegistrationController : ControllerBase
     {
         private readonly HitchContext _context;
+        private readonly RiderService _riderService;
 
-        public RiderRegistrationController(HitchContext context)
+        public RiderRegistrationController(HitchContext context, RiderService riderService)
         {
             _context = context;
+            _riderService = riderService;
         }
 
         // GET: api/Riders
@@ -100,6 +103,8 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
+                await _riderService.RegisterRider(rider, new List<string>());
+
                 if (images != null)
                 {
                     var fileNames = await SaveImages(images);

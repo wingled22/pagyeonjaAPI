@@ -11,11 +11,13 @@ namespace Pagyeonja.Services.Services
     {
         private readonly IRiderRepository _riderRepository;
         private readonly IDatabaseTransactionRepository _databaseTransactionRepo;
+        private readonly IApprovalRepository _approvalRepository;
 
-        public RiderService(IRiderRepository riderRepository, IDatabaseTransactionRepository databaseTransactionRepository)
+        public RiderService(IRiderRepository riderRepository, IDatabaseTransactionRepository databaseTransactionRepository, IApprovalRepository approvalRepository)
         {
             _riderRepository = riderRepository;
             _databaseTransactionRepo = databaseTransactionRepository;
+            _approvalRepository = approvalRepository;
         }
 
         public async Task<IEnumerable<Rider>> GetRiders()
@@ -44,7 +46,18 @@ namespace Pagyeonja.Services.Services
             {
                 try
                 {
+
+                    await _riderRepository.AddRider(rider);
+
+                    var app = new Approval();
+
+                    await _approvalRepository.AddApproval(app);
+
                     
+                    //commit changes if done
+                    await _databaseTransactionRepo.SaveTransaction(transaction);
+
+                    return rider;
                 }
                 catch (Exception ex)
                 {
@@ -52,7 +65,7 @@ namespace Pagyeonja.Services.Services
                     throw; 
                 }
             }
-            return await _riderRepository.RegisterRider(rider);
+            // return await _riderRepository.RegisterRider(rider);
         }
 
         public async Task<bool> DeleteRider(Guid id)

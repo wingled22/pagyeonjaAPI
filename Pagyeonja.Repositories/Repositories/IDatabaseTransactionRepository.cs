@@ -10,5 +10,6 @@ namespace Pagyeonja.Repositories.Repositories
     {
         Task<IDbContextTransaction> StartTransaction();
         Task RevertTransaction(IDbContextTransaction dbContextTransaction);
+        Task SaveTransaction(IDbContextTransaction dbContextTransaction);
     }
 }

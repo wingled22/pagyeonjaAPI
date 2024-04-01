@@ -23,7 +23,21 @@ namespace Pagyeonja.Repositories.Repositories
             }
             catch (System.Exception)
             {
-                
+
+                throw;
+            }
+        }
+
+        public async Task SaveTransaction(IDbContextTransaction dbContextTransaction)
+        {
+            try
+            {
+                await dbContextTransaction.CommitAsync();
+                return;
+            }
+            catch (System.Exception)
+            {
+
                 throw;
             }
         }
@@ -36,7 +50,7 @@ namespace Pagyeonja.Repositories.Repositories
             }
             catch (System.Exception)
             {
-                
+
                 throw;
             }
         }

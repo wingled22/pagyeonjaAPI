@@ -50,7 +50,7 @@ namespace Pagyeonja.Repositories.Repositories
             }
         }
 
-        public async Task<Rider> RegisterRider(Rider rider)
+        public async Task<Rider> AddRider(Rider rider)
         {
             // Implementation for registering a rider
             try
@@ -66,7 +66,6 @@ namespace Pagyeonja.Repositories.Repositories
             }
             catch (System.Exception)
             {
-                
                 throw;
             }
         }
