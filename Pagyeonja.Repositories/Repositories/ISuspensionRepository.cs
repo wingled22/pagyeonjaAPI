@@ -11,5 +11,6 @@ namespace Pagyeonja.Repositories.Repositories
         Task<IEnumerable<Suspension>> GetSuspensions();
         Task<Suspension> GetSuspension(Guid userid, string usertype);
         Task<Suspension> UpdateSuspension(Suspension Suspension);
+        Task<Suspension> InvokeSuspension(Suspension Suspension);
     }
 }
