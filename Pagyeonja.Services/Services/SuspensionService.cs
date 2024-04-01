@@ -20,7 +20,7 @@ namespace Pagyeonja.Services.Services
             _commuterRepository = commuterRepository;
             _riderRepository = riderRepository;
         }
-        
+
         public Task<IEnumerable<Suspension>> GetSuspensions()
         {
             return _suspensionRepository.GetSuspensions();
@@ -43,16 +43,20 @@ namespace Pagyeonja.Services.Services
             if (suspension.UserType == "Commuter")
             {
                 var User = await _commuterRepository.GetCommuterById(Guid.Parse(suspension.UserId.ToString()));
-                User.SuspensionStatus = true;
-
-                await _commuterRepository.UpdateCommuter(User);
+                if (User != null)
+                {
+                    User.SuspensionStatus = true;
+                    await _commuterRepository.UpdateCommuter(User);
+                }
             }
             else if (suspension.UserType == "Rider")
             {
                 var User = await _riderRepository.GetRider(Guid.Parse(suspension.UserId.ToString()));
-                User.SuspensionStatus = true;
-
-                await _riderRepository.UpdateRider(User);
+                if (User != null)
+                {
+                    User.SuspensionStatus = true;
+                    await _riderRepository.UpdateRider(User);
+                }
             }
 
             return suspension;
