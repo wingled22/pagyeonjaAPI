@@ -72,14 +72,14 @@ namespace pagyeonjaAPI.Controllers
       
 
         [HttpPut("UpdateRider")]
-        public async Task<IActionResult> PutRider(Guid id, Rider rider)
+        public async Task<IActionResult> PutRider(Rider rider)
         {
             try
             {
-                if (id != rider.RiderId)
-                {
-                    return BadRequest("ID mismatch");
-                }
+                // if (id != rider.RiderId)
+                // {
+                //     return BadRequest("ID mismatch");
+                // }
 
                 var updatedRider = await _riderService.UpdateRider(rider);
                 if (updatedRider == null)
