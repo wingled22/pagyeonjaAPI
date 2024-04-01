@@ -21,5 +21,12 @@ namespace Pagyeonja.Repositories.Repositories
         {
             return await _context.Suspensions.OrderByDescending(a => a.SuspensionId).ToListAsync();
         }
+
+        public async Task<Suspension> GetSuspension(Guid userid, string usertype)
+        {
+            return await _context.Suspensions
+                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now && s.Status == true)
+                .OrderBy(s => s.InvokedSuspensionDate).FirstOrDefaultAsync();
+        }
     }
 }

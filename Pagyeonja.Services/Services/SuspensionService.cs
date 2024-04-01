@@ -16,10 +16,14 @@ namespace Pagyeonja.Services.Services
         {
             _suspensionRepository = suspensionRepository;
         }
-
+        
         public Task<IEnumerable<Suspension>> GetSuspensions()
         {
             return _suspensionRepository.GetSuspensions();
+        }
+        public Task<Suspension> GetSuspension(Guid userid, string usertype)
+        {
+            return _suspensionRepository.GetSuspension(userid, usertype);
         }
     }
 }

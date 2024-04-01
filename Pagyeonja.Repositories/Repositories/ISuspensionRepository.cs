@@ -9,5 +9,6 @@ namespace Pagyeonja.Repositories.Repositories
     public interface ISuspensionRepository
     {
         Task<IEnumerable<Suspension>> GetSuspensions();
+        Task<Suspension> GetSuspension(Guid userid, string usertype);
     }
 }

@@ -9,5 +9,6 @@ namespace Pagyeonja.Services.Services
     public interface ISuspensionService
     {
         Task<IEnumerable<Suspension>> GetSuspensions();
+        Task<Suspension> GetSuspension(Guid userid, string usertype);
     }
 }
