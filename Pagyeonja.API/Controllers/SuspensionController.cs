@@ -39,17 +39,15 @@ namespace pagyeonjaAPI.Controllers
         [HttpGet("GetSuspension")]
         public async Task<ActionResult<Suspension>> GetSuspension(Guid userid, string usertype)
         {
-            if (_context.Suspensions == null)
+            try
             {
-                return NotFound();
+                var suspension = await _suspensionService.GetSuspension(userid, usertype);
+                return Ok(suspension);
             }
-
-            var Suspension = await _context.Suspensions
-                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now && s.Status == true)
-                .OrderBy(s => s.InvokedSuspensionDate)
-                .FirstOrDefaultAsync();
-
-            return Suspension;
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
 
