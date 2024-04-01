@@ -12,9 +12,12 @@ namespace Pagyeonja.Services.Services
     public class SuspensionService : ISuspensionService
     {
         private readonly ISuspensionRepository _suspensionRepository;
-        public SuspensionService(ISuspensionRepository suspensionRepository)
+        private readonly ICommuterRepository _commuterRepository;
+        private readonly IRiderRepository _riderRepository;
+        public SuspensionService(ISuspensionRepository suspensionRepository, ICommuterRepository commuterRepository)
         {
             _suspensionRepository = suspensionRepository;
+            _commuterRepository = commuterRepository;
         }
         
         public Task<IEnumerable<Suspension>> GetSuspensions()
@@ -29,6 +32,27 @@ namespace Pagyeonja.Services.Services
         public Task<Suspension> UpdateSuspension(Suspension suspension)
         {
             return _suspensionRepository.UpdateSuspension(suspension);
+        }
+
+        public async Task<Suspension> InvokeSuspension(Suspension suspension)
+        {
+            await _suspensionRepository.InvokeSuspension(suspension);
+
+            //Update the user based on the usertype and userid and set the suspension status to true
+            if (suspension.UserType == "Commuter")
+            {
+                var User = await _commuterRepository.GetCommuterById(Guid.Parse(suspension.UserId.ToString()));
+                User.SuspensionStatus = true;
+
+                await _commuterRepository.UpdateCommuter(User);
+            }
+            else if (suspension.UserType == "Rider")
+            {
+                // var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
+                // User.SuspensionStatus = true;
+            }
+
+            return suspension;
         }
     }
 }
