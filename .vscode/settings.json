@@ -1,0 +1,15 @@
+{
+    "folder-color.pathColors": [
+        {
+            "folderPath": "pagyeonjaAPI/"
+        },
+        {
+            "folderPath": "pagyeonjaAPI/Pagyeonja.Entities/",
+            "color": "foldercolorizer.Azure"
+        },
+        {
+            "folderPath": "pagyeonjaAPI/Pagyeonja.Repositories/",
+            "color": "foldercolorizer.Purple"
+        }
+    ]
+}

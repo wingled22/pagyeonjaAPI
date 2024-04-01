@@ -12,12 +12,10 @@ namespace pagyeonjaAPI.Controllers
     [ApiController]
     public class ApprovalController : ControllerBase
     {
-        private readonly HitchContext _context;
         private readonly IApprovalService _approvalService;
 
-        public ApprovalController(HitchContext context, IApprovalService approvalService)
+        public ApprovalController( IApprovalService approvalService)
         {
-            _context = context;
             _approvalService = approvalService;
         }
 
