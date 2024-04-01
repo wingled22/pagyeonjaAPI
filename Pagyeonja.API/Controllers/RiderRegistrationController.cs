@@ -16,9 +16,9 @@ namespace pagyeonjaAPI.Controllers
     public class RiderRegistrationController : ControllerBase
     {
         private readonly HitchContext _context;
-        private readonly RiderService _riderService;
+        private readonly IRiderService _riderService;
 
-        public RiderRegistrationController(HitchContext context, RiderService riderService)
+        public RiderRegistrationController(HitchContext context, IRiderService riderService)
         {
             _context = context;
             _riderService = riderService;
@@ -36,16 +36,18 @@ namespace pagyeonjaAPI.Controllers
         }
 
         [HttpGet("GetRidersApproved")]
-        public async Task<ActionResult<IEnumerable<Rider>>> GetRidersApproved()
+        public async Task<IActionResult> GetRidersApproved()
         {
-            if (_context.Riders == null)
+            try
             {
-                return NotFound();
+                var approvedRiders = await _riderService.GetRidersApproved();
+                return Ok(approvedRiders);
             }
-
-            return await _context.Riders.Where(a => a.ApprovalStatus == true).OrderByDescending(a => a.DateApplied).ToListAsync();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
-
 
         // GET: api/Rider/5
         [HttpGet("GetRider")]
