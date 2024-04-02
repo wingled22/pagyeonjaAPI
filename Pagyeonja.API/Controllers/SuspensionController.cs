@@ -106,20 +106,20 @@ namespace pagyeonjaAPI.Controllers
         [HttpDelete("DeleteSuspension")]
         public async Task<IActionResult> DeleteSuspension(Guid id)
         {
-            if (_context.Suspensions == null)
+            try
             {
-                return NotFound();
+                var result = await _suspensionService.DeleteSuspension(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
+
+                return NoContent();
             }
-            var Suspension = await _context.Suspensions.FindAsync(id);
-            if (Suspension == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, $"Internal server error: {ex}");
             }
-
-            _context.Suspensions.Remove(Suspension);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
         }
 
         // private bool SuspensionExists(Guid id)
