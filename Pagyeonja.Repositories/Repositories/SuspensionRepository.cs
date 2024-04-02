@@ -53,5 +53,10 @@ namespace Pagyeonja.Repositories.Repositories
             await _context.SaveChangesAsync();
             return Suspension;
         }
+
+        public async Task<bool> DeleteSuspension(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

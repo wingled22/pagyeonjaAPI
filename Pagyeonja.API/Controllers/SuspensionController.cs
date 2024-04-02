@@ -102,25 +102,25 @@ namespace pagyeonjaAPI.Controllers
             }
         }
 
-        // // DELETE: api/Suspension/5
-        // [HttpDelete("DeleteSuspension")]
-        // public async Task<IActionResult> DeleteSuspension(Guid id)
-        // {
-        //     if (_context.Suspensions == null)
-        //     {
-        //         return NotFound();
-        //     }
-        //     var Suspension = await _context.Suspensions.FindAsync(id);
-        //     if (Suspension == null)
-        //     {
-        //         return NotFound();
-        //     }
+        // DELETE: api/Suspension/5
+        [HttpDelete("DeleteSuspension")]
+        public async Task<IActionResult> DeleteSuspension(Guid id)
+        {
+            if (_context.Suspensions == null)
+            {
+                return NotFound();
+            }
+            var Suspension = await _context.Suspensions.FindAsync(id);
+            if (Suspension == null)
+            {
+                return NotFound();
+            }
 
-        //     _context.Suspensions.Remove(Suspension);
-        //     await _context.SaveChangesAsync();
+            _context.Suspensions.Remove(Suspension);
+            await _context.SaveChangesAsync();
 
-        //     return NoContent();
-        // }
+            return NoContent();
+        }
 
         // private bool SuspensionExists(Guid id)
         // {
