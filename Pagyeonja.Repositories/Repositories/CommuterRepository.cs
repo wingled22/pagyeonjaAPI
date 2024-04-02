@@ -57,5 +57,9 @@ namespace Pagyeonja.Repositories.Repositories
             return true;
         }
 
+        public async Task<bool> CommuterExists(Guid id)
+        {
+            return await _context.Commuters.AnyAsync(e => e.CommuterId == id);
+        }
     }
 }

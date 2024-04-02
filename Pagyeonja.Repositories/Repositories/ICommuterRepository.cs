@@ -14,5 +14,6 @@ namespace Pagyeonja.Repositories.Repositories
         Task<Commuter> UpdateCommuter(Commuter commuter);
         Task<Commuter> RegisterCommuter(Commuter commuter);
         Task<bool> DeleteCommuter(Guid id);
+        Task<bool> CommuterExists(Guid id);
     }
 }

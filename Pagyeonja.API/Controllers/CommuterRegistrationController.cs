@@ -71,17 +71,19 @@ namespace pagyeonjaAPI.Controllers
 
         // PUT: api/Commuter/5
         [HttpPut("UpdateCommuter")]
-        public async Task<IActionResult> UpdateCommuter(Guid id, Commuter commuter)
+        public async Task<IActionResult> UpdateCommuter(Commuter commuter)
         {
             try
             {
-                if (id != commuter.CommuterId)
+                if (await _commuterService.CommuterExists(commuter.CommuterId))
                 {
-                    return BadRequest("ID mismatch");
+                    var updatedCommuter = await _commuterService.UpdateCommuter(commuter);
+                    return Ok(updatedCommuter);
                 }
-
-                var updatedCommuter = await _commuterService.UpdateCommuter(commuter);
-                return Ok(updatedCommuter);
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
