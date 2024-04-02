@@ -2,7 +2,7 @@
 
 namespace Pagyeonja.Repositories;
 
-public class RiderApprovalModel
+public class RiderCommuterApprovalModel
 {
     public Guid Id { get; set; }
     public Guid? UserId { get; set; }

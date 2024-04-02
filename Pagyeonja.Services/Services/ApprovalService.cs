@@ -27,7 +27,7 @@ namespace Pagyeonja.Services.Services
             return _approvalRepository.AddApproval(approval);
         }
 
-        public Task<IEnumerable<RiderApprovalModel>> GetApprovals(string userType)
+        public Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType)
         {
             return _approvalRepository.GetApprovals(userType);
         }

@@ -29,14 +29,14 @@ namespace Pagyeonja.Repositories.Repositories
             return approval;
         }
 
-        public async Task<IEnumerable<RiderApprovalModel>> GetApprovals(string userType)
+        public async Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType)
         {
             return await (
                 from a in _context.Approvals
                 join r in _context.Riders on a.UserId equals r.RiderId
                 where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
                 orderby r.DateApplied
-                select new RiderApprovalModel
+                select new RiderCommuterApprovalModel
                 {
                     Id = a.Id,
                     UserId = a.UserId,
