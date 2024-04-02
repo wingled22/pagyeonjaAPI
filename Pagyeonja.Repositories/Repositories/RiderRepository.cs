@@ -21,6 +21,7 @@ namespace Pagyeonja.Repositories.Repositories
     public async Task<IEnumerable<Rider>> GetRiders()
     {
       return await _context.Riders.OrderByDescending(a => a.DateApplied).ToListAsync();
+      
     }
 
     public async Task<IEnumerable<Rider>> GetRidersApproved()
