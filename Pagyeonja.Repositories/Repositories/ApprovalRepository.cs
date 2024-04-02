@@ -29,14 +29,23 @@ namespace Pagyeonja.Repositories.Repositories
             return approval;
         }
 
-        public async Task<Object> GetApprovals(string userType)
+        public async Task<IEnumerable<RiderApprovalModel>> GetApprovals(string userType)
         {
             return await (
                 from a in _context.Approvals
                 join r in _context.Riders on a.UserId equals r.RiderId
                 where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
                 orderby r.DateApplied
-                select new { a.Id, a.UserId, r.FirstName, r.MiddleName, r.LastName, a.ApprovalStatus, r.ProfilePath }).ToListAsync();
+                select new RiderApprovalModel
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    FirstName = r.FirstName,
+                    MiddleName = r.MiddleName,
+                    LastName = r.LastName,
+                    ApprovalStatus = a.ApprovalStatus,
+                    ProfilePath = r.ProfilePath
+                }).ToListAsync();
         }
 
         public async Task<Approval> GetApprovalById(Guid id)
