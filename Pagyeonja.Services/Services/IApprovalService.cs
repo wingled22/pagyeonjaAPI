@@ -10,7 +10,7 @@ namespace Pagyeonja.Services.Services
     public interface IApprovalService
     {
         Task<Approval> AddApproval(Approval approval);
-        Task<IEnumerable<RiderApprovalModel>> GetApprovals(string userType);
+        Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType);
         Task<Approval> GetApprovalById(Guid id);
         Task<Approval> UpdateApproval(Approval approval);
         Task<bool> DeleteApproval(Guid id);
