@@ -65,5 +65,10 @@ namespace Pagyeonja.Repositories.Repositories
 
             return true;
         }
+
+        public Task<bool> SuspensionExists(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
