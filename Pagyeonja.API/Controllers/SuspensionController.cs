@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Services.Services;
 
 namespace pagyeonjaAPI.Controllers
 {
@@ -12,71 +13,70 @@ namespace pagyeonjaAPI.Controllers
     [ApiController]
     public class SuspensionController : ControllerBase
     {
+        private readonly ISuspensionService _suspensionService;
         private readonly HitchContext _context;
-        public SuspensionController(HitchContext context)
+        public SuspensionController(ISuspensionService suspensionService)
         {
-            _context = context;
+            _suspensionService = suspensionService;
         }
 
         // GET: api/Suspension
         [HttpGet("GetSuspensions")]
         public async Task<ActionResult<IEnumerable<Suspension>>> GetSuspensions()
         {
-            if (_context.Suspensions == null)
+            try
             {
-                return NotFound();
+                var suspensions = await _suspensionService.GetSuspensions();
+                return Ok(suspensions);
             }
-
-            return await _context.Suspensions.OrderByDescending(a => a.SuspensionId).ToListAsync();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
         // GET: api/Suspension/5
         [HttpGet("GetSuspension")]
         public async Task<ActionResult<Suspension>> GetSuspension(Guid userid, string usertype)
         {
-            if (_context.Suspensions == null)
+            try
             {
-                return NotFound();
+                var suspension = await _suspensionService.GetSuspension(userid, usertype);
+                return Ok(suspension);
             }
-
-            var Suspension = await _context.Suspensions
-                .Where(s => s.UserId == userid && s.UserType == usertype && s.SuspensionDate >= DateTime.Now && s.Status == true)
-                .OrderBy(s => s.InvokedSuspensionDate)
-                .FirstOrDefaultAsync();
-
-            return Suspension;
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
 
         // PUT: api/Suspension/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("UpdateSuspension")]
-        public async Task<IActionResult> PutSuspension(Guid id, Suspension Suspension)
+        public async Task<IActionResult> PutSuspension(Guid id, Suspension suspension)
         {
-            if (id != Suspension.SuspensionId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(Suspension).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SuspensionExists(id))
+                if (await _suspensionService.SuspensionExists(suspension.SuspensionId))
                 {
-                    return NotFound();
+                    if (id != suspension.SuspensionId)
+                    {
+                        return BadRequest("ID mismatch");
+                    }
+
+                    var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
+                    return Ok(updateSuspension);
                 }
                 else
                 {
-                    throw;
+                    return NotFound();
                 }
             }
-
-            return NoContent();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
         }
 
         [HttpPut("RevokeSuspension")]
@@ -84,38 +84,20 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                if(Suspension.UserType == "Commuter")
+                if (await _suspensionService.SuspensionExists(Suspension.SuspensionId))
                 {
-                    var User = _context.Commuters.Where(c => c.CommuterId == Suspension.UserId).FirstOrDefault();
-                    if(User == null)
-                    {
-                        return BadRequest();
-                    }
-
-                    User.SuspensionStatus = false;
+                    var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
+                    return Ok(revokeSuspension);
                 }
-                else if(Suspension.UserType == "Rider")
-                {
-                    var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
-                    if(User == null)
-                    {
-                        return BadRequest();
-                    }
-
-                    User.SuspensionStatus = false;
+                else
+                {   
+                    return NotFound();
                 }
-
-                var suspensionData = _context.Suspensions.Where(s => s.SuspensionId == Suspension.SuspensionId).FirstOrDefault();
-                suspensionData.Status = false;
-
-                await _context.SaveChangesAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new BadRequestObjectResult("Unhandled Error occured: " + ex);
+                return StatusCode(500, $"Internal server error: {ex}");
             }
-
-            return NoContent();
         }
 
         // POST: api/Suspension
@@ -125,38 +107,12 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                Suspension.SuspensionId = Guid.NewGuid();
-                while (await _context.Suspensions.AnyAsync(r => r.SuspensionId == Suspension.SuspensionId))
-                {
-                    Suspension.SuspensionId = Guid.NewGuid();
-                }
-
-                //add when did the suspension invoked
-                Suspension.InvokedSuspensionDate = DateTime.Now;
-                Suspension.Status = true;
-
-                _context.Suspensions.Add(Suspension);
-
-                //Update the user based on the usertype and userid and set the suspension status to true
-                if(Suspension.UserType == "Commuter")
-                {
-                    var User = _context.Commuters.Where(c => c.CommuterId == Suspension.UserId).FirstOrDefault();
-                    User.SuspensionStatus = true;
-                }
-                else if(Suspension.UserType == "Rider")
-                {
-                    var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
-                    User.SuspensionStatus = true;
-                }
-
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("PostSuspension", new { id = Suspension.SuspensionId }, Suspension);
-
+                var invokeSuspension = await _suspensionService.InvokeSuspension(Suspension);
+                return CreatedAtAction("PostSuspension", new { id = invokeSuspension.SuspensionId }, invokeSuspension);
             }
             catch (Exception ex)
             {
-                return new BadRequestObjectResult("Unhandled Error occured: " + ex);
+                return StatusCode(500, $"Internal server error: {ex}");
             }
         }
 
@@ -164,25 +120,23 @@ namespace pagyeonjaAPI.Controllers
         [HttpDelete("DeleteSuspension")]
         public async Task<IActionResult> DeleteSuspension(Guid id)
         {
-            if (_context.Suspensions == null)
+            try
             {
-                return NotFound();
+                if (await _suspensionService.SuspensionExists(id))
+                {
+                    var result = await _suspensionService.DeleteSuspension(id);
+                    if (!result)
+                    {
+                        return NotFound();
+                    }
+                }
+                
+                return NoContent();
             }
-            var Suspension = await _context.Suspensions.FindAsync(id);
-            if (Suspension == null)
+            catch (Exception ex)
             {
-                return NotFound();
+                return StatusCode(500, $"Internal server error: {ex}");
             }
-
-            _context.Suspensions.Remove(Suspension);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool SuspensionExists(Guid id)
-        {
-            return (_context.Suspensions?.Any(e => e.SuspensionId == id)).GetValueOrDefault();
         }
     }
 }
