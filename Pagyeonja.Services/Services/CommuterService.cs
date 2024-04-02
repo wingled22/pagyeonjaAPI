@@ -46,7 +46,7 @@ namespace PagyeonjaServices.Services
             return _commuterRepository.DeleteCommuter(id);
         }
 
-        public async Task<bool> SuspensionExists(Guid id)
+        public async Task<bool> CommuterExists(Guid id)
         {
             return await _commuterRepository.CommuterExists(id);
         }

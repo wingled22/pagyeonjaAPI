@@ -14,6 +14,6 @@ namespace PagyeonjaServices.Services
         Task<Commuter> UpdateCommuter(Commuter commuter);
         Task<Commuter> RegisterCommuter(Commuter commuter);
         Task<bool> DeleteCommuter(Guid id);
-        Task<bool> SuspensionExists(Guid id);
+        Task<bool> CommuterExists(Guid id);
     }
 }

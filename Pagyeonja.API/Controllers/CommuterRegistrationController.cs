@@ -75,8 +75,15 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var updatedCommuter = await _commuterService.UpdateCommuter(commuter);
-                return Ok(updatedCommuter);
+                if (await _commuterService.CommuterExists(commuter.CommuterId))
+                {
+                    var updatedCommuter = await _commuterService.UpdateCommuter(commuter);
+                    return Ok(updatedCommuter);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
