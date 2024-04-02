@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Repositories;
 using Pagyeonja.Repositories.Repositories;
 
 namespace Pagyeonja.Services.Services
@@ -26,7 +27,7 @@ namespace Pagyeonja.Services.Services
             return _approvalRepository.AddApproval(approval);
         }
 
-        public Task<Object> GetApprovals(string userType)
+        public Task<IEnumerable<RiderApprovalModel>> GetApprovals(string userType)
         {
             return _approvalRepository.GetApprovals(userType);
         }

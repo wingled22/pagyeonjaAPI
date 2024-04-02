@@ -14,5 +14,6 @@ namespace Pagyeonja.Services.Services
         Task<Suspension> InvokeSuspension(Suspension Suspension);
         Task<Suspension> RevokeSuspension(Suspension suspension);
         Task<bool> DeleteSuspension(Guid id);
+        Task<bool> SuspensionExists(Guid id);
     }
 }
