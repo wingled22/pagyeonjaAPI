@@ -16,7 +16,8 @@ namespace Pagyeonja.Services.Services
         Task<Rider> AddRider(Rider rider);
         Task<bool> DeleteRider(Guid id);
         Task<bool> RiderExists(Guid id);
-        Task<bool> ImageExist(Guid id);
-        Task SaveImage(Guid id, List<IFormFile> images, string doctype, string usertype);
+        Task<bool> ImageExist(string filename, string usertype, string doctype);
+        Task SaveImage(Guid id, List<IFormFile> images, string doctype, string usertype, string docview);
+        Task SaveImagePath(Guid id, string doctype, string usertype, string filename, string docview);
     }
 }
