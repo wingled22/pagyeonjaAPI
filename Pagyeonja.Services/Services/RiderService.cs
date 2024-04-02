@@ -83,7 +83,7 @@ namespace Pagyeonja.Services.Services
 			return await _riderRepository.RiderExists(id);
 		}
 
-		public async Task SaveImage(Guid id, List<IFormFile> images, string doctype, string usertype)
+		public async Task SaveImage(Guid id, List<IFormFile> images, string doctype, string usertype, string docview)
 		{
 			try
 			{
@@ -112,6 +112,10 @@ namespace Pagyeonja.Services.Services
 					await image.CopyToAsync(stream);
 					filePaths.Add(uniqueFileName);
 				}
+				if (filePaths.ToArray().Length > 0)
+				{
+					await SaveImagePath(id, doctype, usertype, filePaths[0].ToString(), docview);
+				}
 			}
 			catch (Exception ex)
 			{
@@ -124,9 +128,9 @@ namespace Pagyeonja.Services.Services
 			return await _riderRepository.ImageExist(filename, usertype, doctype);
 		}
 
-		public Task SaveImagePath(Guid id, string doctype, string usertype)
+		public async Task SaveImagePath(Guid id, string doctype, string usertype, string filename, string docview)
 		{
-			throw new NotImplementedException();
+			await _riderRepository.SaveImagePath(id, doctype, usertype, filename, docview);
 		}
 	}
 }
