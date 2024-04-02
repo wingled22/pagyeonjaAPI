@@ -39,12 +39,12 @@ namespace Pagyeonja.Repositories.Repositories
                 select new RiderCommuterApprovalModel
                 {
                     Id = a.Id,
-                    UserId = (Guid)a.UserId,
-                    FirstName = r.FirstName,
-                    MiddleName = r.MiddleName,
-                    LastName = r.LastName,
-                    ApprovalStatus = (bool)a.ApprovalStatus,
-                    ProfilePath = r.ProfilePath
+                    UserId = a.UserId,
+                    FirstName = r.FirstName ?? "",
+                    MiddleName = r.MiddleName ?? "",
+                    LastName = r.LastName ?? "",
+                    ApprovalStatus = a.ApprovalStatus,
+                    ProfilePath = r.ProfilePath ?? ""
                 }).ToListAsync();
         }
 
