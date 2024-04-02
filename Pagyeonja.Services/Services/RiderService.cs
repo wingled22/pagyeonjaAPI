@@ -94,7 +94,7 @@ namespace Pagyeonja.Services.Services
 					var extension = Path.GetExtension(image.FileName);
 					var uniqueFileName = $"{Guid.NewGuid()}{extension}";
 
-					while (await _riderRepository.ImageExist(uniqueFileName, usertype, doctype))
+					while (await ImageExist(uniqueFileName, usertype, doctype))
 					{
 						uniqueFileName = $"{Guid.NewGuid()}{extension}";
 					}
@@ -119,7 +119,12 @@ namespace Pagyeonja.Services.Services
 			}
 		}
 
-		public Task<bool> ImageExist(Guid id)
+		public async Task<bool> ImageExist(string filename, string usertype, string doctype)
+		{
+			return await _riderRepository.ImageExist(filename, usertype, doctype);
+		}
+
+		public Task SaveImagePath(Guid id, string doctype, string usertype)
 		{
 			throw new NotImplementedException();
 		}
