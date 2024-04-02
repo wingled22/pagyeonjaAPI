@@ -62,7 +62,7 @@ namespace pagyeonjaAPI.Controllers
 		{
 			try
 			{
-    
+
 				var getRider = await _riderService.GetRider(id);
 
 
@@ -73,10 +73,10 @@ namespace pagyeonjaAPI.Controllers
 
 				return Ok(getRider);
 			}
-			  catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex}");
-            }
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Internal server error: {ex}");
+			}
 		}
 
 		// PUT: api/Rider/5
@@ -120,12 +120,12 @@ namespace pagyeonjaAPI.Controllers
 			}
 		}
 
-		[HttpPost]
-		public async Task SaveImages(Guid id, List<IFormFile> images, string doctype, string usertype)
+		[HttpPost("SaveImage")]
+		public async Task SaveImages(Guid id, List<IFormFile> images, string doctype, string usertype, string docview)
 		{
 			try
 			{
-				await _riderService.SaveImage(id, images, doctype, usertype);
+				await _riderService.SaveImage(id, images, doctype, usertype, docview);
 			}
 			catch (Exception ex)
 			{

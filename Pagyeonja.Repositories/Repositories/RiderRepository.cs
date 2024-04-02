@@ -21,7 +21,7 @@ namespace Pagyeonja.Repositories.Repositories
     public async Task<IEnumerable<Rider>> GetRiders()
     {
       return await _context.Riders.OrderByDescending(a => a.DateApplied).ToListAsync();
-      
+
     }
 
     public async Task<IEnumerable<Rider>> GetRidersApproved()
@@ -31,7 +31,7 @@ namespace Pagyeonja.Repositories.Repositories
 
     public async Task<Rider> GetRider(Guid id)
     {
-  
+
       return await _context.Riders.FindAsync(id);
     }
 
@@ -90,6 +90,40 @@ namespace Pagyeonja.Repositories.Repositories
         doctype.ToLower() == "profile" ?
         await _context.Commuters.AnyAsync(c => c.ProfilePath == filename) :
         await _context.Documents.AnyAsync(d => d.DocumentPath == filename);
+    }
+
+    public async Task SaveImagePath(Guid id, string doctype, string usertype, string filename, string docview)
+    {
+      if (usertype.ToLower() == "rider" && doctype.ToLower() == "profile")
+      {
+        var rider = await _context.Riders.FindAsync(id);
+        rider.ProfilePath = filename;
+        _context.Riders.Update(rider);
+      }
+      else if (usertype.ToLower() == "commuter" && doctype.ToLower() == "profile")
+      {
+        var commuter = await _context.Commuters.FindAsync(id);
+        commuter.ProfilePath = filename;
+        _context.Commuters.Update(commuter);
+      }
+      else
+      {
+        var Document = new Document
+        {
+          Id = Guid.NewGuid(),
+          UserId = id,
+          UserType = usertype.ToLower(),
+          DocumentName = doctype,
+          DocumentPath = filename,
+          DocumentView = docview
+        };
+        while (await _context.Documents.AnyAsync(d => d.Id == Document.Id))
+        {
+          Document.Id = Guid.NewGuid();
+        }
+        await _context.Documents.AddAsync(Document);
+      }
+      await _context.SaveChangesAsync();
     }
   }
 
