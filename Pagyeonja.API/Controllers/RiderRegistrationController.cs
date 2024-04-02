@@ -132,25 +132,25 @@ namespace pagyeonjaAPI.Controllers
 			}
 		}
 
-		// DELETE: api/Rider/5
+		
+
 		[HttpDelete("DeleteRider")]
-		public async Task<IActionResult> DeleteRider(int id)
-		{
-			if (_context.Riders == null)
-			{
-				return NotFound();
-			}
-			var Rider = await _context.Riders.FindAsync(id);
-			if (Rider == null)
-			{
-				return NotFound();
-			}
-
-			_context.Riders.Remove(Rider);
-			await _context.SaveChangesAsync();
-
-			return NoContent();
-		}
+        public async Task<IActionResult> DeleteRider (Guid id)
+        {
+            try
+            {
+                var result = await _riderService.DeleteRider(id);
+                if (!result)
+                {
+                    return NotFound();
+                }
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
 
 		// Business logic controllers
 		[HttpPut("RiderApprovalResponse")]

@@ -89,5 +89,10 @@ namespace Pagyeonja.Services.Services
 
             return suspension;
         }
+
+        public async Task<bool> DeleteSuspension(Guid id)
+        {
+            return await _suspensionRepository.DeleteSuspension(id);
+        }
     }
 }
