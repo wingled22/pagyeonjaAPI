@@ -75,7 +75,7 @@ namespace pagyeonjaAPI.Controllers
         }
 
         [HttpPut("RevokeSuspension")]
-        public async Task<IActionResult> UpdateSuspension(Suspension Suspension)
+        public async Task<IActionResult> RevokeSuspension(Suspension Suspension)
         {
             try
             {
