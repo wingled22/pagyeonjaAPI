@@ -122,9 +122,9 @@ namespace pagyeonjaAPI.Controllers
             }
         }
 
-        private bool SuspensionExists(Guid id)
+        private async Task<bool> SuspensionExists(Guid id)
         {
-            return (_context.Suspensions?.Any(e => e.SuspensionId == id)).GetValueOrDefault();
+            return await _suspensionService.SuspensionExists(id);
         }
     }
 }

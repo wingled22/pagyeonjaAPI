@@ -66,9 +66,9 @@ namespace Pagyeonja.Repositories.Repositories
             return true;
         }
 
-        public Task<bool> SuspensionExists(Guid id)
+        public async Task<bool> SuspensionExists(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Suspensions.AnyAsync(e => e.SuspensionId == id);
         }
     }
 }
