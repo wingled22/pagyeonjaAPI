@@ -61,5 +61,33 @@ namespace Pagyeonja.Services.Services
 
             return suspension;
         }
+
+        public async Task<Suspension> RevokeSuspension(Suspension suspension)
+        {
+            suspension.Status = false;
+            await _suspensionRepository.UpdateSuspension(suspension);
+
+            //Update the user based on the usertype and userid and set the suspension status to true
+            if (suspension.UserType == "Commuter")
+            {
+                var User = await _commuterRepository.GetCommuterById(Guid.Parse(suspension.UserId.ToString()));
+                if (User != null)
+                {
+                    User.SuspensionStatus = false;
+                    await _commuterRepository.UpdateCommuter(User);
+                }
+            }
+            else if (suspension.UserType == "Rider")
+            {
+                var User = await _riderRepository.GetRider(Guid.Parse(suspension.UserId.ToString()));
+                if (User != null)
+                {
+                    User.SuspensionStatus = false;
+                    await _riderRepository.UpdateRider(User);
+                }
+            }
+
+            return suspension;
+        }
     }
 }
