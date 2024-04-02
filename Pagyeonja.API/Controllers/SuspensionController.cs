@@ -108,12 +108,15 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var result = await _suspensionService.DeleteSuspension(id);
-                if (!result)
+                var exists = await _suspensionService.SuspensionExists(id);
+                if (exists)
                 {
-                    return NotFound();
+                    var result = await _suspensionService.DeleteSuspension(id);
+                    if (!result)
+                    {
+                        return NotFound();
+                    }
                 }
-
                 return NoContent();
             }
             catch (Exception ex)
@@ -122,9 +125,9 @@ namespace pagyeonjaAPI.Controllers
             }
         }
 
-        private async Task<bool> SuspensionExists(Guid id)
-        {
-            return await _suspensionService.SuspensionExists(id);
-        }
+        // private async Task<bool> SuspensionExists(Guid id)
+        // {
+        //     return await _suspensionService.SuspensionExists(id);
+        // }
     }
 }
