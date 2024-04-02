@@ -34,7 +34,7 @@ namespace Pagyeonja.Repositories.Repositories
             return await (
                 from a in _context.Approvals
                 join r in _context.Riders on a.UserId equals r.RiderId
-                where a.UserType == userType
+                where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
                 orderby r.DateApplied
                 select new { a.Id, a.UserId, r.FirstName, r.MiddleName, r.LastName, a.ApprovalStatus, r.ProfilePath }).ToListAsync();
         }
