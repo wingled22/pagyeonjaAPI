@@ -58,13 +58,20 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                if (id != suspension.SuspensionId)
+                if (await _suspensionService.SuspensionExists(suspension.SuspensionId))
                 {
-                    return BadRequest("ID mismatch");
-                }
+                    if (id != suspension.SuspensionId)
+                    {
+                        return BadRequest("ID mismatch");
+                    }
 
-                var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
-                return Ok(updateSuspension);
+                    var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
+                    return Ok(updateSuspension);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
@@ -77,12 +84,15 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                if(await _suspensionService.SuspensionExists(Suspension.SuspensionId))
+                if (await _suspensionService.SuspensionExists(Suspension.SuspensionId))
                 {
                     var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
                     return Ok(revokeSuspension);
                 }
-                return NoContent();
+                else
+                {   
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
@@ -120,6 +130,7 @@ namespace pagyeonjaAPI.Controllers
                         return NotFound();
                     }
                 }
+                
                 return NoContent();
             }
             catch (Exception ex)
