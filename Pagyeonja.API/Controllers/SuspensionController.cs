@@ -58,13 +58,20 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                if (id != suspension.SuspensionId)
+                if (await _suspensionService.SuspensionExists(suspension.SuspensionId))
                 {
-                    return BadRequest("ID mismatch");
-                }
+                    if (id != suspension.SuspensionId)
+                    {
+                        return BadRequest("ID mismatch");
+                    }
 
-                var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
-                return Ok(updateSuspension);
+                    var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
+                    return Ok(updateSuspension);
+                }
+                else
+                {
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
@@ -77,8 +84,15 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
-                return Ok(revokeSuspension);
+                if (await _suspensionService.SuspensionExists(Suspension.SuspensionId))
+                {
+                    var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
+                    return Ok(revokeSuspension);
+                }
+                else
+                {   
+                    return NotFound();
+                }
             }
             catch (Exception ex)
             {
@@ -108,12 +122,15 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var result = await _suspensionService.DeleteSuspension(id);
-                if (!result)
+                if (await _suspensionService.SuspensionExists(id))
                 {
-                    return NotFound();
+                    var result = await _suspensionService.DeleteSuspension(id);
+                    if (!result)
+                    {
+                        return NotFound();
+                    }
                 }
-
+                
                 return NoContent();
             }
             catch (Exception ex)
@@ -121,10 +138,5 @@ namespace pagyeonjaAPI.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-
-        // private bool SuspensionExists(Guid id)
-        // {
-        //     return (_context.Suspensions?.Any(e => e.SuspensionId == id)).GetValueOrDefault();
-        // }
     }
 }
