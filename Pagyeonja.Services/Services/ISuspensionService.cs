@@ -12,5 +12,6 @@ namespace Pagyeonja.Services.Services
         Task<Suspension> GetSuspension(Guid userid, string usertype);
         Task<Suspension> UpdateSuspension(Suspension Suspension);
         Task<Suspension> InvokeSuspension(Suspension Suspension);
+        Task<Suspension> RevokeSuspension(Suspension suspension);
     }
 }
