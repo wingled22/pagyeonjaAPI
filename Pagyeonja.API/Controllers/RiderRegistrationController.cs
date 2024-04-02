@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pagyeonja.Entities.Entities;
@@ -31,9 +32,9 @@ namespace pagyeonjaAPI.Controllers
 		{
 			try
 			{
-				var getRiders =  await _riderService.GetRiders();
+				var getRiders = await _riderService.GetRiders();
 				return Ok(getRiders);
-				
+
 			}
 			catch (Exception ex)
 			{
@@ -57,20 +58,25 @@ namespace pagyeonjaAPI.Controllers
 
 		// GET: api/Rider/5
 		[HttpGet("GetRider")]
-		public async Task<ActionResult<Rider>> GetRider(int id)
+		public async Task<ActionResult<Rider>> GetRider(Guid id)
 		{
-			if (_context.Riders == null)
+			try
 			{
-				return NotFound();
-			}
-			var Rider = await _context.Riders.FindAsync(id);
+    
+				var getRider = await _riderService.GetRider(id);
 
-			if (Rider == null)
-			{
-				return NotFound();
-			}
 
-			return Rider;
+				if (getRider == null)
+				{
+					return NotFound();
+				}
+
+				return Ok(getRider);
+			}
+			  catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
 		}
 
 		// PUT: api/Rider/5
@@ -82,11 +88,6 @@ namespace pagyeonjaAPI.Controllers
 		{
 			try
 			{
-				// if (id != rider.RiderId)
-				// {
-				//     return BadRequest("ID mismatch");
-				// }
-
 				var updatedRider = await _riderService.UpdateRider(rider);
 				if (updatedRider == null)
 				{
@@ -132,25 +133,25 @@ namespace pagyeonjaAPI.Controllers
 			}
 		}
 
-		
+
 
 		[HttpDelete("DeleteRider")]
-        public async Task<IActionResult> DeleteRider (Guid id)
-        {
-            try
-            {
-                var result = await _riderService.DeleteRider(id);
-                if (!result)
-                {
-                    return NotFound();
-                }
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
+		public async Task<IActionResult> DeleteRider(Guid id)
+		{
+			try
+			{
+				var result = await _riderService.DeleteRider(id);
+				if (!result)
+				{
+					return NotFound();
+				}
+				return NoContent();
+			}
+			catch (Exception ex)
+			{
+				return StatusCode(500, $"Internal server error: {ex.Message}");
+			}
+		}
 
 		// Business logic controllers
 		[HttpPut("RiderApprovalResponse")]

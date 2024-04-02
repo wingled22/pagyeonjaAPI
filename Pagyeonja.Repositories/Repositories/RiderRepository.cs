@@ -31,6 +31,7 @@ namespace Pagyeonja.Repositories.Repositories
 
     public async Task<Rider> GetRider(Guid id)
     {
+  
       return await _context.Riders.FindAsync(id);
     }
 

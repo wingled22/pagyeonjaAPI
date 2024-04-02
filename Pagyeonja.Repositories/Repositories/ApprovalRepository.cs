@@ -39,11 +39,11 @@ namespace Pagyeonja.Repositories.Repositories
                 select new RiderApprovalModel
                 {
                     Id = a.Id,
-                    UserId = a.UserId,
+                    UserId = (Guid)a.UserId,
                     FirstName = r.FirstName,
                     MiddleName = r.MiddleName,
                     LastName = r.LastName,
-                    ApprovalStatus = a.ApprovalStatus,
+                    ApprovalStatus = (bool)a.ApprovalStatus,
                     ProfilePath = r.ProfilePath
                 }).ToListAsync();
         }
