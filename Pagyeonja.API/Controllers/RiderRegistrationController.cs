@@ -31,7 +31,9 @@ namespace pagyeonjaAPI.Controllers
 		{
 			try
 			{
-				return await _context.Riders.OrderByDescending(a => a.DateApplied).ToListAsync();
+				var getRiders =  await _riderService.GetRiders();
+				return Ok(getRiders);
+				
 			}
 			catch (Exception ex)
 			{
