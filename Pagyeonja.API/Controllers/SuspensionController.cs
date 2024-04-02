@@ -54,17 +54,12 @@ namespace pagyeonjaAPI.Controllers
         // PUT: api/Suspension/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("UpdateSuspension")]
-        public async Task<IActionResult> PutSuspension(Guid id, Suspension suspension)
+        public async Task<IActionResult> PutSuspension(Suspension suspension)
         {
             try
             {
                 if (await _suspensionService.SuspensionExists(suspension.SuspensionId))
                 {
-                    if (id != suspension.SuspensionId)
-                    {
-                        return BadRequest("ID mismatch");
-                    }
-
                     var updateSuspension = await _suspensionService.UpdateSuspension(suspension);
                     return Ok(updateSuspension);
                 }
@@ -80,7 +75,7 @@ namespace pagyeonjaAPI.Controllers
         }
 
         [HttpPut("RevokeSuspension")]
-        public async Task<IActionResult> PutSuspension(Suspension Suspension)
+        public async Task<IActionResult> UpdateSuspension(Suspension Suspension)
         {
             try
             {
