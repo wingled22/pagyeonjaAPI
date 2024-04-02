@@ -77,8 +77,12 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
-                return Ok(revokeSuspension);
+                if(await _suspensionService.SuspensionExists(Suspension.SuspensionId))
+                {
+                    var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
+                    return Ok(revokeSuspension);
+                }
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -108,8 +112,7 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                var exists = await _suspensionService.SuspensionExists(id);
-                if (exists)
+                if (await _suspensionService.SuspensionExists(id))
                 {
                     var result = await _suspensionService.DeleteSuspension(id);
                     if (!result)
@@ -124,10 +127,5 @@ namespace pagyeonjaAPI.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
-
-        // private async Task<bool> SuspensionExists(Guid id)
-        // {
-        //     return await _suspensionService.SuspensionExists(id);
-        // }
     }
 }
