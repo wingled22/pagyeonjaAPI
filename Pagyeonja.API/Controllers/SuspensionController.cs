@@ -77,38 +77,14 @@ namespace pagyeonjaAPI.Controllers
         {
             try
             {
-                if(Suspension.UserType == "Commuter")
-                {
-                    var User = _context.Commuters.Where(c => c.CommuterId == Suspension.UserId).FirstOrDefault();
-                    if(User == null)
-                    {
-                        return BadRequest();
-                    }
-
-                    User.SuspensionStatus = false;
-                }
-                else if(Suspension.UserType == "Rider")
-                {
-                    var User = _context.Riders.Where(r => r.RiderId == Suspension.UserId).FirstOrDefault();
-                    if(User == null)
-                    {
-                        return BadRequest();
-                    }
-
-                    User.SuspensionStatus = false;
-                }
-
-                var suspensionData = _context.Suspensions.Where(s => s.SuspensionId == Suspension.SuspensionId).FirstOrDefault();
-                suspensionData.Status = false;
-
-                await _context.SaveChangesAsync();
+                var revokeSuspension = await _suspensionService.RevokeSuspension(Suspension);
+                return Ok(revokeSuspension);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new BadRequestObjectResult("Unhandled Error occured: " + ex);
-            }
+                return StatusCode(500, $"Internal server error: {ex}");
 
-            return NoContent();
+            }
         }
 
         // POST: api/Suspension
