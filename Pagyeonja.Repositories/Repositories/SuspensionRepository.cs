@@ -39,7 +39,7 @@ namespace Pagyeonja.Repositories.Repositories
         public async Task<Suspension> InvokeSuspension(Suspension Suspension)
         {
             Suspension.SuspensionId = Guid.NewGuid();
-            while (await _context.Suspensions.AnyAsync(r => r.SuspensionId == Suspension.SuspensionId))
+            while (await SuspensionExists(Suspension.SuspensionId))
             {
                 Suspension.SuspensionId = Guid.NewGuid();
             }
