@@ -23,6 +23,7 @@ builder.Services.AddScoped<IRiderRepository, RiderRepository>();
 builder.Services.AddScoped<RiderService>();
 builder.Services.AddScoped<ISuspensionService, SuspensionService>();
 builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
+builder.Services.AddScoped<IUpdateSuspensionService, UpdateSuspensionService>();
 
 builder.Services.AddCors(options =>
 {
@@ -43,7 +44,7 @@ builder.Services.AddControllers().AddJsonOptions(
 // Add static files service
 builder.Services.AddDirectoryBrowser();
 
-builder.Services.AddHostedService<UpdateSuspensionService>();
+builder.Services.AddHostedService<UpdateSuspensionServiceController>();
 
 var app = builder.Build();
 

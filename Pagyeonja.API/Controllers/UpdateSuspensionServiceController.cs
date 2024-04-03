@@ -5,13 +5,14 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Services.Services;
 
-public class UpdateSuspensionService : BackgroundService
+public class UpdateSuspensionServiceController : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<UpdateSuspensionService> _logger;
-
-    public UpdateSuspensionService(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionService> logger)
+    private readonly ILogger<UpdateSuspensionServiceController> _logger;
+    // private readonly IUpdateSuspensionService _suspensionService;
+    public UpdateSuspensionServiceController(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionServiceController> logger)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
@@ -52,33 +53,7 @@ public class UpdateSuspensionService : BackgroundService
     {
         try
         {
-            var suspendedData = context.Suspensions.Where(s => s.SuspensionDate < DateTime.Now && s.Status == true).ToList();
-            foreach (var sd in suspendedData)
-            {
-                if (sd.UserType == "Commuter")
-                {
-                    //query for commuter
-                    var filteredCommuter = context.Commuters.Where(c => c.CommuterId == sd.UserId && c.SuspensionStatus == true).FirstOrDefault();
-                    if (filteredCommuter != null)
-                    {
-                        filteredCommuter.SuspensionStatus = false;
-                    }
-                }
-                else if (sd.UserType == "Rider")
-                {
-                    //query for rider
-                    var filteredRider = context.Riders.Where(r => r.RiderId == sd.UserId && r.SuspensionStatus == true).FirstOrDefault();
-                    if (filteredRider != null)
-                    {
-                        filteredRider.SuspensionStatus = false;
-                    }
-                }
-
-                var suspension = context.Suspensions.Where(s => s.SuspensionId == sd.SuspensionId).FirstOrDefault();
-                suspension.Status = false;
-
-                context.SaveChanges();
-            }
+            
         }
         catch (Exception ex)
         {
