@@ -14,5 +14,6 @@ namespace Pagyeonja.Services.Services
         Task<Approval> GetApprovalById(Guid id);
         Task<Approval> UpdateApproval(Approval approval);
         Task<bool> DeleteApproval(Guid id);
+        Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage);
     }
 }

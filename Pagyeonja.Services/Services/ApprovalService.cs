@@ -46,5 +46,10 @@ namespace Pagyeonja.Services.Services
         {
             return _approvalRepository.DeleteApproval(id);
         }
+
+        public async Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage)
+        {
+            await _approvalRepository.UserApprovalResponse(usertype, userId, response, rejectionmessage);
+        }
     }
 }

@@ -85,5 +85,36 @@ namespace Pagyeonja.Repositories.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage)
+        {
+            if (usertype.ToLower() == "rider")
+            {
+                var user = await _context.Riders.FirstOrDefaultAsync(r => r.RiderId == userId);
+                var approval = await _context.Approvals.FirstOrDefaultAsync(a => a.UserId == userId);
+                if (approval != null && user != null)
+                {
+                    user.ApprovalStatus = response;
+                    approval.ApprovalStatus = response;
+                    approval.RejectionMessage = rejectionmessage;
+                    approval.ApprovalDate = new DateTime();
+                    await _context.SaveChangesAsync();
+                }
+            }
+            else
+            {
+                var user = await _context.Commuters.FirstOrDefaultAsync(r => r.CommuterId == userId);
+                var approval = await _context.Approvals.FirstOrDefaultAsync(a => a.UserId == userId);
+                if (approval != null && user != null)
+                {
+                    user.ApprovalStatus = response;
+                    approval.ApprovalStatus = response;
+                    approval.RejectionMessage = rejectionmessage;
+                    approval.ApprovalDate = new DateTime();
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+        }
     }
 }

@@ -41,9 +41,7 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.ApprovalDate)
                 .HasColumnType("date")
                 .HasColumnName("approval_date");
-            entity.Property(e => e.ApprovalStatus)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
             entity.Property(e => e.RejectionMessage)
                 .IsUnicode(false)
                 .HasColumnName("rejection_message");
