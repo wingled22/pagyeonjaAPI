@@ -14,4 +14,6 @@ public partial class Approval
     public DateTime? ApprovalDate { get; set; }
 
     public string? UserType { get; set; }
+
+    public string? RejectionMessage { get; set; }
 }

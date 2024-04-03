@@ -11,12 +11,12 @@ public class UpdateSuspensionServiceController : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<UpdateSuspensionServiceController> _logger;
-    private readonly IUpdateSuspensionService _suspensionService;
-    public UpdateSuspensionServiceController(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionServiceController> logger, IUpdateSuspensionService suspensionService)
+    private readonly IUpdateSuspensionService _updateSuspensionService;
+    public UpdateSuspensionServiceController(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionServiceController> logger, IUpdateSuspensionService updateSuspensionService)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
-        _suspensionService = suspensionService;
+        _updateSuspensionService = updateSuspensionService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -28,7 +28,7 @@ public class UpdateSuspensionServiceController : BackgroundService
                 using (var scope = _scopeFactory.CreateScope())
                 {
                     var context = scope.ServiceProvider.GetRequiredService<HitchContext>();
-                    UpdateSuspensionDue(context);
+                    await _updateSuspensionService.UpdateSuspensionDue(context);
                 }
 
                 _logger.LogInformation("UpdateSuspensionService ran at: {time}", DateTimeOffset.Now);
@@ -49,18 +49,4 @@ public class UpdateSuspensionServiceController : BackgroundService
             }
         }
     }
-
-    private async void UpdateSuspensionDue(HitchContext context)
-    {
-        try
-        {
-            await _suspensionService.UpdateSuspensionDue(context);
-        }
-        catch (Exception ex)
-        {
-            // Log the error details
-            _logger.LogError(ex, "An error occurred while updating DaysDue.");
-        }
-    }
-
 }
