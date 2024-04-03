@@ -86,7 +86,7 @@ namespace Pagyeonja.Repositories.Repositories
             return true;
         }
 
-        public async Task UserApprovalResponse(string usertype, Guid userId, bool response)
+        public async Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage)
         {
             if (usertype.ToLower() == "rider")
             {
@@ -96,6 +96,7 @@ namespace Pagyeonja.Repositories.Repositories
                 {
                     user.ApprovalStatus = response;
                     approval.ApprovalStatus = response;
+                    approval.RejectionMessage = rejectionmessage;
                     approval.ApprovalDate = new DateTime();
                     await _context.SaveChangesAsync();
                 }
@@ -108,6 +109,7 @@ namespace Pagyeonja.Repositories.Repositories
                 {
                     user.ApprovalStatus = response;
                     approval.ApprovalStatus = response;
+                    approval.RejectionMessage = rejectionmessage;
                     approval.ApprovalDate = new DateTime();
                     await _context.SaveChangesAsync();
                 }

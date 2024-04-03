@@ -111,11 +111,11 @@ namespace pagyeonjaAPI.Controllers
 
 		// Business logic controllers
 		[HttpPut("UserApprovalResponse")]
-		public async Task<IActionResult> UserApprovalResponse(string usertype, Guid userid, bool response)
+		public async Task<IActionResult> UserApprovalResponse(string usertype, Guid userid, bool response, string? rejectionmessage)
 		{
 			try
 			{
-				await _approvalService.UserApprovalResponse(usertype, userid, response);
+				await _approvalService.UserApprovalResponse(usertype, userid, response, rejectionmessage);
 				return new JsonResult("User approved.");
 			}
 			catch (Exception ex)
