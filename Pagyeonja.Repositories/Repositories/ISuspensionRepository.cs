@@ -14,5 +14,7 @@ namespace Pagyeonja.Repositories.Repositories
         Task<Suspension> InvokeSuspension(Suspension Suspension);
         Task<bool> DeleteSuspension(Guid id);
         Task<bool> SuspensionExists(Guid id);
+        Task<IEnumerable<Suspension>> GetExpiredSuspension();
+        Task<Suspension> GetSuspensionById(Guid suspensionid);
     }
 }
