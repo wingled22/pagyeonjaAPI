@@ -15,7 +15,7 @@ namespace Pagyeonja.Repositories.Repositories
         Task<Commuter> RegisterCommuter(Commuter commuter);
         Task<bool> DeleteCommuter(Guid id);
         Task<bool> CommuterExists(Guid id);
-         Task<bool> ImageExist(string filename, string usertype, string doctype);
-
+        Task<bool> ImageExist(string filename, string usertype, string doctype);
+        Task<Commuter> GetCommuterSuspended(Guid id);
     }
 }

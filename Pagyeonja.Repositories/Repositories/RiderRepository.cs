@@ -125,6 +125,11 @@ namespace Pagyeonja.Repositories.Repositories
       }
       await _context.SaveChangesAsync();
     }
+
+    public async Task<Rider> GetRiderSuspended(Guid id)
+    {
+      return await _context.Riders.Where(r => r.RiderId == id && r.SuspensionStatus == true).FirstOrDefaultAsync();
+    }
   }
 
 }

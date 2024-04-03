@@ -84,5 +84,10 @@ namespace Pagyeonja.Repositories.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Commuter> GetCommuterSuspended(Guid id)
+        {
+            return await _context.Commuters.Where(c => c.CommuterId == id && c.SuspensionStatus == true).FirstOrDefaultAsync();
+        }
     }
 }
