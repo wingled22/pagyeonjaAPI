@@ -44,7 +44,14 @@ namespace Pagyeonja.Services.Services
                         await _riderRepository.UpdateRider(rider);
                     }
                 }
+
+                var suspension = await _suspensionRepository.GetSuspensionById(sd.SuspensionId);
+                suspension.Status = false;
+
+                await _suspensionRepository.UpdateSuspension(suspension);
             }
+
+            return;
         }
     }
 }
