@@ -26,6 +26,7 @@ public partial class HitchContext : DbContext
     public virtual DbSet<Suspension> Suspensions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("Server=localhost;Database=Hitch;User ID=SA;Password=VeryStr0ngP@ssw0rd;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,6 +42,9 @@ public partial class HitchContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("approval_date");
             entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.RejectionMessage)
+                .IsUnicode(false)
+                .HasColumnName("rejection_message");
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.UserType)
                 .HasMaxLength(50)
@@ -208,9 +212,11 @@ public partial class HitchContext : DbContext
                 .HasColumnType("date")
                 .HasColumnName("invoked_suspension_date");
             entity.Property(e => e.Reason)
-                .HasMaxLength(150)
                 .IsUnicode(false)
                 .HasColumnName("reason");
+            entity.Property(e => e.Status)
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("status");
             entity.Property(e => e.SuspensionDate)
                 .HasColumnType("date")
                 .HasColumnName("suspension_date");
