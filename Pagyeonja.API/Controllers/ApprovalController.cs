@@ -110,22 +110,13 @@ namespace pagyeonjaAPI.Controllers
 		}
 
 		// Business logic controllers
-		[HttpPut("RiderApprovalResponse")]
-		public async Task<IActionResult> RiderApprovalResponse(Guid riderId, bool response)
+		[HttpPut("UserApprovalResponse")]
+		public async Task<IActionResult> UserApprovalResponse(string usertype, Guid userid, bool response)
 		{
 			try
 			{
-				var rider = await _context.Riders.FirstOrDefaultAsync(r => r.RiderId == riderId);
-				var approval = await _context.Approvals.FirstOrDefaultAsync(a => a.UserId == riderId);
-				if (approval != null && rider != null)
-				{
-					rider.ApprovalStatus = response;
-					approval.ApprovalStatus = response;
-					approval.ApprovalDate = new DateTime();
-					await _context.SaveChangesAsync();
-					return new JsonResult("Rider approved");
-				}
-				return new BadRequestObjectResult("Rider not found!");
+				await _approvalService.UserApprovalResponse(usertype, userid, response);
+				return new JsonResult("User approved.");
 			}
 			catch (Exception ex)
 			{
