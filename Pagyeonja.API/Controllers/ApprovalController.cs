@@ -116,7 +116,7 @@ namespace pagyeonjaAPI.Controllers
 			try
 			{
 				await _approvalService.UserApprovalResponse(usertype, userid, response, rejectionmessage);
-				return new JsonResult("User approved.");
+				return new JsonResult("Responded approval request");
 			}
 			catch (Exception ex)
 			{
