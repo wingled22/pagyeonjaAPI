@@ -11,11 +11,12 @@ public class UpdateSuspensionServiceController : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
     private readonly ILogger<UpdateSuspensionServiceController> _logger;
-    // private readonly IUpdateSuspensionService _suspensionService;
-    public UpdateSuspensionServiceController(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionServiceController> logger)
+    private readonly IUpdateSuspensionService _suspensionService;
+    public UpdateSuspensionServiceController(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionServiceController> logger, IUpdateSuspensionService suspensionService)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
+        _suspensionService = suspensionService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -49,11 +50,11 @@ public class UpdateSuspensionServiceController : BackgroundService
         }
     }
 
-    private void UpdateSuspensionDue(HitchContext context)
+    private async void UpdateSuspensionDue(HitchContext context)
     {
         try
         {
-            
+            await _suspensionService.UpdateSuspensionDue(context);
         }
         catch (Exception ex)
         {
