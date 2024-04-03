@@ -58,7 +58,7 @@ public class UpdateSuspensionService : BackgroundService
                 if (sd.UserType == "Commuter")
                 {
                     //query for commuter
-                    var filteredCommuter = context.Commuters.Where(c => c.CommuterId == sd.UserId && sd.UserType == "Commuter" && c.SuspensionStatus == true).FirstOrDefault();
+                    var filteredCommuter = context.Commuters.Where(c => c.CommuterId == sd.UserId && c.SuspensionStatus == true).FirstOrDefault();
                     if (filteredCommuter != null)
                     {
                         filteredCommuter.SuspensionStatus = false;
@@ -67,7 +67,7 @@ public class UpdateSuspensionService : BackgroundService
                 else if (sd.UserType == "Rider")
                 {
                     //query for rider
-                    var filteredRider = context.Riders.Where(r => r.RiderId == sd.UserId && sd.UserType == "Rider" && r.SuspensionStatus == true).FirstOrDefault();
+                    var filteredRider = context.Riders.Where(r => r.RiderId == sd.UserId && r.SuspensionStatus == true).FirstOrDefault();
                     if (filteredRider != null)
                     {
                         filteredRider.SuspensionStatus = false;

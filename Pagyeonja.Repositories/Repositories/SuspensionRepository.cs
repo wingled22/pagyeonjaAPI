@@ -70,5 +70,10 @@ namespace Pagyeonja.Repositories.Repositories
         {
             return await _context.Suspensions.AnyAsync(e => e.SuspensionId == id);
         }
+
+        public async Task<IEnumerable<Suspension>> GetExpiredSuspension()
+        {
+            return await _context.Suspensions.Where(s => s.SuspensionDate < DateTime.Now && s.Status == true).ToListAsync();
+        }
     }
 }
