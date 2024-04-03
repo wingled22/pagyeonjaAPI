@@ -7,16 +7,15 @@ using Microsoft.Extensions.Logging;
 using Pagyeonja.Entities.Entities;
 using Pagyeonja.Services.Services;
 
-public class UpdateSuspensionServiceController : BackgroundService
+public class BackgroundServiceSuspension : BackgroundService
 {
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<UpdateSuspensionServiceController> _logger;
-    private readonly IUpdateSuspensionService _updateSuspensionService;
-    public UpdateSuspensionServiceController(IServiceScopeFactory scopeFactory, ILogger<UpdateSuspensionServiceController> logger, IUpdateSuspensionService updateSuspensionService)
+    private readonly ILogger<BackgroundServiceSuspension> _logger;
+
+    public BackgroundServiceSuspension(IServiceScopeFactory scopeFactory, ILogger<BackgroundServiceSuspension> logger)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
-        _updateSuspensionService = updateSuspensionService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -27,8 +26,9 @@ public class UpdateSuspensionServiceController : BackgroundService
             {
                 using (var scope = _scopeFactory.CreateScope())
                 {
+                    var updateSuspensionService = scope.ServiceProvider.GetRequiredService<IUpdateSuspensionService>();
                     var context = scope.ServiceProvider.GetRequiredService<HitchContext>();
-                    await _updateSuspensionService.UpdateSuspensionDue(context);
+                    await updateSuspensionService.UpdateSuspensionDue(context);
                 }
 
                 _logger.LogInformation("UpdateSuspensionService ran at: {time}", DateTimeOffset.Now);

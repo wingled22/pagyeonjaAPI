@@ -44,7 +44,7 @@ builder.Services.AddControllers().AddJsonOptions(
 // Add static files service
 builder.Services.AddDirectoryBrowser();
 
-builder.Services.AddHostedService<UpdateSuspensionServiceController>();
+builder.Services.AddHostedService<BackgroundServiceSuspension>();
 
 var app = builder.Build();
 
