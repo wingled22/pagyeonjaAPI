@@ -2,8 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Pagyeonja.Entities.Entities;
 using Pagyeonja.Repositories.Repositories;
+using PagyeonjaServices.Services;
+
 
 namespace PagyeonjaServices.Services
 {
@@ -11,9 +14,15 @@ namespace PagyeonjaServices.Services
     {
         private readonly ICommuterRepository _commuterRepository;
 
-        public CommuterService(ICommuterRepository commuterRepository)
+        private readonly IDatabaseTransactionRepository _databaseTransactionRepo;
+		private readonly IApprovalRepository _approvalRepository;
+
+
+        public CommuterService(ICommuterRepository commuterRepository, IDatabaseTransactionRepository databaseTransactionRepository, IApprovalRepository approvalRepository)
         {
             _commuterRepository = commuterRepository;
+            _databaseTransactionRepo = databaseTransactionRepository;
+			_approvalRepository = approvalRepository;
         }
 
         public Task<IEnumerable<Commuter>> GetAllCommuters()
@@ -36,9 +45,36 @@ namespace PagyeonjaServices.Services
             return _commuterRepository.UpdateCommuter(commuter);
         }
 
-        public Task<Commuter> RegisterCommuter(Commuter commuter)
+        public async Task<Commuter> RegisterCommuter(Commuter commuter)
         {
-            return _commuterRepository.RegisterCommuter(commuter);
+            using var transaction = await _databaseTransactionRepo.StartTransaction();
+			try
+			{
+
+				await _commuterRepository.RegisterCommuter(commuter);
+
+				// Create rider approval
+				var approval = new Approval()
+				{
+					UserId = commuter.CommuterId,
+					UserType = "Commuter",
+					ApprovalDate = null,
+				};
+
+				await _approvalRepository.AddApproval(approval);
+
+
+				//commit changes if done
+				await _databaseTransactionRepo.SaveTransaction(transaction);
+
+				return commuter;
+			}
+			catch (Exception ex)
+			{
+				await _databaseTransactionRepo.RevertTransaction(transaction);
+				throw;
+			}
+            // return _commuterRepository.RegisterCommuter(commuter);
         }
 
         public Task<bool> DeleteCommuter(Guid id)

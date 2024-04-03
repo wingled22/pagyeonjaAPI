@@ -98,6 +98,7 @@ namespace pagyeonjaAPI.Controllers
             try
             {
                 var registeredCommuter = await _commuterService.RegisterCommuter(commuter);
+                Console.WriteLine("Registered Commuter: ", registeredCommuter);
                 return CreatedAtAction("RegisterCommuter", new { id = registeredCommuter.CommuterId }, registeredCommuter);
             }
             catch (Exception ex)

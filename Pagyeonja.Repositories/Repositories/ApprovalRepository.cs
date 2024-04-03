@@ -29,22 +29,37 @@ namespace Pagyeonja.Repositories.Repositories
             return approval;
         }
 
-        public async Task<IEnumerable<RiderApprovalModel>> GetApprovals(string userType)
+        public async Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType)
         {
-            return await (
+            return userType.ToLower() == "rider" ? await (
                 from a in _context.Approvals
                 join r in _context.Riders on a.UserId equals r.RiderId
                 where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
                 orderby r.DateApplied
-                select new RiderApprovalModel
+                select new RiderCommuterApprovalModel
                 {
                     Id = a.Id,
-                    UserId = (Guid)a.UserId,
-                    FirstName = r.FirstName,
-                    MiddleName = r.MiddleName,
-                    LastName = r.LastName,
-                    ApprovalStatus = (bool)a.ApprovalStatus,
-                    ProfilePath = r.ProfilePath
+                    UserId = a.UserId,
+                    FirstName = r.FirstName ?? "",
+                    MiddleName = r.MiddleName ?? "",
+                    LastName = r.LastName ?? "",
+                    ApprovalStatus = a.ApprovalStatus,
+                    ProfilePath = r.ProfilePath ?? ""
+                }).ToListAsync() :
+                await (
+                from a in _context.Approvals
+                join r in _context.Commuters on a.UserId equals r.CommuterId
+                where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
+                orderby r.DateApplied
+                select new RiderCommuterApprovalModel
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    FirstName = r.FirstName ?? "",
+                    MiddleName = r.MiddleName ?? "",
+                    LastName = r.LastName ?? "",
+                    ApprovalStatus = a.ApprovalStatus,
+                    ProfilePath = r.ProfilePath ?? ""
                 }).ToListAsync();
         }
 

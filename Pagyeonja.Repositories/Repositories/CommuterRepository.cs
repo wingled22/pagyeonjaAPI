@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.SqlServer.Server;
 using Pagyeonja.Entities.Entities;
 
 namespace Pagyeonja.Repositories.Repositories
@@ -40,10 +41,27 @@ namespace Pagyeonja.Repositories.Repositories
 
         public async Task<Commuter> RegisterCommuter(Commuter commuter)
         {
-            commuter.CommuterId = Guid.NewGuid();
-            _context.Commuters.Add(commuter);
-            await _context.SaveChangesAsync();
-            return commuter;
+            // commuter.CommuterId = Guid.NewGuid();
+            // _context.Commuters.Add(commuter);
+            // await _context.SaveChangesAsync();
+            // return commuter;
+
+            try
+            {
+                do
+                {
+                commuter.CommuterId = Guid.NewGuid();
+                } while (await CommuterExists(commuter.CommuterId));
+                commuter.DateApplied = new DateTime();
+
+                await _context.Commuters.AddAsync(commuter);
+                await _context.SaveChangesAsync();
+                return commuter;
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> DeleteCommuter(Guid id)
@@ -60,6 +78,11 @@ namespace Pagyeonja.Repositories.Repositories
         public async Task<bool> CommuterExists(Guid id)
         {
             return await _context.Commuters.AnyAsync(e => e.CommuterId == id);
+        }
+
+        public Task<bool> ImageExist(string filename, string usertype, string doctype)
+        {
+            throw new NotImplementedException();
         }
     }
 }
