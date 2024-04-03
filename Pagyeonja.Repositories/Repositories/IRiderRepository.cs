@@ -17,6 +17,6 @@ namespace Pagyeonja.Repositories.Repositories
         Task<bool> RiderExists(Guid id);
         Task<bool> ImageExist(string filename, string usertype, string doctype);
         Task SaveImagePath(Guid id, string doctype, string usertype, string filename, string docview);
-
+        Task<Rider> GetRiderSuspended(Guid id);
     }
 }

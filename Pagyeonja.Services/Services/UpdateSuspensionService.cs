@@ -37,7 +37,12 @@ namespace Pagyeonja.Services.Services
                 }
                 else if(sd.UserType.ToLower() == "rider")
                 {
-
+                    var rider = await _riderRepository.GetRiderSuspended(Guid.Parse(sd.UserId.ToString()));
+                    if(rider != null)
+                    {
+                        rider.SuspensionStatus = false;
+                        await _riderRepository.UpdateRider(rider);
+                    }
                 }
             }
         }
