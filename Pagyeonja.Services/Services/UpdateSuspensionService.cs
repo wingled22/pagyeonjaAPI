@@ -26,7 +26,19 @@ namespace Pagyeonja.Services.Services
             var suspendedData = await _suspensionRepository.GetExpiredSuspension();
             foreach(var sd in suspendedData)
             {
-                
+                if(sd.UserType.ToLower() == "commuter")
+                {
+                    var commuter = await _commuterRepository.GetCommuterSuspended(Guid.Parse(sd.UserId.ToString()));
+                    if(commuter != null)
+                    {
+                        commuter.SuspensionStatus = false;
+                        await _commuterRepository.UpdateCommuter(commuter);
+                    }
+                }
+                else if(sd.UserType.ToLower() == "rider")
+                {
+
+                }
             }
         }
     }
