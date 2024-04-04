@@ -31,5 +31,20 @@ namespace Pagyeonja.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        // GET: api/RideHistories
+        [HttpGet("GetRideHistories")]
+        public async Task<ActionResult<IEnumerable<RideHistory>>> GetRideHistories()
+        {
+            try
+            {
+                var rideHistories = await _rideHistoryService.GetRideHistories();
+                return Ok(rideHistories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }
