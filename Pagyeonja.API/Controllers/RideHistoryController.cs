@@ -12,6 +12,24 @@ namespace Pagyeonja.API.Controllers
     [ApiController]
     public class RideHistoryController : ControllerBase
     {
-        
+        private readonly IRideHistoryService _rideHistoryService;
+        public RideHistoryController(IRideHistoryService rideHistoryService)
+        {
+            _rideHistoryService = rideHistoryService;
+        }
+
+        [HttpPost("AddRideHistory")]
+        private async Task<ActionResult<RideHistory>> AddRideHistory(RideHistory rideHistory)
+        {
+            try
+            {
+                var createRideHistory = await _rideHistoryService.AddRideHistory(rideHistory);
+                return CreatedAtAction("AddRideHistory", new { id = createRideHistory.RideHistoryId }, createRideHistory);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }
