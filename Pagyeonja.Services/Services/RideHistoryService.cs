@@ -40,5 +40,10 @@ namespace Pagyeonja.Services.Services
         {
             return await _rideHistoryRepository.RideHistoryExists(id);
         }
+
+        public async Task<RideHistory> UpdateRideHistory(RideHistory rideHistory)
+        {
+            return await _rideHistoryRepository.UpdateRideHistory(rideHistory);
+        }
     }
 }

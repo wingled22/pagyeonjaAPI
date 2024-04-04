@@ -103,5 +103,12 @@ namespace Pagyeonja.Repositories.Repositories
         {
             return await _context.RideHistories.AnyAsync(rh => rh.RideHistoryId == id);
         }
+
+        public async Task<RideHistory> UpdateRideHistory(RideHistory rideHistory)
+        {
+            _context.Entry(rideHistory).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return rideHistory;
+        }
     }
 }

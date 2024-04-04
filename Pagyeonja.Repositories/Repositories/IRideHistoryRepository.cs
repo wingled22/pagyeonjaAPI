@@ -14,5 +14,7 @@ namespace Pagyeonja.Repositories.Repositories
         Task<IEnumerable<RideHistory>> GetRideHistories();
         Task<RideHistory> GetRideHistory(Guid id);
         Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype);
+        Task<RideHistory> UpdateRideHistory(RideHistory rideHistory);
+
     }
 }

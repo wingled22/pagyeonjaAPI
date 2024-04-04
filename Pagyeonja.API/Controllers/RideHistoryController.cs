@@ -76,5 +76,26 @@ namespace Pagyeonja.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        [HttpPut("UpdateRideHistory")]
+        public async Task<IActionResult> UpdateRideHistory(RideHistory rideHistory)
+        {
+            try
+            {
+                if (await _rideHistoryService.RideHistoryExists(rideHistory.RideHistoryId))
+                {
+                    var updateRideHistory = await _rideHistoryService.UpdateRideHistory(rideHistory);
+                    return Ok(updateRideHistory);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }
