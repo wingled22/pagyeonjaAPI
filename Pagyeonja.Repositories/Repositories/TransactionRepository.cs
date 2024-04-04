@@ -52,9 +52,17 @@ namespace Pagyeonja.Repositories.Repositories
             return await _context.Transactions.OrderByDescending(t => t.TransactionId).ToListAsync();
         }
 
+        public async Task<Transaction> UpdateTransaction(Transaction transaction)
+        {
+            _context.Entry(transaction).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+            return transaction;
+        }
+
         public async Task<bool> TransactionExists(Guid id)
         {
             return await _context.Transactions.AnyAsync(t => t.TransactionId == id);
         }
+
     }
 }

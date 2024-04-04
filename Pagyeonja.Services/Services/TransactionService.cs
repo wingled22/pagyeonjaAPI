@@ -57,5 +57,10 @@ namespace Pagyeonja.Services.Services
         {
             return await _transactionRepository.DeleteTransaction(id);
         }
+
+        public async Task<Transaction> UpdateTransaction(Transaction transaction)
+        {
+            return await _transactionRepository.UpdateTransaction(transaction);
+        }
     }
 }
