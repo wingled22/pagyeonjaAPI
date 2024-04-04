@@ -19,10 +19,16 @@ namespace Pagyeonja.Services.Services
 
         public async Task<Review> AddReview(Review review)
         {
-            return await _reviewRepository.AddReview(review);
+            await _reviewRepository.AddReview(review);
 
-            var rideHistory = await _rideHistoryRepository.GetRideHistory(review.TransactionId);
+            var rideHistory = await _rideHistoryRepository.GetRideHistoryByTransaction(Guid.Parse(review.TransactionId.ToString()));
+            if(rideHistory != null)
+            {
+                rideHistory.ReviewId = review.ReviewId;
+                await _rideHistoryRepository.UpdateRideHistory(rideHistory);
+            }
 
+            return review;
         }
 
         public async Task<IEnumerable<Review>> GetReviews()
