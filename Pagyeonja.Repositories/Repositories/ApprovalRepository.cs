@@ -98,7 +98,6 @@ namespace Pagyeonja.Repositories.Repositories
                     approval.ApprovalStatus = response;
                     approval.RejectionMessage = rejectionmessage;
                     approval.ApprovalDate = new DateTime();
-                    await _context.SaveChangesAsync();
                 }
             }
             else
@@ -111,10 +110,9 @@ namespace Pagyeonja.Repositories.Repositories
                     approval.ApprovalStatus = response;
                     approval.RejectionMessage = rejectionmessage;
                     approval.ApprovalDate = new DateTime();
-                    await _context.SaveChangesAsync();
                 }
             }
-
+            await _context.SaveChangesAsync();
         }
     }
 }
