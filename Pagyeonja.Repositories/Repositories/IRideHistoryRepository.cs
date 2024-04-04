@@ -12,7 +12,7 @@ namespace Pagyeonja.Repositories.Repositories
         Task<RideHistory> AddRideHistory(RideHistory rideHistory);
         Task<bool> RideHistoryExists(Guid id);
         Task<IEnumerable<RideHistory>> GetRideHistories();
-        Task<RideHistory> GetRideHistory(Guid id);
+        Task<RideHistory> GetRideHistoryByTransaction(Guid id);
         Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype);
         Task<RideHistory> UpdateRideHistory(RideHistory rideHistory);
 

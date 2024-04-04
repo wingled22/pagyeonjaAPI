@@ -63,12 +63,12 @@ namespace Pagyeonja.API.Controllers
         }
 
          // GET: api/RideHistory/5
-        [HttpGet("GetRideHistory")]
-        public async Task<ActionResult<RideHistory>> GetRideHistory(Guid id)
+        [HttpGet("GetRideHistoryByTransaction")]
+        public async Task<ActionResult<RideHistory>> GetRideHistoryByTransaction(Guid id)
         {
             try
             {
-                var rideHistory = await _rideHistoryService.GetRideHistory(id);
+                var rideHistory = await _rideHistoryService.GetRideHistoryByTransaction(id);
                 return Ok(rideHistory);
             }
             catch (Exception ex)

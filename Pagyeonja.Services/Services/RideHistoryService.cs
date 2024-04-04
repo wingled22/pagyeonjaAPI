@@ -26,9 +26,9 @@ namespace Pagyeonja.Services.Services
             return await _rideHistoryRepository.GetRideHistories();
         }
 
-        public async Task<RideHistory> GetRideHistory(Guid id)
+        public async Task<RideHistory> GetRideHistoryByTransaction(Guid id)
         {
-            return await _rideHistoryRepository.GetRideHistory(id);
+            return await _rideHistoryRepository.GetRideHistoryByTransaction(id);
         }
 
         public async Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype)

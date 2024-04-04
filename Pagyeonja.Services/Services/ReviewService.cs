@@ -21,8 +21,8 @@ namespace Pagyeonja.Services.Services
         {
             return await _reviewRepository.AddReview(review);
 
+            var rideHistory = await _rideHistoryRepository.GetRideHistory(review.TransactionId);
 
-            // var rideHistory = _rideHistoryRepository.get
         }
 
         public async Task<IEnumerable<Review>> GetReviews()
