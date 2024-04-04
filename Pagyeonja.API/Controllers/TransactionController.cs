@@ -19,7 +19,7 @@ namespace Pagyeonja.API.Controllers
             _transactionService = transactionService;
         }
 
-        // GET: api/Suspension
+        // GET: api/Transaction
         [HttpGet("GetTransactions")]
         public async Task<ActionResult<IEnumerable<Transaction>>> GetTransactions()
         {
@@ -27,6 +27,20 @@ namespace Pagyeonja.API.Controllers
             {
                 var transactions = await _transactionService.GetTransactions();
                 return Ok(transactions);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+        // GET: api/Transaction/5
+        [HttpGet("GetTransaction")]
+        public async Task<ActionResult<Transaction>> GetTransaction(Guid id)
+        {
+            try
+            {
+                var transaction = await _transactionService.GetTransaction(id);
+                return Ok(transaction);
             }
             catch (Exception ex)
             {

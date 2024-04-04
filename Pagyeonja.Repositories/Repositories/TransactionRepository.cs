@@ -29,6 +29,11 @@ namespace Pagyeonja.Repositories.Repositories
             return transaction;
         }
 
+        public async Task<Transaction> GetTransaction(Guid id)
+        {
+            return await _context.Transactions.Where(t => t.TransactionId == id).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<Transaction>> GetTransactions()
         {
             return await _context.Transactions.OrderByDescending(t => t.TransactionId).ToListAsync();

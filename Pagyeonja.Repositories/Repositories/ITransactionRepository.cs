@@ -9,6 +9,7 @@ namespace Pagyeonja.Repositories.Repositories
     public interface ITransactionRepository
     {
         Task<IEnumerable<Transaction>> GetTransactions();
+        Task<Transaction> GetTransaction(Guid id);
         Task<Transaction> AddTransaction(Transaction transaction);
         Task<bool> TransactionExists(Guid id);
     }
