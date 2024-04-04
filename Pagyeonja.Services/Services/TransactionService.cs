@@ -34,5 +34,10 @@ namespace Pagyeonja.Services.Services
         {
             return await _transactionRepository.GetTransaction(id);
         }
+
+        public async Task<bool> DeleteTransaction(Guid id)
+        {
+            return await _transactionRepository.DeleteTransaction(id);
+        }
     }
 }

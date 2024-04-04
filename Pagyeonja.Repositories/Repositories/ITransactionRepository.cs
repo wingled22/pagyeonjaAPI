@@ -12,5 +12,6 @@ namespace Pagyeonja.Repositories.Repositories
         Task<Transaction> GetTransaction(Guid id);
         Task<Transaction> AddTransaction(Transaction transaction);
         Task<bool> TransactionExists(Guid id);
+        Task<bool> DeleteTransaction(Guid id);
     }
 }

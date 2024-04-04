@@ -61,5 +61,28 @@ namespace Pagyeonja.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        // DELETE: api/Suspension/5
+        [HttpDelete("DeleteSuspension")]
+        public async Task<IActionResult> DeleteSuspension(Guid id)
+        {
+            try
+            {
+                if (await _transactionService.TransactionExists(id))
+                {
+                    var result = await _transactionService.DeleteTransaction(id);
+                    if (!result)
+                    {
+                        return NotFound();
+                    }
+                }
+                
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }

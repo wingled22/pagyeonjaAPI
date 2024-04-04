@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Pagyeonja.Entities.Entities;
+using System.Runtime.CompilerServices;
 
 namespace Pagyeonja.Repositories.Repositories
 {
@@ -27,6 +28,18 @@ namespace Pagyeonja.Repositories.Repositories
             await _context.Transactions.AddAsync(transaction);
             await _context.SaveChangesAsync();
             return transaction;
+        }
+
+        public async Task<bool> DeleteTransaction(Guid id)
+        {
+            var transaction = await _context.Transactions.FindAsync(id);
+            if(transaction == null)
+                return false;
+            
+            _context.Transactions.Remove(transaction);
+            await _context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<Transaction> GetTransaction(Guid id)
