@@ -85,9 +85,9 @@ namespace Pagyeonja.API.Controllers
             }
         }
 
-        // DELETE: api/Suspension/5
-        [HttpDelete("DeleteSuspension")]
-        public async Task<IActionResult> DeleteSuspension(Guid id)
+        // DELETE: api/Transaction/5
+        [HttpDelete("DeleteTransaction")]
+        public async Task<IActionResult> DeleteTransaction(Guid id)
         {
             try
             {
