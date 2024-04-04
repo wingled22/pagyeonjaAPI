@@ -33,8 +33,8 @@ namespace Pagyeonja.Services.Services
             RideHistory rideHistory = new RideHistory
             {
                 TransactionId = transaction.TransactionId,
-                RiderId = transaction.TransactionId,
-                CommuterId = transaction.TransactionId
+                RiderId = transaction.RiderId,
+                CommuterId = transaction.CommuterId
             };
 
             //call the ridehistory to be added

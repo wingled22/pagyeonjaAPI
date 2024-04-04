@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pagyeonja.Entities.Entities;
 using Pagyeonja.Services.Services;
+using Pagyeonja.Repositories.Repositories.Models;
 
 namespace Pagyeonja.API.Controllers
 {
@@ -49,7 +50,7 @@ namespace Pagyeonja.API.Controllers
 
         // GET: api/RideHistory
         [HttpGet("GetUserRideHistory")]
-        public async Task<ActionResult<IEnumerable<RideHistory>>> GetUserRideHistory(Guid id, string usertype)
+        public async Task<ActionResult<IEnumerable<RideHistoryModel>>> GetUserRideHistory(Guid id, string usertype)
         {
             try
             {
