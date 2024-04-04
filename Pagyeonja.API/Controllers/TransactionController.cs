@@ -62,6 +62,29 @@ namespace Pagyeonja.API.Controllers
             }
         }
 
+        // PUT: api/Transaction/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("UpdateTransaction")]
+        public async Task<IActionResult> UpdateTransaction(Transaction transaction)
+        {
+            try
+            {
+                if (await _transactionService.TransactionExists(transaction.TransactionId))
+                {
+                    var updateTransaction = await _transactionService.UpdateTransaction(transaction);
+                    return Ok(updateTransaction);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
         // DELETE: api/Suspension/5
         [HttpDelete("DeleteSuspension")]
         public async Task<IActionResult> DeleteSuspension(Guid id)
@@ -76,7 +99,7 @@ namespace Pagyeonja.API.Controllers
                         return NotFound();
                     }
                 }
-                
+
                 return NoContent();
             }
             catch (Exception ex)
