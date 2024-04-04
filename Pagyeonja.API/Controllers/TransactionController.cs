@@ -39,9 +39,8 @@ namespace Pagyeonja.API.Controllers
         {
             try
             {
-                // var invokeSuspension = await _suspensionService.InvokeSuspension(Suspension);
-                // return CreatedAtAction("PostSuspension", new { id = invokeSuspension.SuspensionId }, invokeSuspension);
-                return Ok();
+                var addTransaction = await _transactionService.AddTransaction(transaction);
+                return CreatedAtAction("AddTransaction", new { id = addTransaction.TransactionId }, addTransaction);
             }
             catch (Exception ex)
             {
