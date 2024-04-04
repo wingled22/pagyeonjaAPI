@@ -10,5 +10,6 @@ namespace Pagyeonja.Services.Services
     {
         Task<bool> ReviewExists(Guid id);
         Task<Review> AddReview(Review review);
+        Task<IEnumerable<Review>> GetReviews();
     }
 }

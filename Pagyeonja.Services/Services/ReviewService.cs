@@ -20,6 +20,11 @@ namespace Pagyeonja.Services.Services
             return await _reviewRepository.AddReview(review);
         }
 
+        public async Task<IEnumerable<Review>> GetReviews()
+        {
+            return await _reviewRepository.GetReviews();
+        }
+
         public async Task<bool> ReviewExists(Guid id)
         {
             return await _reviewRepository.ReviewExists(id);

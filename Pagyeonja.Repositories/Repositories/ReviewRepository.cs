@@ -27,6 +27,11 @@ namespace Pagyeonja.Repositories.Repositories
             return review;
         }
 
+        public async Task<IEnumerable<Review>> GetReviews()
+        {
+            return await _context.Reviews.OrderByDescending(re => re.ReviewId).ToListAsync();
+        }
+
         public async Task<bool> ReviewExists(Guid id)
         {
             return await _context.Reviews.AnyAsync(re => re.ReviewId == id);
