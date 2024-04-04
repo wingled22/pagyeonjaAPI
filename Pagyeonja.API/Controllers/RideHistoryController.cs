@@ -48,6 +48,11 @@ namespace Pagyeonja.API.Controllers
             }
         }
 
+        //This is to get the Ride History of the User selected
+        //MUST DO BEFORE : 
+        // 1 . Populate the transaction (ride history will be created automatically)
+        // 2 . Populate the review with the transaction id created (this will update the ride history review id automatically)
+
         // GET: api/RideHistory
         [HttpGet("GetUserRideHistory")]
         public async Task<ActionResult<IEnumerable<RideHistoryModel>>> GetUserRideHistory(Guid id, string usertype)
