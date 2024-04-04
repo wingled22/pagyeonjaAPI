@@ -17,9 +17,26 @@ namespace Pagyeonja.Repositories.Repositories
             _context = context;
         }
 
+        public async Task<Transaction> AddTransaction(Transaction transaction)
+        {
+            do
+            {
+                transaction.TransactionId = Guid.NewGuid();
+            } while (await TransactionExists(transaction.TransactionId));
+
+            await _context.Transactions.AddAsync(transaction);
+            await _context.SaveChangesAsync();
+            return transaction;
+        }
+
         public async Task<IEnumerable<Transaction>> GetTransactions()
         {
-            return await _context.Transactions.OrderByDescending(a => a.TransactionId).ToListAsync();
+            return await _context.Transactions.OrderByDescending(t => t.TransactionId).ToListAsync();
+        }
+
+        public async Task<bool> TransactionExists(Guid id)
+        {
+            return await _context.Transactions.AnyAsync(t => t.TransactionId == id);
         }
     }
 }

@@ -19,5 +19,15 @@ namespace Pagyeonja.Services.Services
         {
             return await _transactionRepository.GetTransactions();
         }
+
+        public async Task<Transaction> AddTransaction(Transaction transaction)
+        {
+            return await _transactionRepository.AddTransaction(transaction);
+        }
+
+        public async Task<bool> TransactionExists(Guid id)
+        {
+            return await _transactionRepository.TransactionExists(id);
+        }
     }
 }

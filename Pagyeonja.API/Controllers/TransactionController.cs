@@ -33,5 +33,20 @@ namespace Pagyeonja.API.Controllers
                 return StatusCode(500, $"Internal server error: {ex}");
             }
         }
+
+        [HttpPost("AddTransaction")]
+        public async Task<ActionResult<Transaction>> AddTransaction(Transaction transaction)
+        {
+            try
+            {
+                // var invokeSuspension = await _suspensionService.InvokeSuspension(Suspension);
+                // return CreatedAtAction("PostSuspension", new { id = invokeSuspension.SuspensionId }, invokeSuspension);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
     }
 }
