@@ -24,6 +24,10 @@ builder.Services.AddScoped<RiderService>();
 builder.Services.AddScoped<ISuspensionService, SuspensionService>();
 builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
 builder.Services.AddScoped<IUpdateSuspensionService, UpdateSuspensionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IRideHistoryService, RideHistoryService>();
+builder.Services.AddScoped<IRideHistoryRepository, RideHistoryRepository>();
 
 builder.Services.AddCors(options =>
 {

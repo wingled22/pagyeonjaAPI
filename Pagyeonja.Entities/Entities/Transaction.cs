@@ -16,4 +16,8 @@ public partial class Transaction
     public string? StartingPoint { get; set; }
 
     public string? EndDestination { get; set; }
+
+    public Guid? RiderId { get; set; }
+
+    public Guid? CommuterId { get; set; }
 }
