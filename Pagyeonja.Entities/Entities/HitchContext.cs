@@ -21,9 +21,15 @@ public partial class HitchContext : DbContext
 
     public virtual DbSet<Document> Documents { get; set; }
 
+    public virtual DbSet<Review> Reviews { get; set; }
+
+    public virtual DbSet<RideHistory> RideHistories { get; set; }
+
     public virtual DbSet<Rider> Riders { get; set; }
 
     public virtual DbSet<Suspension> Suspensions { get; set; }
+
+    public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -141,6 +147,37 @@ public partial class HitchContext : DbContext
                 .HasColumnName("user_type");
         });
 
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.ToTable("Review");
+
+            entity.Property(e => e.ReviewId)
+                .ValueGeneratedNever()
+                .HasColumnName("review_id");
+            entity.Property(e => e.Comment)
+                .IsUnicode(false)
+                .HasColumnName("comment");
+            entity.Property(e => e.CommuterId).HasColumnName("commuter_id");
+            entity.Property(e => e.Rate)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("rate");
+            entity.Property(e => e.RiderId).HasColumnName("rider_id");
+            entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
+        });
+
+        modelBuilder.Entity<RideHistory>(entity =>
+        {
+            entity.ToTable("RideHistory");
+
+            entity.Property(e => e.RideHistoryId)
+                .ValueGeneratedNever()
+                .HasColumnName("ride_history_id");
+            entity.Property(e => e.CommuterId).HasColumnName("commuter_id");
+            entity.Property(e => e.ReviewId).HasColumnName("review_id");
+            entity.Property(e => e.RiderId).HasColumnName("rider_id");
+            entity.Property(e => e.TransactionId).HasColumnName("transaction_id");
+        });
+
         modelBuilder.Entity<Rider>(entity =>
         {
             entity.ToTable("Rider");
@@ -230,6 +267,30 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("user_type");
+        });
+
+        modelBuilder.Entity<Transaction>(entity =>
+        {
+            entity.ToTable("Transaction");
+
+            entity.Property(e => e.TransactionId)
+                .ValueGeneratedNever()
+                .HasColumnName("transaction_id");
+            entity.Property(e => e.EndDestination)
+                .IsUnicode(false)
+                .HasColumnName("end_destination");
+            entity.Property(e => e.EndTime)
+                .HasColumnType("datetime")
+                .HasColumnName("end_time");
+            entity.Property(e => e.Fare)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("fare");
+            entity.Property(e => e.StartingPoint)
+                .IsUnicode(false)
+                .HasColumnName("starting_point");
+            entity.Property(e => e.StartingTime)
+                .HasColumnType("datetime")
+                .HasColumnName("starting_time");
         });
 
         OnModelCreatingPartial(modelBuilder);
