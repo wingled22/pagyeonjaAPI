@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Repositories.Repositories.Models;
 
 namespace Pagyeonja.Repositories.Repositories
 {
@@ -11,5 +12,6 @@ namespace Pagyeonja.Repositories.Repositories
         Task<RideHistory> AddRideHistory(RideHistory rideHistory);
         Task<bool> RideHistoryExists(Guid id);
         Task<IEnumerable<RideHistory>> GetRideHistories();
+        Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype);
     }
 }
