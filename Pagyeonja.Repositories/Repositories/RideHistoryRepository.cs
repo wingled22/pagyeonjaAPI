@@ -35,6 +35,11 @@ namespace Pagyeonja.Repositories.Repositories
             return await _context.RideHistories.OrderByDescending(rh => rh.RideHistoryId).ToListAsync();
         }
 
+        public async Task<RideHistory> GetRideHistory(Guid id)
+        {
+            return await _context.RideHistories.Where(rh => rh.RideHistoryId == id).FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype)
         {
             return usertype.ToLower() == "commuter" ? await

@@ -10,14 +10,19 @@ namespace Pagyeonja.Services.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
-        public ReviewService(IReviewRepository reviewRepository)
+        private readonly IRideHistoryRepository _rideHistoryRepository;
+        public ReviewService(IReviewRepository reviewRepository, IRideHistoryRepository rideHistoryRepository)
         {
             _reviewRepository = reviewRepository;
+            _rideHistoryRepository = rideHistoryRepository;
         }
 
         public async Task<Review> AddReview(Review review)
         {
             return await _reviewRepository.AddReview(review);
+
+
+            // var rideHistory = _rideHistoryRepository.get
         }
 
         public async Task<IEnumerable<Review>> GetReviews()

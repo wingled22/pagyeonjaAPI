@@ -14,5 +14,6 @@ namespace Pagyeonja.Services.Services
         Task<bool> RideHistoryExists(Guid id);
         Task<IEnumerable<RideHistory>> GetRideHistories();
         Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype);
+        Task<RideHistory> GetRideHistory(Guid id);
     }
 }

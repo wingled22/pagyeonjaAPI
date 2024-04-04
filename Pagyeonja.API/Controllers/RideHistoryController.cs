@@ -32,7 +32,7 @@ namespace Pagyeonja.API.Controllers
             }
         }
 
-        // GET: api/RideHistories
+        // GET: api/RideHistory
         [HttpGet("GetRideHistories")]
         public async Task<ActionResult<IEnumerable<RideHistory>>> GetRideHistories()
         {
@@ -40,6 +40,36 @@ namespace Pagyeonja.API.Controllers
             {
                 var rideHistories = await _rideHistoryService.GetRideHistories();
                 return Ok(rideHistories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+        // GET: api/RideHistory
+        [HttpGet("GetUserRideHistory")]
+        public async Task<ActionResult<IEnumerable<RideHistory>>> GetUserRideHistory(Guid id, string usertype)
+        {
+            try
+            {
+                var userRideHistories = await _rideHistoryService.GetUserRideHistory(id, usertype);
+                return Ok(userRideHistories);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
+         // GET: api/RideHistory/5
+        [HttpGet("GetRideHistory")]
+        public async Task<ActionResult<RideHistory>> GetRideHistory(Guid id)
+        {
+            try
+            {
+                var rideHistory = await _rideHistoryService.GetRideHistory(id);
+                return Ok(rideHistory);
             }
             catch (Exception ex)
             {
