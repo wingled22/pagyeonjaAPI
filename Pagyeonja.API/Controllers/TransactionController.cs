@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Services.Services;
 
 namespace Pagyeonja.API.Controllers
 {
@@ -12,9 +13,10 @@ namespace Pagyeonja.API.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly HitchContext _context;
-        public TransactionController(HitchContext context)
+        private readonly ITransactionService _transactionService;
+        public TransactionController(ITransactionService transactionService)
         {
-            _context = context;
+            _transactionService = transactionService;
         }
 
         // GET: api/Suspension
@@ -23,9 +25,8 @@ namespace Pagyeonja.API.Controllers
         {
             try
             {
-                // var suspensions = await _suspensionService.GetSuspensions();
-                // return Ok(suspensions);
-                return Ok();
+                var transactions = await _transactionService.GetTransactions();
+                return Ok(transactions);
             }
             catch (Exception ex)
             {
