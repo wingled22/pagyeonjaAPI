@@ -20,6 +20,11 @@ namespace Pagyeonja.Services.Services
             return await _rideHistoryRepository.AddRideHistory(rideHistory);
         }
 
+        public async Task<IEnumerable<RideHistory>> GetRideHistories()
+        {
+            return await _rideHistoryRepository.GetRideHistories();
+        }
+
         public async Task<bool> RideHistoryExists(Guid id)
         {
             return await _rideHistoryRepository.RideHistoryExists(id);

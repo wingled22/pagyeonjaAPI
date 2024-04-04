@@ -10,5 +10,6 @@ namespace Pagyeonja.Services.Services
     {
         Task<RideHistory> AddRideHistory(RideHistory rideHistory);
         Task<bool> RideHistoryExists(Guid id);
+        Task<IEnumerable<RideHistory>> GetRideHistories();
     }
 }

@@ -29,6 +29,11 @@ namespace Pagyeonja.Repositories.Repositories
             return rideHistory;
         }
 
+        public async Task<IEnumerable<RideHistory>> GetRideHistories()
+        {
+            return await _context.RideHistories.OrderByDescending(rh => rh.RideHistoryId).ToListAsync();
+        }
+
         public async Task<bool> RideHistoryExists(Guid id)
         {
             return await _context.RideHistories.AnyAsync(rh => rh.RideHistoryId == id);
