@@ -273,6 +273,7 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.TransactionId)
                 .ValueGeneratedNever()
                 .HasColumnName("transaction_id");
+            entity.Property(e => e.CommuterId).HasColumnName("commuter_id");
             entity.Property(e => e.EndDestination)
                 .IsUnicode(false)
                 .HasColumnName("end_destination");
@@ -282,6 +283,7 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.Fare)
                 .HasDefaultValueSql("((0))")
                 .HasColumnName("fare");
+            entity.Property(e => e.RiderId).HasColumnName("rider_id");
             entity.Property(e => e.StartingPoint)
                 .IsUnicode(false)
                 .HasColumnName("starting_point");

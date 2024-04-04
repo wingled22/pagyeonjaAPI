@@ -10,9 +10,11 @@ namespace Pagyeonja.Services.Services
     public class TransactionService : ITransactionService
     {
         private readonly ITransactionRepository _transactionRepository;
-        public TransactionService(ITransactionRepository transactionRepository)
+        private readonly HitchContext _context;
+        public TransactionService(ITransactionRepository transactionRepository, HitchContext context)
         {
             _transactionRepository = transactionRepository;
+            _context = context;
         }
 
         public async Task<IEnumerable<Transaction>> GetTransactions()
@@ -23,6 +25,9 @@ namespace Pagyeonja.Services.Services
         public async Task<Transaction> AddTransaction(Transaction transaction)
         {
             return await _transactionRepository.AddTransaction(transaction);
+
+            //add the data then to the ride history
+            RideHistory rideHistory = new RideHistory();
         }
 
         public async Task<bool> TransactionExists(Guid id)
