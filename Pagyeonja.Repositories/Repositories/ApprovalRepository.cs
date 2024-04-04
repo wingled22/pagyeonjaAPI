@@ -97,7 +97,8 @@ namespace Pagyeonja.Repositories.Repositories
                     user.ApprovalStatus = response;
                     approval.ApprovalStatus = response;
                     approval.RejectionMessage = rejectionmessage;
-                    approval.ApprovalDate = new DateTime();
+                    DateTime currentDate = DateTime.Now;
+                    approval.ApprovalDate = response?currentDate: null;
                 }
             }
             else
