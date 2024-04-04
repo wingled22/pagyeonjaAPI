@@ -42,6 +42,14 @@ namespace Pagyeonja.Repositories.Repositories
 
         public async Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype)
         {
+
+            //get the id of the commuter or rider on the review
+            // var res = usertype.ToLower() == "commuter" ?
+            // await _context.Commuters.Where(c => c.CommuterId == id).FirstOrDefaultAsync() :
+            // await _context.Riders.Where(r => r.RiderId == id).FirstOrDefaultAsync();
+
+            //Please fix : If the ride histories.reviewID is null then catch it. because if it is not null it won't return a value
+
             return usertype.ToLower() == "commuter" ? await
             (
                 from rh in _context.RideHistories
@@ -55,7 +63,7 @@ namespace Pagyeonja.Repositories.Repositories
                     RideHistoryId = rh.RideHistoryId,
                     RiderId = r.RiderId,
                     CommuterId = c.CommuterId,
-                    FirstName = r.FirstName ?? "",
+                    FirstName = r.FirstName ?? "", //name of the rider (since commuter is executed)
                     MiddleName = r.MiddleName ?? "",
                     LastName = r.LastName ?? "",
                     VehicleNumber = r.VehicleNumber ?? "",
@@ -82,7 +90,7 @@ namespace Pagyeonja.Repositories.Repositories
                         RideHistoryId = rh.RideHistoryId,
                         RiderId = r.RiderId,
                         CommuterId = c.CommuterId,
-                        FirstName = c.FirstName ?? "",
+                        FirstName = c.FirstName ?? "", //name of the commuter (since rider is executed)
                         MiddleName = c.MiddleName ?? "",
                         LastName = c.LastName ?? "",
                         VehicleNumber = r.VehicleNumber ?? "",
