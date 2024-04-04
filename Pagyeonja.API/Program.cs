@@ -24,6 +24,8 @@ builder.Services.AddScoped<RiderService>();
 builder.Services.AddScoped<ISuspensionService, SuspensionService>();
 builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
 builder.Services.AddScoped<IUpdateSuspensionService, UpdateSuspensionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 builder.Services.AddCors(options =>
 {
