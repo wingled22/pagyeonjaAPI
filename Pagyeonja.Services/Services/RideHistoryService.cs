@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Pagyeonja.Entities.Entities;
 using Pagyeonja.Repositories.Repositories;
+using Pagyeonja.Repositories.Repositories.Models;
 
 namespace Pagyeonja.Services.Services
 {
@@ -23,6 +24,11 @@ namespace Pagyeonja.Services.Services
         public async Task<IEnumerable<RideHistory>> GetRideHistories()
         {
             return await _rideHistoryRepository.GetRideHistories();
+        }
+
+        public async Task<IEnumerable<RideHistoryModel>> GetUserRideHistory(Guid id, string usertype)
+        {
+            return await _rideHistoryRepository.GetUserRideHistory(id, usertype);
         }
 
         public async Task<bool> RideHistoryExists(Guid id)
