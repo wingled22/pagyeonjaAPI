@@ -56,11 +56,7 @@ namespace Pagyeonja.Repositories.Repositories
                      Status = th.Status ?? ""
 
                  }).ToListAsync();
-
-
         }
-
-        
 
         public async Task<bool> TopupHistoryExists(Guid id)
         {
