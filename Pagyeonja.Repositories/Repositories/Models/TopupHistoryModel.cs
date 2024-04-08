@@ -19,5 +19,10 @@ namespace Pagyeonja.Repositories.Repositories.Models
         public double? TopupAmount { get; set; } = 0.0;
         public DateTime? TopupDate { get; set; } = null;
         public string? Status { get; set; } = "";
+
+        internal object ToListAsync()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

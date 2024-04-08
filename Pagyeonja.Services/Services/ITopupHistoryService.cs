@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Repositories;
 using Pagyeonja.Repositories.Repositories.Models;
 
-namespace Pagyeonja.Repositories.Repositories
+namespace Pagyeonja.Services.Services
 {
-    public interface ITopupHistoryRepository
+    public interface ITopupHistoryService
     {
         Task<TopupHistory> AddTopupHistory(TopupHistory topupHistory);
 
