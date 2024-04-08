@@ -35,7 +35,7 @@ public partial class Rider
 
     public bool? SuspensionStatus { get; set; }
 
-    public string? CivilStatus { get; set; }
-
     public string? ProfilePath { get; set; }
+
+    public string? CivilStatus { get; set; }
 }

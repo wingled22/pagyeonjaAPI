@@ -13,8 +13,6 @@ public partial class Commuter
 
     public string? LastName { get; set; }
 
-    public string? CivilStatus { get; set; }
-
     public string? Occupation { get; set; }
 
     public int? Age { get; set; }
@@ -34,6 +32,8 @@ public partial class Commuter
     public bool? ApprovalStatus { get; set; }
 
     public bool? SuspensionStatus { get; set; }
+
+    public string? CivilStatus { get; set; }
 
     public string? ProfilePath { get; set; }
 }

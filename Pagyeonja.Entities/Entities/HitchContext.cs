@@ -49,7 +49,9 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.ApprovalDate)
                 .HasColumnType("date")
                 .HasColumnName("approval_date");
-            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
             entity.Property(e => e.RejectionMessage)
                 .IsUnicode(false)
                 .HasColumnName("rejection_message");
@@ -190,7 +192,9 @@ public partial class HitchContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
@@ -285,9 +289,9 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.TopupAfter)
                 .HasDefaultValueSql("((0))")
                 .HasColumnName("topup_after");
-            entity.Property(e => e.TopupAmmount)
+            entity.Property(e => e.TopupAmount)
                 .HasDefaultValueSql("((0))")
-                .HasColumnName("topup_ammount");
+                .HasColumnName("topup_amount");
             entity.Property(e => e.TopupBefore)
                 .HasDefaultValueSql("((0))")
                 .HasColumnName("topup_before");
