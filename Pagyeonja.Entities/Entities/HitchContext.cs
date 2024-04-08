@@ -31,6 +31,8 @@ public partial class HitchContext : DbContext
 
     public virtual DbSet<TopupHistory> TopupHistories { get; set; }
 
+    public virtual DbSet<TopupHistory> TopupHistories { get; set; }
+
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
