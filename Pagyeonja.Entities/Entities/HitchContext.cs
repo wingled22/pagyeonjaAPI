@@ -29,6 +29,8 @@ public partial class HitchContext : DbContext
 
     public virtual DbSet<Suspension> Suspensions { get; set; }
 
+    public virtual DbSet<TopupHistory> TopupHistories { get; set; }
+
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -47,9 +49,7 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.ApprovalDate)
                 .HasColumnType("date")
                 .HasColumnName("approval_date");
-            entity.Property(e => e.ApprovalStatus)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
             entity.Property(e => e.RejectionMessage)
                 .IsUnicode(false)
                 .HasColumnName("rejection_message");
@@ -72,7 +72,9 @@ public partial class HitchContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("approval_status");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
@@ -264,6 +266,34 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("user_type");
+        });
+
+        modelBuilder.Entity<TopupHistory>(entity =>
+        {
+            entity.HasKey(e => e.TopupId);
+
+            entity.ToTable("TopupHistory");
+
+            entity.Property(e => e.TopupId)
+                .ValueGeneratedNever()
+                .HasColumnName("topup_id");
+            entity.Property(e => e.RiderId).HasColumnName("rider_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("status");
+            entity.Property(e => e.TopupAfter)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("topup_after");
+            entity.Property(e => e.TopupAmmount)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("topup_ammount");
+            entity.Property(e => e.TopupBefore)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("topup_before");
+            entity.Property(e => e.TopupDate)
+                .HasColumnType("datetime")
+                .HasColumnName("topup_date");
         });
 
         modelBuilder.Entity<Transaction>(entity =>
