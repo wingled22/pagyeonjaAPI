@@ -30,6 +30,8 @@ builder.Services.AddScoped<IRideHistoryService, RideHistoryService>();
 builder.Services.AddScoped<IRideHistoryRepository, RideHistoryRepository>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ITopupHistoryService, TopupHistoryService>();
+builder.Services.AddScoped<ITopupHistoryRepository, TopupHistoryRepository>();
 
 builder.Services.AddCors(options =>
 {
