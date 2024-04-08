@@ -30,7 +30,7 @@ public partial class HitchContext : DbContext
     public virtual DbSet<Suspension> Suspensions { get; set; }
 
     public virtual DbSet<TopupHistory> TopupHistories { get; set; }
-
+    
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -285,9 +285,9 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.TopupAfter)
                 .HasDefaultValueSql("((0))")
                 .HasColumnName("topup_after");
-            entity.Property(e => e.TopupAmmount)
+            entity.Property(e => e.TopupAmount)
                 .HasDefaultValueSql("((0))")
-                .HasColumnName("topup_ammount");
+                .HasColumnName("topup_amount");
             entity.Property(e => e.TopupBefore)
                 .HasDefaultValueSql("((0))")
                 .HasColumnName("topup_before");

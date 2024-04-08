@@ -13,7 +13,7 @@ public partial class TopupHistory
 
     public double? TopupAfter { get; set; }
 
-    public double? TopupAmmount { get; set; }
+    public double? TopupAmount { get; set; }
 
     public DateTime? TopupDate { get; set; }
 
