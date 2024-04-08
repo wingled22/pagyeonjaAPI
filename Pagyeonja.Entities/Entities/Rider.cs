@@ -38,4 +38,6 @@ public partial class Rider
     public string? CivilStatus { get; set; }
 
     public string? ProfilePath { get; set; }
+
+    public double? Balance { get; set; }
 }
