@@ -54,9 +54,10 @@ namespace Pagyeonja.Repositories.Repositories
             (
                 from rh in _context.RideHistories
                 join t in _context.Transactions on rh.TransactionId equals t.TransactionId
-                join re in _context.Reviews on rh.ReviewId equals re.ReviewId
                 join r in _context.Riders on rh.RiderId equals r.RiderId
                 join c in _context.Commuters on rh.CommuterId equals c.CommuterId
+                from re in _context.Reviews.Where(review => rh.ReviewId == review.ReviewId).DefaultIfEmpty()
+                where c.CommuterId == id
                 where c.CommuterId == id
                 select new RideHistoryModel
                 {
@@ -81,9 +82,9 @@ namespace Pagyeonja.Repositories.Repositories
                 (
                     from rh in _context.RideHistories
                     join t in _context.Transactions on rh.TransactionId equals t.TransactionId
-                    join re in _context.Reviews on rh.ReviewId equals re.ReviewId
                     join r in _context.Riders on rh.RiderId equals r.RiderId
                     join c in _context.Commuters on rh.CommuterId equals c.CommuterId
+                    from re in _context.Reviews.Where(review => rh.ReviewId == review.ReviewId).DefaultIfEmpty()
                     where r.RiderId == id
                     select new RideHistoryModel
                     {
@@ -101,9 +102,9 @@ namespace Pagyeonja.Repositories.Repositories
                         EndTime = t.EndTime ?? null,
                         StartingPoint = t.StartingPoint ?? "",
                         EndDestination = t.EndDestination ?? "",
-                        ReviewId = re.ReviewId,
-                        Rate = re.Rate,
-                        Comment = re.Comment
+                        ReviewId = re == null ? null : re.ReviewId,
+                        Rate = re == null ? null : re.Rate,
+                        Comment = re == null ? null : re.Comment
                     }).ToListAsync();
         }
 
