@@ -41,7 +41,7 @@ namespace Pagyeonja.Repositories.Repositories
                  from th in _context.TopupHistories
 
                  join r in _context.Riders on th.RiderId equals r.RiderId
-
+                 where r.RiderId == id
                  select new TopupHistoryModel
                  {
                      TopupId = th.TopupId,
