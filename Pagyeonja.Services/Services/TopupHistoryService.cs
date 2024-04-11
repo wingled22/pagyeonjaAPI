@@ -20,20 +20,20 @@ namespace Pagyeonja.Services.Services
 
         public async Task<TopupHistory> AddTopupHistory(TopupHistory topupHistory)
         {
-            // Update topup after
+           
             var rider = await _riderRepository.GetRider((Guid)topupHistory.RiderId);
             if (rider != null)
             {
-                // Add topup amount to topup after
+                 topupHistory.TopupBefore = rider.Balance;
+              
                 rider.Balance += topupHistory.TopupAmount ?? 0;
                 await _riderRepository.UpdateRider(rider);
 
-                // Update the topupHistory with the new balance
+              
                 topupHistory.TopupAfter = rider.Balance;
             }
 
-            // Now, topupHistory object has the updated TopupAfter value
-            // Add it to the repository
+          
             var addedTopupHistory = await _topupHistoryRepository.AddTopupHistory(topupHistory);
             return addedTopupHistory;
         }
