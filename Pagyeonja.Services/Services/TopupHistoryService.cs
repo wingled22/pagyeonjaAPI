@@ -24,6 +24,7 @@ namespace Pagyeonja.Services.Services
             var rider = await _riderRepository.GetRider((Guid)topupHistory.RiderId);
             if (rider != null)
             {
+                 topupHistory.TopupBefore = rider.Balance;
                 // Add topup amount to topup after
                 rider.Balance += topupHistory.TopupAmount ?? 0;
                 await _riderRepository.UpdateRider(rider);
