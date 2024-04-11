@@ -30,7 +30,7 @@ public partial class HitchContext : DbContext
     public virtual DbSet<Suspension> Suspensions { get; set; }
 
     public virtual DbSet<TopupHistory> TopupHistories { get; set; }
-    
+
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -192,9 +192,10 @@ public partial class HitchContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.ApprovalStatus)
+            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
+            entity.Property(e => e.Balance)
                 .HasDefaultValueSql("((0))")
-                .HasColumnName("approval_status");
+                .HasColumnName("balance");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");

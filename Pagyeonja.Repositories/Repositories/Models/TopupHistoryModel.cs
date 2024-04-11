@@ -13,6 +13,7 @@ namespace Pagyeonja.Repositories.Repositories.Models
         public string? FirstName { get; set; } = "";
         public string? MiddleName { get; set; } = "";
         public string? LastName { get; set; } = "";
+        public double? Balance { get; set; } = 0.0;
         
         public double? TopupBefore { get; set; } = 0.0;
         public double? TopupAfter { get; set; } = 0.0;
@@ -20,9 +21,6 @@ namespace Pagyeonja.Repositories.Repositories.Models
         public DateTime? TopupDate { get; set; } = null;
         public string? Status { get; set; } = "";
 
-        internal object ToListAsync()
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
