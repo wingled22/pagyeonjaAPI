@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Pagyeonja.Entities.Entities;
+using Pagyeonja.Repositories;
 using Pagyeonja.Repositories.Repositories;
 
 namespace Pagyeonja.Services.Services
 {
-public class ApprovalService : IApprovalService
+    public class ApprovalService : IApprovalService
     {
         private readonly IApprovalRepository _approvalRepository;
 
@@ -16,7 +17,7 @@ public class ApprovalService : IApprovalService
             _approvalRepository = approvalRepository;
         }
 
-        public ApprovalService( )
+        public ApprovalService()
         {
             _approvalRepository = new ApprovalRepository(new HitchContext());
         }
@@ -26,7 +27,7 @@ public class ApprovalService : IApprovalService
             return _approvalRepository.AddApproval(approval);
         }
 
-        public Task<IEnumerable<Approval>> GetApprovals(string userType)
+        public Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType)
         {
             return _approvalRepository.GetApprovals(userType);
         }
@@ -44,6 +45,11 @@ public class ApprovalService : IApprovalService
         public Task<bool> DeleteApproval(Guid id)
         {
             return _approvalRepository.DeleteApproval(id);
+        }
+
+        public async Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage)
+        {
+            await _approvalRepository.UserApprovalResponse(usertype, userId, response, rejectionmessage);
         }
     }
 }

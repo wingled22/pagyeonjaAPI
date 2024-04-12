@@ -29,15 +29,38 @@ namespace Pagyeonja.Repositories.Repositories
             return approval;
         }
 
-        public async Task<IEnumerable<Approval>> GetApprovals(string userType)
+        public async Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType)
         {
-            return await (
+            return userType.ToLower() == "rider" ? await (
                 from a in _context.Approvals
                 join r in _context.Riders on a.UserId equals r.RiderId
-                where a.UserType == userType
+                where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
                 orderby r.DateApplied
-                select a
-            ).ToListAsync();
+                select new RiderCommuterApprovalModel
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    FirstName = r.FirstName ?? "",
+                    MiddleName = r.MiddleName ?? "",
+                    LastName = r.LastName ?? "",
+                    ApprovalStatus = a.ApprovalStatus,
+                    ProfilePath = r.ProfilePath ?? ""
+                }).ToListAsync() :
+                await (
+                from a in _context.Approvals
+                join r in _context.Commuters on a.UserId equals r.CommuterId
+                where a.UserType == userType && (a.ApprovalStatus == null || a.ApprovalStatus == false)
+                orderby r.DateApplied
+                select new RiderCommuterApprovalModel
+                {
+                    Id = a.Id,
+                    UserId = a.UserId,
+                    FirstName = r.FirstName ?? "",
+                    MiddleName = r.MiddleName ?? "",
+                    LastName = r.LastName ?? "",
+                    ApprovalStatus = a.ApprovalStatus,
+                    ProfilePath = r.ProfilePath ?? ""
+                }).ToListAsync();
         }
 
         public async Task<Approval> GetApprovalById(Guid id)
@@ -61,6 +84,36 @@ namespace Pagyeonja.Repositories.Repositories
             _context.Approvals.Remove(approval);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage)
+        {
+            if (usertype.ToLower() == "rider")
+            {
+                var user = await _context.Riders.FirstOrDefaultAsync(r => r.RiderId == userId);
+                var approval = await _context.Approvals.FirstOrDefaultAsync(a => a.UserId == userId);
+                if (approval != null && user != null)
+                {
+                    user.ApprovalStatus = response;
+                    approval.ApprovalStatus = response;
+                    approval.RejectionMessage = rejectionmessage;
+                    DateTime currentDate = DateTime.Now;
+                    approval.ApprovalDate = response?currentDate: null;
+                }
+            }
+            else
+            {
+                var user = await _context.Commuters.FirstOrDefaultAsync(r => r.CommuterId == userId);
+                var approval = await _context.Approvals.FirstOrDefaultAsync(a => a.UserId == userId);
+                if (approval != null && user != null)
+                {
+                    user.ApprovalStatus = response;
+                    approval.ApprovalStatus = response;
+                    approval.RejectionMessage = rejectionmessage;
+                    approval.ApprovalDate = new DateTime();
+                }
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

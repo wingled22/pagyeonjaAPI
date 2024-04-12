@@ -6,12 +6,14 @@ using Pagyeonja.Entities.Entities;
 
 namespace Pagyeonja.Repositories.Repositories
 {
-   public interface IApprovalRepository
+    public interface IApprovalRepository
     {
         Task<Approval> AddApproval(Approval approval);
-        Task<IEnumerable<Approval>> GetApprovals(string userType);
+        Task<IEnumerable<RiderCommuterApprovalModel>> GetApprovals(string userType);
         Task<Approval> GetApprovalById(Guid id);
         Task<Approval> UpdateApproval(Approval approval);
         Task<bool> DeleteApproval(Guid id);
+        Task UserApprovalResponse(string usertype, Guid userId, bool response, string? rejectionmessage);
+
     }
 }

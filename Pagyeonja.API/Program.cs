@@ -16,10 +16,22 @@ builder.Services.AddScoped<ICommuterService, CommuterService>();
 builder.Services.AddScoped<ICommuterRepository, CommuterRepository>();
 builder.Services.AddScoped<ApprovalService>();
 builder.Services.AddScoped<IApprovalService, ApprovalService>();
+builder.Services.AddScoped<IDatabaseTransactionRepository, DatabaseTransactionRepository>();
 builder.Services.AddScoped<IApprovalRepository, ApprovalRepository>();
 builder.Services.AddScoped<IRiderService, RiderService>();
-builder.Services.AddScoped<RiderService>();
 builder.Services.AddScoped<IRiderRepository, RiderRepository>();
+builder.Services.AddScoped<RiderService>();
+builder.Services.AddScoped<ISuspensionService, SuspensionService>();
+builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
+builder.Services.AddScoped<IUpdateSuspensionService, UpdateSuspensionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IRideHistoryService, RideHistoryService>();
+builder.Services.AddScoped<IRideHistoryRepository, RideHistoryRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ITopupHistoryService, TopupHistoryService>();
+builder.Services.AddScoped<ITopupHistoryRepository, TopupHistoryRepository>();
 
 builder.Services.AddCors(options =>
 {
@@ -40,7 +52,7 @@ builder.Services.AddControllers().AddJsonOptions(
 // Add static files service
 builder.Services.AddDirectoryBrowser();
 
-builder.Services.AddHostedService<UpdateSuspensionService>();
+builder.Services.AddHostedService<BackgroundServiceSuspension>();
 
 var app = builder.Build();
 
