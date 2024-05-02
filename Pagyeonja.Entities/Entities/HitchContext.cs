@@ -72,9 +72,7 @@ public partial class HitchContext : DbContext
                 .IsUnicode(false)
                 .HasColumnName("address");
             entity.Property(e => e.Age).HasColumnName("age");
-            entity.Property(e => e.ApprovalStatus)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("approval_status");
+            entity.Property(e => e.ApprovalStatus).HasColumnName("approval_status");
             entity.Property(e => e.Birthdate)
                 .HasColumnType("date")
                 .HasColumnName("birthdate");
@@ -284,6 +282,7 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.Status)
                 .HasMaxLength(50)
                 .IsUnicode(false)
+                .HasDefaultValueSql("('pending')")
                 .HasColumnName("status");
             entity.Property(e => e.TopupAfter)
                 .HasDefaultValueSql("((0))")
