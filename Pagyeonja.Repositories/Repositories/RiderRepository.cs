@@ -52,7 +52,7 @@ namespace Pagyeonja.Repositories.Repositories
         {
           rider.RiderId = Guid.NewGuid();
         } while (await RiderExists(rider.RiderId));
-        rider.DateApplied = new DateTime();
+        rider.DateApplied = DateTime.Now;
 
         await _context.Riders.AddAsync(rider);
         await _context.SaveChangesAsync();

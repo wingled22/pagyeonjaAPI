@@ -50,9 +50,9 @@ namespace Pagyeonja.Repositories.Repositories
             {
                 do
                 {
-                commuter.CommuterId = Guid.NewGuid();
+                    commuter.CommuterId = Guid.NewGuid();
                 } while (await CommuterExists(commuter.CommuterId));
-                commuter.DateApplied = new DateTime();
+                commuter.DateApplied = DateTime.Now;
 
                 await _context.Commuters.AddAsync(commuter);
                 await _context.SaveChangesAsync();
