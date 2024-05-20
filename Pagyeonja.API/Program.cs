@@ -6,12 +6,16 @@ using Pagyeonja.Entities.Entities;
 using PagyeonjaServices.Services;
 using Pagyeonja.Repositories.Repositories;
 using Pagyeonja.Services.Services;
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<HitchContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<HitchContext>();
+
 builder.Services.AddScoped<ICommuterService, CommuterService>();
 builder.Services.AddScoped<ICommuterRepository, CommuterRepository>();
 builder.Services.AddScoped<ApprovalService>();
