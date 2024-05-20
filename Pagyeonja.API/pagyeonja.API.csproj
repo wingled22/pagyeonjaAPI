@@ -22,6 +22,7 @@
     <ProjectReference Include="..\Pagyeonja.Entities\Pagyeonja.Entities.csproj" />
     <ProjectReference Include="..\Pagyeonja.Repositories\Pagyeonja.Repositories.csproj" />
     <ProjectReference Include="..\Pagyeonja.Services\Pagyeonja.Services.csproj" />
+    <ProjectReference Include="..\Pagyeonja.Identities\Pagyeonja.Identities.csproj" />
   </ItemGroup>
 
 </Project>
