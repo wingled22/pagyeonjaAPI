@@ -26,18 +26,25 @@ namespace Pagyeonja.Identities.Identity
             builder.Entity<IdentityRoleClaim<Guid>>().ToTable("RoleClaims").HasKey(rc => rc.Id);
             builder.Entity<IdentityUserToken<Guid>>().ToTable("UserTokens").HasKey(ut => new { ut.UserId, ut.LoginProvider, ut.Name });
             // Seed roles
+
             builder.Entity<AppRole>().HasData(
                 new AppRole
                 {
-                    Id = Guid.NewGuid(), // Replace with a static GUID for consistency
+                    Id = Guid.NewGuid(), 
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 },
                 new AppRole
                 {
-                    Id = Guid.NewGuid(), // Replace with a static GUID for consistency
-                    Name = "User",
-                    NormalizedName = "USER"
+                    Id = Guid.NewGuid(),
+                    Name = "Rider",
+                    NormalizedName = "RIDER"
+                },
+                new AppRole
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "Commuter",
+                    NormalizedName = "COMMUTER"
                 }
             );
         }

@@ -14,8 +14,8 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// builder.Services.AddDbContext<HitchContext>(options =>
-//     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<HitchContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -28,26 +28,26 @@ builder.Services.AddIdentity<AppUser, AppRole>(option =>
 .AddEntityFrameworkStores<AppIdentityDbContext>()
 .AddDefaultTokenProviders();
 
-// builder.Services.AddScoped<ICommuterService, CommuterService>();
-// builder.Services.AddScoped<ICommuterRepository, CommuterRepository>();
-// builder.Services.AddScoped<ApprovalService>();
-// builder.Services.AddScoped<IApprovalService, ApprovalService>();
-// builder.Services.AddScoped<IDatabaseTransactionRepository, DatabaseTransactionRepository>();
-// builder.Services.AddScoped<IApprovalRepository, ApprovalRepository>();
-// builder.Services.AddScoped<IRiderService, RiderService>();
-// builder.Services.AddScoped<IRiderRepository, RiderRepository>();
-// builder.Services.AddScoped<RiderService>();
-// builder.Services.AddScoped<ISuspensionService, SuspensionService>();
-// builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
-// builder.Services.AddScoped<IUpdateSuspensionService, UpdateSuspensionService>();
-// builder.Services.AddScoped<ITransactionService, TransactionService>();
-// builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-// builder.Services.AddScoped<IRideHistoryService, RideHistoryService>();
-// builder.Services.AddScoped<IRideHistoryRepository, RideHistoryRepository>();
-// builder.Services.AddScoped<IReviewService, ReviewService>();
-// builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
-// builder.Services.AddScoped<ITopupHistoryService, TopupHistoryService>();
-// builder.Services.AddScoped<ITopupHistoryRepository, TopupHistoryRepository>();
+builder.Services.AddScoped<ICommuterService, CommuterService>();
+builder.Services.AddScoped<ICommuterRepository, CommuterRepository>();
+builder.Services.AddScoped<ApprovalService>();
+builder.Services.AddScoped<IApprovalService, ApprovalService>();
+builder.Services.AddScoped<IDatabaseTransactionRepository, DatabaseTransactionRepository>();
+builder.Services.AddScoped<IApprovalRepository, ApprovalRepository>();
+builder.Services.AddScoped<IRiderService, RiderService>();
+builder.Services.AddScoped<IRiderRepository, RiderRepository>();
+builder.Services.AddScoped<RiderService>();
+builder.Services.AddScoped<ISuspensionService, SuspensionService>();
+builder.Services.AddScoped<ISuspensionRepository, SuspensionRepository>();
+builder.Services.AddScoped<IUpdateSuspensionService, UpdateSuspensionService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+builder.Services.AddScoped<IRideHistoryService, RideHistoryService>();
+builder.Services.AddScoped<IRideHistoryRepository, RideHistoryRepository>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ITopupHistoryService, TopupHistoryService>();
+builder.Services.AddScoped<ITopupHistoryRepository, TopupHistoryRepository>();
 
 builder.Services.AddAuthentication(options =>
 {

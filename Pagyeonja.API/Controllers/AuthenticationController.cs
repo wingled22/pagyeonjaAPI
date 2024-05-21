@@ -20,7 +20,6 @@ namespace Pagyeonja.API.Controllers
     public class AuthenticationController : Controller
     {
         private readonly ILogger<AuthenticationController> _logger;
-
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IConfiguration _configuration;
@@ -52,7 +51,7 @@ namespace Pagyeonja.API.Controllers
             };
 
 
-            if (await _roleManager.RoleExistsAsync("Admin"))
+            if (await _roleManager.RoleExistsAsync("Rider"))
             {
 
                 var result = await _userManager.CreateAsync(user, reg.Password);
@@ -61,7 +60,7 @@ namespace Pagyeonja.API.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = string.Join("; ", result.Errors.Select(error => error.Description)) });
                 }
 
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "Rider");
                 return StatusCode(StatusCodes.Status201Created, new Response { Status = "Success", Message = "User created successfully." });
             }
             else
@@ -94,7 +93,7 @@ namespace Pagyeonja.API.Controllers
                     {
                         authClaims.Add(new Claim(ClaimTypes.Role, role));
                     }
-
+                    
                     var jwtToken = GetToken(authClaims);
                     return Ok(
                         new JwtSecurityTokenHandler().WriteToken(jwtToken)

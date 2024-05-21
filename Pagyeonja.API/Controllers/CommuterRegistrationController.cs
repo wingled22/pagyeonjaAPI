@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Pagyeonja.Entities.Entities;
@@ -12,6 +13,7 @@ namespace pagyeonjaAPI.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    // [Authorize(Roles = "Rider")]
     public class CommuterRegistrationController : ControllerBase
     {
         private readonly ICommuterService _commuterService;
