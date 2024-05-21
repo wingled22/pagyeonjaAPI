@@ -17,6 +17,12 @@ public partial class HitchContext : DbContext
 
     public virtual DbSet<Approval> Approvals { get; set; }
 
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<BookingRequest> BookingRequests { get; set; }
+
     public virtual DbSet<Commuter> Commuters { get; set; }
 
     public virtual DbSet<Document> Documents { get; set; }
@@ -27,14 +33,25 @@ public partial class HitchContext : DbContext
 
     public virtual DbSet<Rider> Riders { get; set; }
 
+    public virtual DbSet<Role> Roles { get; set; }
+
+    public virtual DbSet<RoleClaim> RoleClaims { get; set; }
+
     public virtual DbSet<Suspension> Suspensions { get; set; }
 
     public virtual DbSet<TopupHistory> TopupHistories { get; set; }
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    //     => optionsBuilder.UseSqlServer("Server=localhost;Database=Hitch;User ID=SA;Password=VeryStr0ngP@ssw0rd;TrustServerCertificate=true;");
+    public virtual DbSet<UserClaim> UserClaims { get; set; }
+
+    public virtual DbSet<UserLogin> UserLogins { get; set; }
+
+    public virtual DbSet<UserToken> UserTokens { get; set; }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=localhost;Database=Hitch;User ID=SA;Password=VeryStr0ngP@ssw0rd;TrustServerCertificate=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -57,6 +74,72 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false)
                 .HasColumnName("user_type");
+        });
+
+        modelBuilder.Entity<AspNetRole>(entity =>
+        {
+            entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedName] IS NOT NULL)");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Name).HasMaxLength(256);
+            entity.Property(e => e.NormalizedName).HasMaxLength(256);
+        });
+
+        modelBuilder.Entity<AspNetUser>(entity =>
+        {
+            entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
+
+            entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+            entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+            entity.Property(e => e.UserName).HasMaxLength(256);
+
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "UserRole",
+                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId");
+                        j.HasIndex(new[] { "RoleId" }, "IX_UserRoles_RoleId");
+                    });
+        });
+
+        modelBuilder.Entity<BookingRequest>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("BookingRequest");
+
+            entity.Property(e => e.BookingId).HasColumnName("booking_id");
+            entity.Property(e => e.BookingStatus)
+                .HasDefaultValueSql("((0))")
+                .HasColumnName("booking_status");
+            entity.Property(e => e.CommuterId).HasColumnName("commuter_id");
+            entity.Property(e => e.ContactNumber)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("contact_number");
+            entity.Property(e => e.DropoffLocation)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("dropoff_location");
+            entity.Property(e => e.NumberOfPassengers)
+                .HasDefaultValueSql("((1))")
+                .HasColumnName("number_of_passengers");
+            entity.Property(e => e.PickupLocation)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasColumnName("pickup_location");
+            entity.Property(e => e.RiderId).HasColumnName("rider_id");
         });
 
         modelBuilder.Entity<Commuter>(entity =>
@@ -242,6 +325,18 @@ public partial class HitchContext : DbContext
                 .HasColumnName("vehicle_number");
         });
 
+        modelBuilder.Entity<Role>(entity =>
+        {
+            entity.Property(e => e.Id).ValueGeneratedNever();
+        });
+
+        modelBuilder.Entity<RoleClaim>(entity =>
+        {
+            entity.HasIndex(e => e.RoleId, "IX_RoleClaims_RoleId");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.RoleClaims).HasForeignKey(d => d.RoleId);
+        });
+
         modelBuilder.Entity<Suspension>(entity =>
         {
             entity.ToTable("Suspension");
@@ -321,6 +416,29 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.StartingTime)
                 .HasColumnType("datetime")
                 .HasColumnName("starting_time");
+        });
+
+        modelBuilder.Entity<UserClaim>(entity =>
+        {
+            entity.HasIndex(e => e.UserId, "IX_UserClaims_UserId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserClaims).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<UserLogin>(entity =>
+        {
+            entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+            entity.HasIndex(e => e.UserId, "IX_UserLogins_UserId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserLogins).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<UserToken>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+            entity.HasOne(d => d.User).WithMany(p => p.UserTokens).HasForeignKey(d => d.UserId);
         });
 
         OnModelCreatingPartial(modelBuilder);
