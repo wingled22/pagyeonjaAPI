@@ -20,4 +20,12 @@ public partial class BookingRequest
     public string? ContactNumber { get; set; }
 
     public bool? BookingStatus { get; set; }
+
+    public double? PickupLng { get; set; }
+
+    public double? PickupLat { get; set; }
+
+    public double? DropoffLng { get; set; }
+
+    public double? DropoffLat { get; set; }
 }

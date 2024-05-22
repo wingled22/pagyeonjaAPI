@@ -126,6 +126,8 @@ public partial class HitchContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false)
                 .HasColumnName("contact_number");
+            entity.Property(e => e.DropoffLat).HasColumnName("dropoff_lat");
+            entity.Property(e => e.DropoffLng).HasColumnName("dropoff_lng");
             entity.Property(e => e.DropoffLocation)
                 .HasMaxLength(50)
                 .IsUnicode(false)
@@ -133,6 +135,8 @@ public partial class HitchContext : DbContext
             entity.Property(e => e.NumberOfPassengers)
                 .HasDefaultValueSql("((1))")
                 .HasColumnName("number_of_passengers");
+            entity.Property(e => e.PickupLat).HasColumnName("pickup_lat");
+            entity.Property(e => e.PickupLng).HasColumnName("pickup_lng");
             entity.Property(e => e.PickupLocation)
                 .HasMaxLength(50)
                 .IsUnicode(false)
