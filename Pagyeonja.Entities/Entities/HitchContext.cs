@@ -120,9 +120,7 @@ public partial class HitchContext : DbContext
                 .ToTable("BookingRequest");
 
             entity.Property(e => e.BookingId).HasColumnName("booking_id");
-            entity.Property(e => e.BookingStatus)
-                .HasDefaultValueSql("((0))")
-                .HasColumnName("booking_status");
+            entity.Property(e => e.BookingStatus).HasColumnName("booking_status");
             entity.Property(e => e.CommuterId).HasColumnName("commuter_id");
             entity.Property(e => e.ContactNumber)
                 .HasMaxLength(20)

@@ -47,7 +47,6 @@ public class BookingRequestRepository : IBookingRequestRepository
   {
     try
     {
-
       var _booking = await _context.BookingRequests.FirstOrDefaultAsync(b => b.BookingId == booking);
       return _booking;
     }
@@ -59,16 +58,25 @@ public class BookingRequestRepository : IBookingRequestRepository
 
   public async Task<List<BookingRequest>> GetBookingRequests()
   {
-    return await _context.BookingRequests.Where(b => b.BookingStatus == false).ToListAsync();
+    try
+    {
+      return await _context.BookingRequests.Where(b => b.BookingStatus == false).ToListAsync();
+    }
+    catch (Exception)
+    {
+      throw;
+    }
   }
 
   public async Task<bool> IsBookingExist(Guid booking)
   {
-    return await _context.BookingRequests.AnyAsync(b => b.BookingId == booking);
-  }
-
-  public Task<BookingRequest> UpdateBookingRequest()
-  {
-    throw new NotImplementedException();
+    try
+    {
+      return await _context.BookingRequests.AnyAsync(b => b.BookingId == booking);
+    }
+    catch (Exception)
+    {
+      throw;
+    }
   }
 }
