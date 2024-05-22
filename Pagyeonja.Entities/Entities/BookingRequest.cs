@@ -5,7 +5,7 @@ namespace Pagyeonja.Entities.Entities;
 
 public partial class BookingRequest
 {
-    public Guid? BookingId { get; set; }
+    public Guid BookingId { get; set; }
 
     public Guid? RiderId { get; set; }
 

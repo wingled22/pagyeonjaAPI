@@ -19,7 +19,9 @@ public class BookingRequestService : IBookingRequestService
     using var transaction = await _databaseTransactionRepo.StartTransaction();
     try
     {
-      return await _bookingRequestRepository.AddBookingRequest(bookingRequest);
+      var addedBookingRequest = await _bookingRequestRepository.AddBookingRequest(bookingRequest);
+      await _databaseTransactionRepo.SaveTransaction(transaction);
+      return addedBookingRequest;
     }
     catch (Exception)
     {
@@ -34,6 +36,7 @@ public class BookingRequestService : IBookingRequestService
     try
     {
       await _bookingRequestRepository.BookingRequestResponse(response, booking);
+      await _databaseTransactionRepo.SaveTransaction(transaction);
     }
     catch (Exception)
     {
@@ -44,28 +47,24 @@ public class BookingRequestService : IBookingRequestService
 
   public async Task<BookingRequest> GetBookingRequest(Guid booking)
   {
-    using var transaction = await _databaseTransactionRepo.StartTransaction();
     try
     {
       return await _bookingRequestRepository.GetBookingRequest(booking);
     }
     catch (Exception)
     {
-      await _databaseTransactionRepo.RevertTransaction(transaction);
       throw;
     }
   }
 
   public async Task<List<BookingRequest>> GetBookingRequests()
   {
-    using var transaction = await _databaseTransactionRepo.StartTransaction();
     try
     {
       return await _bookingRequestRepository.GetBookingRequests();
     }
     catch (Exception)
     {
-      await _databaseTransactionRepo.RevertTransaction(transaction);
       throw;
     }
   }

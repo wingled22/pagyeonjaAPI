@@ -115,11 +115,13 @@ public partial class HitchContext : DbContext
 
         modelBuilder.Entity<BookingRequest>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("BookingRequest");
+            entity.HasKey(e => e.BookingId);
 
-            entity.Property(e => e.BookingId).HasColumnName("booking_id");
+            entity.ToTable("BookingRequest");
+
+            entity.Property(e => e.BookingId)
+                .ValueGeneratedNever()
+                .HasColumnName("booking_id");
             entity.Property(e => e.BookingStatus).HasColumnName("booking_status");
             entity.Property(e => e.CommuterId).HasColumnName("commuter_id");
             entity.Property(e => e.ContactNumber)

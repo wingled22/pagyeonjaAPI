@@ -11,6 +11,8 @@ using Pagyeonja.Identities.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Pagyeonja.Repositories;
+using Pagyeonja.Services;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
@@ -48,6 +50,8 @@ builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ITopupHistoryService, TopupHistoryService>();
 builder.Services.AddScoped<ITopupHistoryRepository, TopupHistoryRepository>();
+builder.Services.AddScoped<IBookingRequestService, BookingRequestService>();
+builder.Services.AddScoped<IBookingRequestRepository, BookingRequestRepository>();
 
 builder.Services.AddAuthentication(options =>
 {
